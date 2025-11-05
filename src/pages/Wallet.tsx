@@ -139,7 +139,16 @@ const Wallet = () => {
 
         {/* Transaction History */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">{t("wallet.transactions")}</h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">{t("wallet.transactions")}</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => window.location.href = "/payment-history"}
+            >
+              {t("wallet.viewAll")}
+            </Button>
+          </div>
           <div className="space-y-2">
             {transactionsLoading ? (
               <>

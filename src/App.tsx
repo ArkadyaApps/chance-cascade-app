@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Wallet from "./pages/Wallet";
+import PaymentHistory from "./pages/PaymentHistory";
 import MyEntries from "./pages/MyEntries";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
@@ -59,6 +60,16 @@ const App = () => (
                 <div className="min-h-screen bg-background pb-20">
                   <ProtectedRoute>
                     <Wallet />
+                  </ProtectedRoute>
+                </div>
+              }
+            />
+            <Route
+              path="/payment-history"
+              element={
+                <div className="min-h-screen bg-background pb-20">
+                  <ProtectedRoute>
+                    <PaymentHistory />
                   </ProtectedRoute>
                 </div>
               }

@@ -89,6 +89,23 @@ serve(async (req) => {
 
       console.log(`Adding ${ticketInfo.tickets} tickets to user ${userId}`);
 
+      // Get payment intent to retrieve receipt URL
+      const paymentIntentId = session.payment_intent as string;
+      let receiptUrl = null;
+      
+      if (paymentIntentId) {
+        const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+        const chargeId = typeof paymentIntent.latest_charge === 'string' 
+          ? paymentIntent.latest_charge 
+          : paymentIntent.latest_charge?.id;
+          
+        if (chargeId) {
+          const charge = await stripe.charges.retrieve(chargeId);
+          receiptUrl = charge.receipt_url;
+          console.log("Receipt URL retrieved:", receiptUrl);
+        }
+      }
+
       // Get current balance
       const { data: profile, error: profileError } = await supabase
         .from("profiles")
@@ -112,7 +129,7 @@ serve(async (req) => {
         throw updateError;
       }
 
-      // Create transaction record
+      // Create transaction record with Stripe details
       const { error: transactionError } = await supabase
         .from("wallet_transactions")
         .insert({
@@ -120,6 +137,9 @@ serve(async (req) => {
           type: "purchase",
           amount: ticketInfo.tickets,
           description: `Purchased ${ticketInfo.description} for $${(session.amount_total || 0) / 100}`,
+          stripe_payment_id: paymentIntentId,
+          stripe_session_id: session.id,
+          receipt_url: receiptUrl,
         });
 
       if (transactionError) {

@@ -202,6 +202,9 @@ export type Database = {
           description: string
           id: string
           product_id: string | null
+          receipt_url: string | null
+          stripe_payment_id: string | null
+          stripe_session_id: string | null
           type: string
           user_id: string
         }
@@ -211,6 +214,9 @@ export type Database = {
           description: string
           id?: string
           product_id?: string | null
+          receipt_url?: string | null
+          stripe_payment_id?: string | null
+          stripe_session_id?: string | null
           type: string
           user_id: string
         }
@@ -220,6 +226,9 @@ export type Database = {
           description?: string
           id?: string
           product_id?: string | null
+          receipt_url?: string | null
+          stripe_payment_id?: string | null
+          stripe_session_id?: string | null
           type?: string
           user_id?: string
         }
