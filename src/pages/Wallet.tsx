@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useProfile } from "@/hooks/useProfile";
-import { usePurchaseTickets, useWalletTransactions } from "@/hooks/useWallet";
+import { useWalletTransactions } from "@/hooks/useWallet";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -9,37 +9,45 @@ import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { supabase } from "@/integrations/supabase/client";
 
 const ticketPackages = [
-  { tickets: 10, price: 9.99, popular: false },
-  { tickets: 50, price: 44.99, popular: true, bonus: 5 },
-  { tickets: 100, price: 84.99, popular: false, bonus: 15 },
-  { tickets: 500, price: 399.99, popular: false, bonus: 100 },
+  { tickets: 10, price: 9.99, priceId: "price_1SQ8uJK2pvACY45ZdIGiKyFY", popular: false },
+  { tickets: 50, price: 44.99, priceId: "price_1SQ8uZK2pvACY45ZZvwwEmU6", popular: true, bonus: 5 },
+  { tickets: 100, price: 84.99, priceId: "price_1SQ8uaK2pvACY45Z7HglVrtx", popular: false, bonus: 15 },
+  { tickets: 500, price: 399.99, priceId: "price_1SQ8uaK2pvACY45ZuqfCPxn7", popular: false, bonus: 100 },
 ];
 
 const Wallet = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: transactions, isLoading: transactionsLoading } = useWalletTransactions();
-  const purchaseTickets = usePurchaseTickets();
 
   const handlePurchase = async (pkg: typeof ticketPackages[0]) => {
     try {
-      await purchaseTickets.mutateAsync({
-        amount: pkg.tickets + (pkg.bonus || 0),
-        price: pkg.price,
+      setIsProcessing(true);
+      
+      const { data, error } = await supabase.functions.invoke("create-checkout-session", {
+        body: {
+          priceId: pkg.priceId,
+          packageName: `${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} tickets`,
+        },
       });
 
-      toast({
-        title: t("common.success") + "! 🎉",
-        description: `${t("wallet.addTickets")}: ${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} ${t("wallet.tickets")}`,
-      });
+      if (error) throw error;
+
+      if (data?.url) {
+        // Redirect to Stripe Checkout
+        window.location.href = data.url;
+      }
     } catch (error: any) {
+      setIsProcessing(false);
       toast({
         title: t("common.error"),
-        description: error.message || "Something went wrong. Please try again.",
+        description: error.message || "Failed to start checkout. Please try again.",
         variant: "destructive",
       });
     }
@@ -108,13 +116,13 @@ const Wallet = () => {
                   <Button
                     size="sm"
                     className="w-full"
-                    disabled={purchaseTickets.isPending}
+                    disabled={isProcessing}
                     onClick={(e) => {
                       e.stopPropagation();
                       handlePurchase(pkg);
                     }}
                   >
-                    {purchaseTickets.isPending ? (
+                    {isProcessing ? (
                       <>
                         <Loader2 className="mr-2 h-3 w-3 animate-spin" />
                         {t("common.loading")}
