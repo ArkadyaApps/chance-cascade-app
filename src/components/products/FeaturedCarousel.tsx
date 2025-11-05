@@ -3,9 +3,9 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
-import { Star, Ticket, Calendar } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { Star, Ticket } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { CountdownTimer } from "./CountdownTimer";
 import type { Database } from "@/integrations/supabase/types";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
@@ -87,25 +87,17 @@ export const FeaturedCarousel = ({ products }: FeaturedCarouselProps) => {
                       </div>
                     </div>
 
-                    {/* Details */}
-                    <div className="grid grid-cols-2 gap-3 text-sm">
-                      <div className="flex items-center gap-2">
-                        <Ticket className="w-4 h-4 text-primary" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">{t("product.ticketPrice")}</p>
-                          <p className="font-semibold">{product.ticket_price} {t("wallet.tickets")}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="w-4 h-4 text-primary" />
-                        <div>
-                          <p className="text-xs text-muted-foreground">{t("product.drawDate")}</p>
-                          <p className="font-semibold text-xs">
-                            {formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}
-                          </p>
-                        </div>
+                    {/* Ticket Price */}
+                    <div className="flex items-center gap-2 text-sm">
+                      <Ticket className="w-4 h-4 text-primary" />
+                      <div>
+                        <p className="text-xs text-muted-foreground">{t("product.ticketPrice")}</p>
+                        <p className="font-semibold">{product.ticket_price} {t("wallet.tickets")}</p>
                       </div>
                     </div>
+
+                    {/* Countdown Timer */}
+                    <CountdownTimer targetDate={product.draw_date} />
 
                     <Button 
                       className="w-full bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90"
