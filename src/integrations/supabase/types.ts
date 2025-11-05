@@ -128,6 +128,7 @@ export type Database = {
           email: string
           full_name: string | null
           id: string
+          preferred_language: string | null
           total_wins: number
           updated_at: string
           wallet_balance: number
@@ -138,6 +139,7 @@ export type Database = {
           email: string
           full_name?: string | null
           id: string
+          preferred_language?: string | null
           total_wins?: number
           updated_at?: string
           wallet_balance?: number
@@ -148,6 +150,7 @@ export type Database = {
           email?: string
           full_name?: string | null
           id?: string
+          preferred_language?: string | null
           total_wins?: number
           updated_at?: string
           wallet_balance?: number
