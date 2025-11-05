@@ -14,6 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { countries } from "@/lib/countries";
+import { AppHeader } from "@/components/layout/AppHeader";
 import {
   Select,
   SelectContent,
@@ -100,25 +101,7 @@ const Settings = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/profile")}
-              className="text-primary-foreground"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <div>
-              <h1 className="text-2xl font-bold text-primary-foreground">{t("settings.title")}</h1>
-              <p className="text-primary-foreground/80 text-sm">{t("settings.subtitle")}</p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AppHeader subtitle={t("settings.subtitle")} />
 
       <div className="max-w-2xl mx-auto p-4 space-y-6">
         {/* Language Settings */}

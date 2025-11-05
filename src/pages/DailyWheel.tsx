@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useDailySpin } from "@/hooks/useDailySpin";
 import { toast } from "sonner";
 import { AdMob, RewardAdPluginEvents, AdMobRewardItem } from "@capacitor-community/admob";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const REWARDED_AD_UNIT_ID = "ca-app-pub-3486145054830108/8374647217";
 
@@ -137,8 +138,9 @@ export default function DailyWheel() {
   }
 
   return (
-    <div className="min-h-screen pb-20 pt-8 px-4">
-      <div className="max-w-2xl mx-auto">
+    <div className="min-h-screen pb-20">
+      <AppHeader subtitle="Spin once every 24 hours for a chance to win!" />
+      <div className="max-w-2xl mx-auto px-4 pt-4">
         <Card>
           <CardHeader className="text-center">
             <CardTitle className="flex items-center justify-center gap-2">

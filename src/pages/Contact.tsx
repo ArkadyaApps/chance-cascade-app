@@ -20,6 +20,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const partnerFormSchema = z.object({
   companyName: z.string().min(2, "Company name must be at least 2 characters"),
@@ -121,22 +122,7 @@ const Contact = () => {
   if (isSuccess) {
     return (
       <div className="min-h-screen bg-background pb-20">
-        <div className="bg-gradient-to-r from-primary to-accent p-6 pb-8">
-          <div className="max-w-4xl mx-auto">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="mb-4 text-primary-foreground hover:text-primary-foreground/80"
-              onClick={() => navigate(-1)}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              {t("common.back")}
-            </Button>
-            <h1 className="text-2xl font-bold text-primary-foreground">
-              {t("contact.title")}
-            </h1>
-          </div>
-        </div>
+        <AppHeader subtitle={t("contact.title")} />
 
         <div className="max-w-4xl mx-auto p-4 -mt-4">
           <Card className="p-12 text-center">
@@ -158,31 +144,7 @@ const Contact = () => {
 
   return (
     <div className="min-h-screen bg-background pb-20">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6 pb-8">
-        <div className="max-w-4xl mx-auto">
-          <Button
-            variant="ghost"
-            size="sm"
-            className="mb-4 text-primary-foreground hover:text-primary-foreground/80"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            {t("common.back")}
-          </Button>
-          <div className="flex items-center gap-3">
-            <Mail className="w-8 h-8 text-primary-foreground" />
-            <div>
-              <h1 className="text-2xl font-bold text-primary-foreground">
-                {t("contact.title")}
-              </h1>
-              <p className="text-sm text-primary-foreground/80">
-                {t("contact.subtitle")}
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+      <AppHeader subtitle={t("contact.subtitle")} />
 
       <div className="max-w-4xl mx-auto p-4 -mt-4 space-y-6">
         {/* Contact Information */}

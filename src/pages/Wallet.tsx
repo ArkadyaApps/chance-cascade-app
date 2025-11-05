@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
 import { supabase } from "@/integrations/supabase/client";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const ticketPackages = [
   { tickets: 10, price: 9.99, priceId: "price_1SQ8uJK2pvACY45ZdIGiKyFY", popular: false },
@@ -69,15 +70,13 @@ const Wallet = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background">
+      <AppHeader subtitle={t("wallet.balance")} />
+      
       {/* Hero Header with Balance */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent pt-8 pb-24">
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent pt-4 pb-24">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE2djJoLTJ2LTJoMnptMCAwaDJ2MmgtMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30"></div>
         
         <div className="relative max-w-lg mx-auto px-4">
-          <div className="flex items-center justify-center gap-2 mb-6">
-            <WalletIcon className="w-8 h-8 text-primary-foreground" />
-            <h1 className="text-3xl font-bold text-primary-foreground">{t("wallet.title")}</h1>
-          </div>
           
           {/* Premium Balance Card */}
           <Card className="bg-card/95 backdrop-blur-xl border-2 border-white/20 shadow-2xl overflow-hidden">
