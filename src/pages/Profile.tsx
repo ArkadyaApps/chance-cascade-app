@@ -4,6 +4,8 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useUserEntries } from "@/hooks/useEntries";
+import { useIsAdmin } from "@/hooks/useUserRole";
+import { useNavigate } from "react-router-dom";
 import { 
   Settings, 
   Bell, 
@@ -12,14 +14,17 @@ import {
   LogOut,
   ChevronRight,
   Wallet,
-  Trophy
+  Trophy,
+  Lock
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const Profile = () => {
   const { user, signOut } = useAuth();
+  const navigate = useNavigate();
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: entries } = useUserEntries();
+  const { isAdmin } = useIsAdmin();
   
   const menuItems = [
     { icon: Settings, label: "Account Settings", action: () => {} },
@@ -96,6 +101,29 @@ const Profile = () => {
       </div>
 
       <div className="max-w-lg mx-auto p-4 space-y-4 -mt-6">
+        {/* Admin Access */}
+        {isAdmin && (
+          <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20">
+            <button
+              onClick={() => navigate("/admin")}
+              className="w-full flex items-center justify-between p-4 hover:bg-white/5 transition-colors"
+            >
+              <div className="flex items-center gap-3">
+                <div className="p-3 rounded-full bg-purple-500/20">
+                  <Lock className="w-5 h-5 text-purple-500" />
+                </div>
+                <div className="text-left">
+                  <h3 className="font-semibold">Admin Dashboard</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Manage products, draws, and users
+                  </p>
+                </div>
+              </div>
+              <ChevronRight className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </Card>
+        )}
+
         {/* Menu Items */}
         <Card className="divide-y divide-border">
           {menuItems.map((item, index) => {
