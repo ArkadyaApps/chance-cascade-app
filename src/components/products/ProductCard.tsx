@@ -1,9 +1,11 @@
-import { Product } from "@/lib/mockData";
+import { Database } from "@/integrations/supabase/types";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
+
+type Product = Database["public"]["Tables"]["products"]["Row"];
 
 interface ProductCardProps {
   product: Product;
@@ -11,8 +13,8 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
-  const progress = (product.ticketsSold / product.ticketsRequired) * 100;
-  const ticketsRemaining = product.ticketsRequired - product.ticketsSold;
+  const progress = (product.tickets_sold / product.tickets_required) * 100;
+  const ticketsRemaining = product.tickets_required - product.tickets_sold;
 
   return (
     <div
@@ -48,7 +50,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted-foreground">Draw Progress</span>
             <span className="font-medium">
-              {product.ticketsSold}/{product.ticketsRequired}
+              {product.tickets_sold}/{product.tickets_required}
             </span>
           </div>
           <Progress value={progress} className="h-2" />
@@ -62,11 +64,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <div className="flex items-center justify-between pt-2 border-t border-border">
           <div className="flex items-center gap-1 text-sm">
             <Ticket className="w-4 h-4 text-primary" />
-            <span className="font-semibold">{product.ticketPrice} ticket{product.ticketPrice > 1 ? 's' : ''}</span>
+            <span className="font-semibold">{product.ticket_price} ticket{product.ticket_price > 1 ? 's' : ''}</span>
           </div>
           <div className="flex items-center gap-1 text-sm text-muted-foreground">
             <Clock className="w-4 h-4" />
-            <span>{formatDistanceToNow(new Date(product.drawDate), { addSuffix: true })}</span>
+            <span>{formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}</span>
           </div>
         </div>
       </div>

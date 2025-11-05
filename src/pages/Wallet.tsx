@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useProfile } from "@/hooks/useProfile";
+import { usePurchaseTickets, useWalletTransactions } from "@/hooks/useWallet";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { mockWalletBalance, mockTransactions } from "@/lib/mockData";
-import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy } from "lucide-react";
+import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ticketPackages = [
   { tickets: 10, price: 9.99, popular: false },
@@ -17,12 +19,28 @@ const ticketPackages = [
 const Wallet = () => {
   const { toast } = useToast();
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
+  const { data: profile, isLoading: profileLoading } = useProfile();
+  const { data: transactions, isLoading: transactionsLoading } = useWalletTransactions();
+  const purchaseTickets = usePurchaseTickets();
 
-  const handlePurchase = (pkg: typeof ticketPackages[0]) => {
-    toast({
-      title: "Purchase initiated",
-      description: `Purchasing ${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} tickets for $${pkg.price}`,
-    });
+  const handlePurchase = async (pkg: typeof ticketPackages[0]) => {
+    try {
+      await purchaseTickets.mutateAsync({
+        amount: pkg.tickets + (pkg.bonus || 0),
+        price: pkg.price,
+      });
+
+      toast({
+        title: "Purchase successful! 🎉",
+        description: `Added ${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} tickets to your wallet`,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Purchase failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -38,7 +56,11 @@ const Wallet = () => {
               <WalletIcon className="w-6 h-6 text-primary" />
               <span className="text-sm text-muted-foreground">Available Tickets</span>
             </div>
-            <div className="text-4xl font-bold mb-4">{mockWalletBalance}</div>
+            {profileLoading ? (
+              <Skeleton className="h-12 w-32 mb-4" />
+            ) : (
+              <div className="text-4xl font-bold mb-4">{profile?.wallet_balance || 0}</div>
+            )}
             <Button 
               className="w-full bg-gradient-to-r from-primary to-accent"
               onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
@@ -84,12 +106,20 @@ const Wallet = () => {
                   <Button
                     size="sm"
                     className="w-full"
+                    disabled={purchaseTickets.isPending}
                     onClick={(e) => {
                       e.stopPropagation();
                       handlePurchase(pkg);
                     }}
                   >
-                    Buy Now
+                    {purchaseTickets.isPending ? (
+                      <>
+                        <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      "Buy Now"
+                    )}
                   </Button>
                 </div>
               </Card>
@@ -101,47 +131,61 @@ const Wallet = () => {
         <div className="space-y-4">
           <h2 className="text-xl font-semibold">Recent Activity</h2>
           <div className="space-y-2">
-            {mockTransactions.map((transaction) => (
-              <Card key={transaction.id} className="p-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-start gap-3">
-                    <div
-                      className={`p-2 rounded-full ${
-                        transaction.type === "purchase"
-                          ? "bg-green-500/10"
-                          : transaction.type === "win"
-                          ? "bg-accent/10"
-                          : "bg-primary/10"
-                      }`}
-                    >
-                      {transaction.type === "purchase" ? (
-                        <ArrowDownLeft className="w-4 h-4 text-green-500" />
-                      ) : transaction.type === "win" ? (
-                        <Trophy className="w-4 h-4 text-accent" />
-                      ) : (
-                        <ArrowUpRight className="w-4 h-4 text-primary" />
-                      )}
-                    </div>
-                    <div>
-                      <div className="font-medium">{transaction.description}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(transaction.timestamp), {
-                          addSuffix: true,
-                        })}
+            {transactionsLoading ? (
+              <>
+                {[1, 2, 3].map((i) => (
+                  <Card key={i} className="p-4">
+                    <Skeleton className="h-16 w-full" />
+                  </Card>
+                ))}
+              </>
+            ) : transactions && transactions.length > 0 ? (
+              transactions.map((transaction) => (
+                <Card key={transaction.id} className="p-4">
+                  <div className="flex items-start justify-between">
+                    <div className="flex items-start gap-3">
+                      <div
+                        className={`p-2 rounded-full ${
+                          transaction.type === "purchase"
+                            ? "bg-green-500/10"
+                            : transaction.type === "win"
+                            ? "bg-accent/10"
+                            : "bg-primary/10"
+                        }`}
+                      >
+                        {transaction.type === "purchase" ? (
+                          <ArrowDownLeft className="w-4 h-4 text-green-500" />
+                        ) : transaction.type === "win" ? (
+                          <Trophy className="w-4 h-4 text-accent" />
+                        ) : (
+                          <ArrowUpRight className="w-4 h-4 text-primary" />
+                        )}
+                      </div>
+                      <div>
+                        <div className="font-medium">{transaction.description}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {formatDistanceToNow(new Date(transaction.created_at), {
+                            addSuffix: true,
+                          })}
+                        </div>
                       </div>
                     </div>
+                    <div
+                      className={`font-semibold ${
+                        transaction.amount > 0 ? "text-green-500" : "text-foreground"
+                      }`}
+                    >
+                      {transaction.amount > 0 ? "+" : ""}
+                      {transaction.amount}
+                    </div>
                   </div>
-                  <div
-                    className={`font-semibold ${
-                      transaction.amount > 0 ? "text-green-500" : "text-foreground"
-                    }`}
-                  >
-                    {transaction.amount > 0 ? "+" : ""}
-                    {transaction.amount}
-                  </div>
-                </div>
+                </Card>
+              ))
+            ) : (
+              <Card className="p-8 text-center">
+                <p className="text-muted-foreground">No transactions yet</p>
               </Card>
-            ))}
+            )}
           </div>
         </div>
       </div>

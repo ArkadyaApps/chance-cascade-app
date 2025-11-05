@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { ProductCard } from "@/components/products/ProductCard";
-import { mockProducts } from "@/lib/mockData";
+import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, SlidersHorizontal } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
+  const { data: products, isLoading } = useProducts();
 
   return (
     <div className="min-h-screen">
@@ -37,18 +39,34 @@ const Index = () => {
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">Active Draws</h2>
           <span className="text-sm text-muted-foreground">
-            {mockProducts.length} products
+            {products?.length || 0} products
           </span>
         </div>
         
-        {mockProducts
-          .filter(product => 
-            product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchQuery.toLowerCase())
-          )
-          .map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+        {isLoading ? (
+          <>
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="space-y-3">
+                <Skeleton className="h-48 w-full rounded-2xl" />
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+            ))}
+          </>
+        ) : products && products.length > 0 ? (
+          products
+            .filter(product => 
+              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              product.category.toLowerCase().includes(searchQuery.toLowerCase())
+            )
+            .map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No active draws available</p>
+          </div>
+        )}
       </div>
     </div>
   );

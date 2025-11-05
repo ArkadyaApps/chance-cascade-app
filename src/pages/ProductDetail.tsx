@@ -1,30 +1,54 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { mockProducts, mockWalletBalance } from "@/lib/mockData";
+import { useProduct } from "@/hooks/useProducts";
+import { useProfile } from "@/hooks/useProfile";
+import { useCreateEntry } from "@/hooks/useEntries";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Ticket, Minus, Plus, Shield } from "lucide-react";
+import { ArrowLeft, Clock, Ticket, Minus, Plus, Shield, Loader2 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const product = mockProducts.find((p) => p.id === id);
+  const { data: product, isLoading } = useProduct(id!);
+  const { data: profile } = useProfile();
+  const createEntry = useCreateEntry();
   const [ticketCount, setTicketCount] = useState(1);
 
-  if (!product) {
-    return <div>Product not found</div>;
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background pb-4">
+        <div className="max-w-lg mx-auto p-4 space-y-4">
+          <Skeleton className="h-96 w-full" />
+          <Skeleton className="h-8 w-3/4" />
+          <Skeleton className="h-20 w-full" />
+        </div>
+      </div>
+    );
   }
 
-  const progress = (product.ticketsSold / product.ticketsRequired) * 100;
-  const ticketsRemaining = product.ticketsRequired - product.ticketsSold;
-  const totalCost = ticketCount * product.ticketPrice;
-  const canAfford = totalCost <= mockWalletBalance;
+  if (!product) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-2">Product not found</h2>
+          <Button onClick={() => navigate("/")}>Go Home</Button>
+        </div>
+      </div>
+    );
+  }
 
-  const handleEnterDraw = () => {
+  const progress = (product.tickets_sold / product.tickets_required) * 100;
+  const ticketsRemaining = product.tickets_required - product.tickets_sold;
+  const totalCost = ticketCount * product.ticket_price;
+  const canAfford = totalCost <= (profile?.wallet_balance || 0);
+
+  const handleEnterDraw = async () => {
     if (!canAfford) {
       toast({
         title: "Insufficient tickets",
@@ -35,11 +59,24 @@ const ProductDetail = () => {
       return;
     }
 
-    toast({
-      title: "Entry successful! 🎉",
-      description: `You've entered the draw with ${ticketCount} ticket${ticketCount > 1 ? 's' : ''}`,
-    });
-    navigate("/entries");
+    try {
+      await createEntry.mutateAsync({
+        productId: product.id,
+        ticketsSpent: totalCost,
+      });
+
+      toast({
+        title: "Entry successful! 🎉",
+        description: `You've entered the draw with ${ticketCount} ticket${ticketCount > 1 ? 's' : ''}`,
+      });
+      navigate("/entries");
+    } catch (error: any) {
+      toast({
+        title: "Entry failed",
+        description: error.message || "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -86,7 +123,7 @@ const ProductDetail = () => {
             <div className="flex items-center justify-between">
               <span className="font-semibold">Draw Progress</span>
               <span className="text-sm text-muted-foreground">
-                {product.ticketsSold}/{product.ticketsRequired} tickets
+                {product.tickets_sold}/{product.tickets_required} tickets
               </span>
             </div>
             <Progress value={progress} className="h-3" />
@@ -94,7 +131,7 @@ const ProductDetail = () => {
               <div className="flex items-center gap-1 text-muted-foreground">
                 <Clock className="w-4 h-4" />
                 <span>
-                  Draws {formatDistanceToNow(new Date(product.drawDate), { addSuffix: true })}
+                  Draws {formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}
                 </span>
               </div>
               <span className="font-medium">{ticketsRemaining} left</span>
@@ -108,7 +145,7 @@ const ProductDetail = () => {
               <div className="flex items-center justify-center gap-2">
                 <Ticket className="w-5 h-5 text-primary" />
                 <span className="text-2xl font-bold">
-                  {product.ticketPrice} ticket{product.ticketPrice > 1 ? 's' : ''}
+                  {product.ticket_price} ticket{product.ticket_price > 1 ? 's' : ''}
                 </span>
               </div>
             </div>
@@ -139,15 +176,24 @@ const ProductDetail = () => {
             <div className="text-center text-sm text-muted-foreground">
               Total cost: <span className="font-bold text-foreground">{totalCost} tickets</span>
               {' • '}
-              Your balance: <span className="font-bold text-foreground">{mockWalletBalance} tickets</span>
+              Your balance: <span className="font-bold text-foreground">{profile?.wallet_balance || 0} tickets</span>
             </div>
 
             <Button
               onClick={handleEnterDraw}
-              disabled={!canAfford}
+              disabled={!canAfford || createEntry.isPending}
               className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
             >
-              {canAfford ? `Enter Draw (${totalCost} tickets)` : "Insufficient Tickets"}
+              {createEntry.isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Entering...
+                </>
+              ) : canAfford ? (
+                `Enter Draw (${totalCost} tickets)`
+              ) : (
+                "Insufficient Tickets"
+              )}
             </Button>
           </div>
 

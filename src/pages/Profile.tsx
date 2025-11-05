@@ -2,21 +2,24 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/useProfile";
+import { useUserEntries } from "@/hooks/useEntries";
 import { 
-  User, 
-  Wallet, 
-  Trophy, 
   Settings, 
   Bell, 
   Shield, 
   HelpCircle, 
   LogOut,
-  ChevronRight
+  ChevronRight,
+  Wallet,
+  Trophy
 } from "lucide-react";
-import { mockWalletBalance, mockUserEntries } from "@/lib/mockData";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Profile = () => {
   const { user, signOut } = useAuth();
+  const { data: profile, isLoading: profileLoading } = useProfile();
+  const { data: entries } = useUserEntries();
   
   const menuItems = [
     { icon: Settings, label: "Account Settings", action: () => {} },
@@ -28,6 +31,9 @@ const Profile = () => {
   const getInitials = (email: string) => {
     return email.substring(0, 2).toUpperCase();
   };
+
+  const activeEntries = entries?.filter(e => e.status === "active").length || 0;
+  const wins = profile?.total_wins || 0;
 
   return (
     <div className="min-h-screen bg-background">
@@ -45,29 +51,46 @@ const Profile = () => {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h2 className="text-xl font-bold">{user?.user_metadata?.full_name || "User"}</h2>
-                <p className="text-sm text-muted-foreground">{user?.email}</p>
+                {profileLoading ? (
+                  <>
+                    <Skeleton className="h-6 w-32 mb-2" />
+                    <Skeleton className="h-4 w-48" />
+                  </>
+                ) : (
+                  <>
+                    <h2 className="text-xl font-bold">{profile?.full_name || "User"}</h2>
+                    <p className="text-sm text-muted-foreground">{user?.email}</p>
+                  </>
+                )}
               </div>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-3 bg-secondary/30 rounded-lg">
-                <Wallet className="w-5 h-5 text-primary mx-auto mb-1" />
-                <div className="text-2xl font-bold">{mockWalletBalance}</div>
-                <div className="text-xs text-muted-foreground">Tickets</div>
+            {profileLoading ? (
+              <div className="grid grid-cols-3 gap-4">
+                {[1, 2, 3].map((i) => (
+                  <Skeleton key={i} className="h-20 w-full rounded-lg" />
+                ))}
               </div>
-              <div className="text-center p-3 bg-secondary/30 rounded-lg">
-                <Trophy className="w-5 h-5 text-primary mx-auto mb-1" />
-                <div className="text-2xl font-bold">{mockUserEntries.length}</div>
-                <div className="text-xs text-muted-foreground">Active</div>
+            ) : (
+              <div className="grid grid-cols-3 gap-4">
+                <div className="text-center p-3 bg-secondary/30 rounded-lg">
+                  <Wallet className="w-5 h-5 text-primary mx-auto mb-1" />
+                  <div className="text-2xl font-bold">{profile?.wallet_balance || 0}</div>
+                  <div className="text-xs text-muted-foreground">Tickets</div>
+                </div>
+                <div className="text-center p-3 bg-secondary/30 rounded-lg">
+                  <Trophy className="w-5 h-5 text-primary mx-auto mb-1" />
+                  <div className="text-2xl font-bold">{activeEntries}</div>
+                  <div className="text-xs text-muted-foreground">Active</div>
+                </div>
+                <div className="text-center p-3 bg-secondary/30 rounded-lg">
+                  <Trophy className="w-5 h-5 text-accent mx-auto mb-1" />
+                  <div className="text-2xl font-bold">{wins}</div>
+                  <div className="text-xs text-muted-foreground">Wins</div>
+                </div>
               </div>
-              <div className="text-center p-3 bg-secondary/30 rounded-lg">
-                <Trophy className="w-5 h-5 text-accent mx-auto mb-1" />
-                <div className="text-2xl font-bold">0</div>
-                <div className="text-xs text-muted-foreground">Wins</div>
-              </div>
-            </div>
+            )}
           </Card>
         </div>
       </div>

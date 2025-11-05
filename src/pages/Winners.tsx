@@ -3,44 +3,11 @@ import { Badge } from "@/components/ui/badge";
 import { Trophy, Shield, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
-
-interface Winner {
-  id: string;
-  productName: string;
-  productImage: string;
-  winnerName: string;
-  drawDate: string;
-  verificationHash: string;
-}
-
-const mockWinners: Winner[] = [
-  {
-    id: "1",
-    productName: "iPhone 15 Pro Max",
-    productImage: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400",
-    winnerName: "Sarah M.",
-    drawDate: "2025-11-02T20:00:00Z",
-    verificationHash: "0x7a8f9b2c...3d4e5f6a",
-  },
-  {
-    id: "2",
-    productName: "MacBook Pro 16\"",
-    productImage: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400",
-    winnerName: "John D.",
-    drawDate: "2025-11-02T20:00:00Z",
-    verificationHash: "0x1b2c3d4e...5f6a7b8c",
-  },
-  {
-    id: "3",
-    productName: "PlayStation 5 Bundle",
-    productImage: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400",
-    winnerName: "Mike R.",
-    drawDate: "2025-10-27T20:00:00Z",
-    verificationHash: "0x9a8b7c6d...5e4f3a2b",
-  },
-];
+import { useWinners } from "@/hooks/useWinners";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Winners = () => {
+  const { data: winners, isLoading } = useWinners();
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -72,49 +39,74 @@ const Winners = () => {
         </Card>
 
         {/* Winners List */}
-        {mockWinners.map((winner) => (
-          <Card key={winner.id} className="overflow-hidden">
-            <div className="flex gap-4 p-4">
-              <img
-                src={winner.productImage}
-                alt={winner.productName}
-                className="w-20 h-20 object-cover rounded-lg"
-              />
-              <div className="flex-1 space-y-2">
-                <div>
-                  <div className="flex items-start justify-between gap-2">
-                    <h3 className="font-semibold">{winner.productName}</h3>
-                    <Badge variant="secondary" className="bg-accent/20">
-                      <Trophy className="w-3 h-3 mr-1" />
-                      Winner
-                    </Badge>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    Won by {winner.winnerName}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {formatDistanceToNow(new Date(winner.drawDate), { addSuffix: true })}
-                  </p>
-                </div>
-                <div className="pt-2 border-t border-border">
-                  <div className="flex items-center justify-between">
-                    <div className="text-xs text-muted-foreground">
-                      Hash: <span className="font-mono">{winner.verificationHash}</span>
+        {isLoading ? (
+          <>
+            {[1, 2, 3].map((i) => (
+              <Card key={i} className="p-4">
+                <Skeleton className="h-24 w-full" />
+              </Card>
+            ))}
+          </>
+        ) : winners && winners.length > 0 ? (
+          winners.map((winner) => {
+            const winnerProfile = Array.isArray(winner.winner) ? winner.winner[0] : winner.winner;
+            const winnerName = winnerProfile?.full_name || winnerProfile?.email?.split('@')[0] || 'Anonymous';
+            
+            return (
+              <Card key={winner.id} className="overflow-hidden">
+                <div className="flex gap-4 p-4">
+                  <img
+                    src={winner.images[0]}
+                    alt={winner.name}
+                    className="w-20 h-20 object-cover rounded-lg"
+                  />
+                  <div className="flex-1 space-y-2">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <h3 className="font-semibold">{winner.name}</h3>
+                        <Badge variant="secondary" className="bg-accent/20">
+                          <Trophy className="w-3 h-3 mr-1" />
+                          Winner
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Won by {winnerName}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {formatDistanceToNow(new Date(winner.draw_date), { addSuffix: true })}
+                      </p>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="h-7 text-xs"
-                    >
-                      Verify
-                      <ExternalLink className="w-3 h-3 ml-1" />
-                    </Button>
+                    {winner.verification_hash && (
+                      <div className="pt-2 border-t border-border">
+                        <div className="flex items-center justify-between">
+                          <div className="text-xs text-muted-foreground">
+                            Hash: <span className="font-mono">{winner.verification_hash}</span>
+                          </div>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-7 text-xs"
+                          >
+                            Verify
+                            <ExternalLink className="w-3 h-3 ml-1" />
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              </div>
-            </div>
+              </Card>
+            );
+          })
+        ) : (
+          <Card className="p-8 text-center">
+            <Trophy className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-lg font-semibold mb-2">No winners yet</h3>
+            <p className="text-muted-foreground">
+              Check back after the first draws complete
+            </p>
           </Card>
-        ))}
+        )}
       </div>
     </div>
   );
