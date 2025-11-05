@@ -28,6 +28,10 @@ const productSchema = z.object({
   category: z.enum(["electronics", "gaming", "fashion", "home", "sports", "other"]),
   drawDate: z.string().min(1, "Draw date is required"),
   featured: z.boolean(),
+  partnerName: z.string().optional(),
+  partnerLogoUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  partnerWebsite: z.string().url("Must be a valid URL").optional().or(z.literal("")),
+  partnerDescription: z.string().max(200, "Description must be less than 200 characters").optional(),
 });
 
 const ProductForm = () => {
@@ -53,6 +57,10 @@ const ProductForm = () => {
       category: formData.get("category") as string,
       drawDate: formData.get("drawDate") as string,
       featured: formData.get("featured") === "on",
+      partnerName: formData.get("partnerName") as string,
+      partnerLogoUrl: formData.get("partnerLogoUrl") as string,
+      partnerWebsite: formData.get("partnerWebsite") as string,
+      partnerDescription: formData.get("partnerDescription") as string,
     };
 
     try {
@@ -67,6 +75,10 @@ const ProductForm = () => {
         category: validated.category,
         draw_date: new Date(validated.drawDate).toISOString(),
         featured: validated.featured,
+        partner_name: validated.partnerName || null,
+        partner_logo_url: validated.partnerLogoUrl || null,
+        partner_website: validated.partnerWebsite || null,
+        partner_description: validated.partnerDescription || null,
       };
 
       if (isEditMode) {
@@ -256,6 +268,63 @@ const ProductForm = () => {
               <Label htmlFor="featured" className="cursor-pointer">
                 Featured product
               </Label>
+            </div>
+
+            {/* Partner Information Section */}
+            <div className="space-y-4 pt-6 border-t">
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Partner Information</h3>
+                <p className="text-sm text-muted-foreground">
+                  Optional details about the partner/affiliate offering this product
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="partnerName">Partner Name</Label>
+                <Input
+                  id="partnerName"
+                  name="partnerName"
+                  placeholder="e.g., Apple, Nike, Sony"
+                  defaultValue={product?.partner_name || ""}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="partnerLogoUrl">Partner Logo URL</Label>
+                <Input
+                  id="partnerLogoUrl"
+                  name="partnerLogoUrl"
+                  type="url"
+                  placeholder="https://example.com/logo.png"
+                  defaultValue={product?.partner_logo_url || ""}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="partnerWebsite">Partner Website</Label>
+                <Input
+                  id="partnerWebsite"
+                  name="partnerWebsite"
+                  type="url"
+                  placeholder="https://partner.com"
+                  defaultValue={product?.partner_website || ""}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="partnerDescription">Partner Description</Label>
+                <Textarea
+                  id="partnerDescription"
+                  name="partnerDescription"
+                  placeholder="Brief description of the partner brand..."
+                  rows={3}
+                  maxLength={200}
+                  defaultValue={product?.partner_description || ""}
+                />
+                <p className="text-xs text-muted-foreground">
+                  Maximum 200 characters
+                </p>
+              </div>
             </div>
 
             <div className="flex gap-4">

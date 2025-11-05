@@ -111,6 +111,10 @@ export type Database = {
           id: string
           images: string[]
           name: string
+          partner_description: string | null
+          partner_logo_url: string | null
+          partner_name: string | null
+          partner_website: string | null
           status: Database["public"]["Enums"]["draw_status"]
           ticket_price: number
           tickets_required: number
@@ -128,6 +132,10 @@ export type Database = {
           id?: string
           images?: string[]
           name: string
+          partner_description?: string | null
+          partner_logo_url?: string | null
+          partner_name?: string | null
+          partner_website?: string | null
           status?: Database["public"]["Enums"]["draw_status"]
           ticket_price: number
           tickets_required: number
@@ -145,6 +153,10 @@ export type Database = {
           id?: string
           images?: string[]
           name?: string
+          partner_description?: string | null
+          partner_logo_url?: string | null
+          partner_name?: string | null
+          partner_website?: string | null
           status?: Database["public"]["Enums"]["draw_status"]
           ticket_price?: number
           tickets_required?: number

@@ -118,6 +118,65 @@ const ProductDetail = () => {
             <p className="text-muted-foreground">{product.description}</p>
           </div>
 
+          {/* Partner Information */}
+          {product.partner_name && (
+            <div className="bg-gradient-to-r from-secondary/50 to-secondary/30 rounded-xl p-4 border border-border">
+              <div className="flex items-start gap-3">
+                {product.partner_logo_url ? (
+                  <div className="w-16 h-16 rounded-lg bg-card flex items-center justify-center p-2 border border-border shrink-0">
+                    <img
+                      src={product.partner_logo_url}
+                      alt={product.partner_name}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <span className="text-2xl font-bold text-primary">
+                      {product.partner_name.charAt(0).toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs text-muted-foreground mb-1">Offered by</div>
+                  {product.partner_website ? (
+                    <a
+                      href={product.partner_website}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-lg hover:text-primary transition-colors inline-flex items-center gap-1"
+                    >
+                      {product.partner_name}
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  ) : (
+                    <div className="font-semibold text-lg">{product.partner_name}</div>
+                  )}
+                  {product.partner_description && (
+                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                      {product.partner_description}
+                    </p>
+                  )}
+                  <Badge variant="outline" className="mt-2 text-xs">
+                    Official Partner
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Draw Progress */}
           <div className="bg-secondary/30 rounded-xl p-4 space-y-3">
             <div className="flex items-center justify-between">
