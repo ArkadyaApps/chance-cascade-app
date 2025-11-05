@@ -6,13 +6,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { ArrowLeft, Globe, Bell, User, Trash2, Loader2 } from "lucide-react";
+import { ArrowLeft, Globe, Bell, User, Trash2, Loader2, ChevronDown } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import { countries } from "@/lib/countries";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -227,12 +235,18 @@ const Settings = () => {
                   <Label htmlFor="country">
                     Country <span className="text-destructive">*</span>
                   </Label>
-                  <Input
-                    id="country"
-                    value={country}
-                    onChange={(e) => setCountry(e.target.value)}
-                    placeholder="United States"
-                  />
+                  <Select value={country} onValueChange={setCountry}>
+                    <SelectTrigger id="country" className="w-full bg-background">
+                      <SelectValue placeholder="Select your country" />
+                    </SelectTrigger>
+                    <SelectContent className="bg-popover z-50 max-h-[300px]">
+                      {countries.map((c) => (
+                        <SelectItem key={c.code} value={c.name} className="cursor-pointer">
+                          {c.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
