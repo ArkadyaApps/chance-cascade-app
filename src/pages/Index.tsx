@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useScrollParallax } from "@/hooks/useParallax";
+import logo from "@/assets/logo.png";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -74,14 +75,14 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Header with Parallax */}
-      <div className="sticky top-0 z-40 bg-gradient-to-r from-primary to-accent p-4 shadow-lg overflow-hidden">
+      <div className="sticky top-0 z-40 p-4 shadow-lg overflow-hidden" style={{ backgroundColor: '#F5F5DC' }}>
         <div 
           className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.3),transparent)]"
           style={headerParallax}
         />
         <div className="max-w-lg mx-auto relative z-10">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-primary-foreground">Lucksy</h1>
+            <img src={logo} alt="Lucksy" className="h-10" />
             <LanguageSwitcher />
           </div>
           <div className="flex gap-2">

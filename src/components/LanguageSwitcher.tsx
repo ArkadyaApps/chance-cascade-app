@@ -52,26 +52,22 @@ export const LanguageSwitcher = () => {
   };
 
   return (
-    <div className="flex items-center gap-2">
-      <Globe className="w-4 h-4 text-muted-foreground" />
-      <Select value={i18n.language} onValueChange={handleLanguageChange}>
-        <SelectTrigger className="w-[140px]">
-          <SelectValue>
-            {languages.find((lang) => lang.code === i18n.language)?.flag}{" "}
-            {languages.find((lang) => lang.code === i18n.language)?.name}
-          </SelectValue>
-        </SelectTrigger>
-        <SelectContent>
-          {languages.map((language) => (
-            <SelectItem key={language.code} value={language.code}>
-              <span className="flex items-center gap-2">
-                <span>{language.flag}</span>
-                <span>{language.name}</span>
-              </span>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    <Select value={i18n.language} onValueChange={handleLanguageChange}>
+      <SelectTrigger className="w-[50px] border-none bg-transparent shadow-none focus:ring-0">
+        <SelectValue>
+          {i18n.language.toUpperCase()}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent className="bg-popover z-50">
+        {languages.map((language) => (
+          <SelectItem key={language.code} value={language.code}>
+            <span className="flex items-center gap-2">
+              <span>{language.flag}</span>
+              <span>{language.name}</span>
+            </span>
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 };

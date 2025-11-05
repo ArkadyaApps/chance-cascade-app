@@ -6,6 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useWinners } from "@/hooks/useWinners";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const Winners = () => {
   const { t } = useTranslation();
@@ -13,17 +14,7 @@ const Winners = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6">
-        <div className="max-w-lg mx-auto">
-          <div className="flex items-center gap-3 mb-2">
-            <Trophy className="w-8 h-8 text-primary-foreground" />
-            <h1 className="text-2xl font-bold text-primary-foreground">{t("winners.title")}</h1>
-          </div>
-          <p className="text-primary-foreground/80">
-            {t("winners.congratulations")}
-          </p>
-        </div>
-      </div>
+      <AppHeader subtitle={t("winners.congratulations")} />
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
         {/* Trust Banner */}

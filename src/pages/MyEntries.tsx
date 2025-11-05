@@ -7,6 +7,7 @@ import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const MyEntries = () => {
   const { t } = useTranslation();
@@ -16,14 +17,9 @@ const MyEntries = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground">{t("entries.title")}</h1>
-          <p className="text-primary-foreground/80">
-            {entries?.filter(e => e.status === "active").length || 0} {t("entries.pending").toLowerCase()}
-          </p>
-        </div>
-      </div>
+      <AppHeader 
+        subtitle={`${entries?.filter(e => e.status === "active").length || 0} ${t("entries.pending").toLowerCase()}`}
+      />
 
       <div className="max-w-lg mx-auto p-4 space-y-4">
         {isLoading ? (

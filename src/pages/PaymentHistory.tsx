@@ -24,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const PaymentHistory = () => {
   const { t } = useTranslation();

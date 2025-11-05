@@ -14,6 +14,7 @@ import { Separator } from "@/components/ui/separator";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
+import logo from "@/assets/logo.png";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }).max(255),
@@ -186,8 +187,8 @@ const Auth = () => {
       </div>
       <Card className="w-full max-w-md p-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent mb-4">
-            <Ticket className="w-8 h-8 text-primary-foreground" />
+          <div className="flex justify-center mb-4">
+            <img src={logo} alt="Lucksy" className="h-24" />
           </div>
           <h1 className="text-3xl font-bold mb-2">{t("auth.title")}</h1>
           <p className="text-muted-foreground">

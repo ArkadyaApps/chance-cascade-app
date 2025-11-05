@@ -10,6 +10,7 @@ import { ArrowLeft, Ticket, Minus, Plus, Shield, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CountdownTimer } from "@/components/products/CountdownTimer";
+import logo from "@/assets/logo.png";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -82,8 +83,8 @@ const ProductDetail = () => {
   return (
     <div className="min-h-screen bg-background pb-4">
       {/* Header */}
-      <div className="sticky top-0 z-40 bg-card border-b border-border">
-        <div className="max-w-lg mx-auto p-4 flex items-center gap-4">
+      <div className="sticky top-0 z-40 border-b border-border" style={{ backgroundColor: '#F5F5DC' }}>
+        <div className="max-w-lg mx-auto p-4 flex items-center justify-between">
           <Button
             variant="ghost"
             size="icon"
@@ -91,7 +92,8 @@ const ProductDetail = () => {
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
-          <h1 className="text-lg font-semibold">Product Details</h1>
+          <img src={logo} alt="Lucksy" className="h-8" />
+          <div className="w-10" /> {/* Spacer for centering */}
         </div>
       </div>
 

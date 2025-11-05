@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
+import { AppHeader } from "@/components/layout/AppHeader";
 
 const Profile = () => {
   const { t } = useTranslation();
@@ -45,12 +46,11 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6 pb-12">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground mb-6">{t("profile.title")}</h1>
-          
-          {/* User Card */}
-          <Card className="bg-card/95 backdrop-blur-sm border-none shadow-xl p-6">
+      <AppHeader showLogo={true} />
+
+      <div className="max-w-lg mx-auto px-4 -mt-2">
+        {/* User Card */}
+        <Card className="bg-card/95 backdrop-blur-sm border-none shadow-xl p-6">
             <div className="flex items-center gap-4 mb-6">
               <Avatar className="w-16 h-16 border-2 border-primary">
                 <AvatarFallback className="bg-primary text-primary-foreground text-xl">
@@ -97,12 +97,11 @@ const Profile = () => {
                   <div className="text-xs text-muted-foreground">{t("profile.totalWins").split(" ")[0]}</div>
                 </div>
               </div>
-            )}
-          </Card>
-        </div>
+          )}
+        </Card>
       </div>
 
-      <div className="max-w-lg mx-auto p-4 space-y-4 -mt-6">
+      <div className="max-w-lg mx-auto p-4 space-y-4 mt-4">
         {/* Admin Access */}
         {isAdmin && (
           <Card className="bg-gradient-to-r from-purple-500/10 to-pink-500/10 border-purple-500/20">
