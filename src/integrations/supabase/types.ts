@@ -14,7 +14,191 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      entries: {
+        Row: {
+          created_at: string
+          id: string
+          product_id: string
+          status: Database["public"]["Enums"]["entry_status"]
+          tickets_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          product_id: string
+          status?: Database["public"]["Enums"]["entry_status"]
+          tickets_spent: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          product_id?: string
+          status?: Database["public"]["Enums"]["entry_status"]
+          tickets_spent?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "entries_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: Database["public"]["Enums"]["product_category"]
+          created_at: string
+          description: string
+          draw_date: string
+          featured: boolean
+          id: string
+          images: string[]
+          name: string
+          status: Database["public"]["Enums"]["draw_status"]
+          ticket_price: number
+          tickets_required: number
+          tickets_sold: number
+          updated_at: string
+          verification_hash: string | null
+          winner_id: string | null
+        }
+        Insert: {
+          category: Database["public"]["Enums"]["product_category"]
+          created_at?: string
+          description: string
+          draw_date: string
+          featured?: boolean
+          id?: string
+          images?: string[]
+          name: string
+          status?: Database["public"]["Enums"]["draw_status"]
+          ticket_price: number
+          tickets_required: number
+          tickets_sold?: number
+          updated_at?: string
+          verification_hash?: string | null
+          winner_id?: string | null
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["product_category"]
+          created_at?: string
+          description?: string
+          draw_date?: string
+          featured?: boolean
+          id?: string
+          images?: string[]
+          name?: string
+          status?: Database["public"]["Enums"]["draw_status"]
+          ticket_price?: number
+          tickets_required?: number
+          tickets_sold?: number
+          updated_at?: string
+          verification_hash?: string | null
+          winner_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "products_winner_id_fkey"
+            columns: ["winner_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+          total_wins: number
+          updated_at: string
+          wallet_balance: number
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+          total_wins?: number
+          updated_at?: string
+          wallet_balance?: number
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+          total_wins?: number
+          updated_at?: string
+          wallet_balance?: number
+        }
+        Relationships: []
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string
+          id: string
+          product_id: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description: string
+          id?: string
+          product_id?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string
+          id?: string
+          product_id?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_transactions_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wallet_transactions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +207,15 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      draw_status: "active" | "completed" | "cancelled"
+      entry_status: "active" | "won" | "lost"
+      product_category:
+        | "electronics"
+        | "gaming"
+        | "fashion"
+        | "home"
+        | "sports"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +342,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      draw_status: ["active", "completed", "cancelled"],
+      entry_status: ["active", "won", "lost"],
+      product_category: [
+        "electronics",
+        "gaming",
+        "fashion",
+        "home",
+        "sports",
+        "other",
+      ],
+    },
   },
 } as const
