@@ -11,29 +11,31 @@ import {
   ArrowLeft,
   TrendingUp
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const AdminDashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: products } = useProducts();
   const { data: allEntries } = useAllEntries();
 
   const stats = [
     {
-      title: "Total Products",
+      title: t("admin.totalProducts"),
       value: products?.length || 0,
       icon: Package,
       color: "text-blue-500",
       bgColor: "bg-blue-500/10",
     },
     {
-      title: "Active Draws",
+      title: t("admin.activeDraws"),
       value: products?.filter(p => p.status === "active").length || 0,
       icon: TrendingUp,
       color: "text-green-500",
       bgColor: "bg-green-500/10",
     },
     {
-      title: "Total Entries",
+      title: t("admin.totalEntries"),
       value: allEntries?.length || 0,
       icon: Ticket,
       color: "text-purple-500",
@@ -50,19 +52,19 @@ const AdminDashboard = () => {
 
   const quickActions = [
     {
-      title: "Manage Products",
+      title: t("admin.products"),
       description: "Add, edit, or remove products",
       icon: Package,
       action: () => navigate("/admin/products"),
     },
     {
-      title: "View All Entries",
+      title: t("admin.entries"),
       description: "See all user entries",
       icon: Users,
       action: () => navigate("/admin/entries"),
     },
     {
-      title: "Manage Draws",
+      title: t("admin.draws"),
       description: "Trigger draws and select winners",
       icon: Trophy,
       action: () => navigate("/admin/draws"),
@@ -83,7 +85,7 @@ const AdminDashboard = () => {
             >
               <ArrowLeft className="w-5 h-5" />
             </Button>
-            <h1 className="text-3xl font-bold text-primary-foreground">Admin Dashboard</h1>
+            <h1 className="text-3xl font-bold text-primary-foreground">{t("admin.dashboard")}</h1>
           </div>
           <p className="text-primary-foreground/80 ml-14">
             Manage your Lucksy raffle platform

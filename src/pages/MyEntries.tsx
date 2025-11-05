@@ -6,8 +6,10 @@ import { Clock, Ticket, Trophy } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 const MyEntries = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: entries, isLoading } = useUserEntries();
 
@@ -16,9 +18,9 @@ const MyEntries = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-accent p-6">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground">My Entries</h1>
+          <h1 className="text-2xl font-bold text-primary-foreground">{t("entries.title")}</h1>
           <p className="text-primary-foreground/80">
-            {entries?.filter(e => e.status === "active").length || 0} active entries
+            {entries?.filter(e => e.status === "active").length || 0} {t("entries.pending").toLowerCase()}
           </p>
         </div>
       </div>
@@ -35,9 +37,9 @@ const MyEntries = () => {
         ) : !entries || entries.length === 0 ? (
           <Card className="p-8 text-center">
             <Ticket className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No active entries</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("entries.noEntries")}</h3>
             <p className="text-muted-foreground mb-4">
-              Start entering draws to see them here
+              {t("entries.startEntering")}
             </p>
           </Card>
         ) : (
@@ -74,13 +76,13 @@ const MyEntries = () => {
                               : "secondary"
                           }
                         >
-                          {entry.status}
+                          {t(`entries.${entry.status}`)}
                         </Badge>
                       </div>
                       <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
                         <div className="flex items-center gap-1">
                           <Ticket className="w-3 h-3" />
-                          <span>{entry.tickets_spent} entries</span>
+                          <span>{entry.tickets_spent} {t("entries.ticketsSpent").toLowerCase()}</span>
                         </div>
                         <div className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />

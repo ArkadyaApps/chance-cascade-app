@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { formatDistanceToNow } from "date-fns";
 import { useWinners } from "@/hooks/useWinners";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 const Winners = () => {
+  const { t } = useTranslation();
   const { data: winners, isLoading } = useWinners();
   return (
     <div className="min-h-screen bg-background">
@@ -15,10 +17,10 @@ const Winners = () => {
         <div className="max-w-lg mx-auto">
           <div className="flex items-center gap-3 mb-2">
             <Trophy className="w-8 h-8 text-primary-foreground" />
-            <h1 className="text-2xl font-bold text-primary-foreground">Recent Winners</h1>
+            <h1 className="text-2xl font-bold text-primary-foreground">{t("winners.title")}</h1>
           </div>
           <p className="text-primary-foreground/80">
-            All draws are blockchain verified for transparency
+            {t("winners.congratulations")}
           </p>
         </div>
       </div>
@@ -66,7 +68,7 @@ const Winners = () => {
                         <h3 className="font-semibold">{winner.name}</h3>
                         <Badge variant="secondary" className="bg-accent/20">
                           <Trophy className="w-3 h-3 mr-1" />
-                          Winner
+                          {t("product.winner")}
                         </Badge>
                       </div>
                       <p className="text-sm text-muted-foreground">
@@ -101,9 +103,9 @@ const Winners = () => {
         ) : (
           <Card className="p-8 text-center">
             <Trophy className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-            <h3 className="text-lg font-semibold mb-2">No winners yet</h3>
+            <h3 className="text-lg font-semibold mb-2">{t("winners.noWinners")}</h3>
             <p className="text-muted-foreground">
-              Check back after the first draws complete
+              {t("winners.firstDraw")}
             </p>
           </Card>
         )}

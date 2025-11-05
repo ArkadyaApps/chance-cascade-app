@@ -19,8 +19,10 @@ import {
 import { toast } from "sonner";
 import { ArrowLeft, Trophy, Loader2, Copy, CheckCircle } from "lucide-react";
 import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const AdminDraws = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { data: products, refetch: refetchProducts } = useProducts();
   const { data: winners, refetch: refetchWinners } = useWinners();
@@ -43,7 +45,7 @@ const AdminDraws = () => {
 
       if (error) throw error;
 
-      toast.success("Draw completed successfully!", {
+      toast.success(t("admin.drawSuccess"), {
         description: `Winner selected with ${data.totalTickets} total tickets from ${data.totalEntries} entries.`,
       });
 
@@ -52,7 +54,7 @@ const AdminDraws = () => {
       setSelectedProduct(null);
     } catch (error: any) {
       console.error("Draw error:", error);
-      toast.error("Failed to complete draw", {
+      toast.error(t("common.error"), {
         description: error.message || "An error occurred",
       });
     } finally {
@@ -80,7 +82,7 @@ const AdminDraws = () => {
               <ArrowLeft className="w-5 h-5" />
             </Button>
             <h1 className="text-3xl font-bold text-primary-foreground">
-              Manage Draws
+              {t("admin.draws")}
             </h1>
           </div>
           <p className="text-primary-foreground/80 ml-14">
@@ -92,10 +94,10 @@ const AdminDraws = () => {
       <div className="max-w-6xl mx-auto p-6 space-y-8">
         {/* Active Draws Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Active Draws</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("admin.activeDraws")}</h2>
           {activeProducts.length === 0 ? (
             <Card className="p-8 text-center">
-              <p className="text-muted-foreground">No active draws available</p>
+              <p className="text-muted-foreground">{t("home.noProducts")}</p>
             </Card>
           ) : (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -138,7 +140,7 @@ const AdminDraws = () => {
                     ) : (
                       <>
                         <Trophy className="w-4 h-4 mr-2" />
-                        Trigger Draw
+                        {t("admin.triggerDraw")}
                       </>
                     )}
                   </Button>
@@ -150,10 +152,10 @@ const AdminDraws = () => {
 
         {/* Recent Winners Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-4">Recent Winners</h2>
+          <h2 className="text-2xl font-bold mb-4">{t("admin.recentWinners")}</h2>
           {!winners || winners.length === 0 ? (
             <Card className="p-8 text-center">
-              <p className="text-muted-foreground">No winners yet</p>
+              <p className="text-muted-foreground">{t("winners.noWinners")}</p>
             </Card>
           ) : (
             <div className="space-y-4">
@@ -217,16 +219,15 @@ const AdminDraws = () => {
       <AlertDialog open={showConfirm} onOpenChange={setShowConfirm}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Trigger Draw</AlertDialogTitle>
+            <AlertDialogTitle>{t("admin.triggerDraw")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to trigger the draw for this product? This
-              action will randomly select a winner and cannot be undone.
+              {t("admin.confirmDraw")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleTriggerDraw}>
-              Confirm Draw
+              {t("common.confirm")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

@@ -8,6 +8,7 @@ import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 const ticketPackages = [
   { tickets: 10, price: 9.99, popular: false },
@@ -17,6 +18,7 @@ const ticketPackages = [
 ];
 
 const Wallet = () => {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
   const { data: profile, isLoading: profileLoading } = useProfile();
@@ -31,12 +33,12 @@ const Wallet = () => {
       });
 
       toast({
-        title: "Purchase successful! 🎉",
-        description: `Added ${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} tickets to your wallet`,
+        title: t("common.success") + "! 🎉",
+        description: `${t("wallet.addTickets")}: ${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} ${t("wallet.tickets")}`,
       });
     } catch (error: any) {
       toast({
-        title: "Purchase failed",
+        title: t("common.error"),
         description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
@@ -48,13 +50,13 @@ const Wallet = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-accent p-6 pb-8">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground mb-6">My Wallet</h1>
+          <h1 className="text-2xl font-bold text-primary-foreground mb-6">{t("wallet.title")}</h1>
           
           {/* Balance Card */}
           <Card className="bg-card/95 backdrop-blur-sm border-none shadow-xl p-6">
             <div className="flex items-center gap-3 mb-2">
               <WalletIcon className="w-6 h-6 text-primary" />
-              <span className="text-sm text-muted-foreground">Available Tickets</span>
+              <span className="text-sm text-muted-foreground">{t("wallet.balance")}</span>
             </div>
             {profileLoading ? (
               <Skeleton className="h-12 w-32 mb-4" />
@@ -66,7 +68,7 @@ const Wallet = () => {
               onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
             >
               <Plus className="w-4 h-4 mr-2" />
-              Purchase Tickets
+              {t("wallet.addTickets")}
             </Button>
           </Card>
         </div>
@@ -75,7 +77,7 @@ const Wallet = () => {
       <div className="max-w-lg mx-auto p-4 space-y-6 -mt-4">
         {/* Ticket Packages */}
         <div id="packages" className="space-y-4">
-          <h2 className="text-xl font-semibold">Ticket Packages</h2>
+          <h2 className="text-xl font-semibold">{t("wallet.selectPackage")}</h2>
           <div className="grid grid-cols-2 gap-3">
             {ticketPackages.map((pkg, index) => (
               <Card
@@ -99,7 +101,7 @@ const Wallet = () => {
                 )}
                 <div className="text-center space-y-2">
                   <div className="text-3xl font-bold">{pkg.tickets}</div>
-                  <div className="text-xs text-muted-foreground">tickets</div>
+                  <div className="text-xs text-muted-foreground">{t("wallet.tickets")}</div>
                   <div className="text-lg font-semibold text-primary">
                     ${pkg.price}
                   </div>
@@ -115,10 +117,10 @@ const Wallet = () => {
                     {purchaseTickets.isPending ? (
                       <>
                         <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                        Processing...
+                        {t("common.loading")}
                       </>
                     ) : (
-                      "Buy Now"
+                      t("wallet.buyNow")
                     )}
                   </Button>
                 </div>
@@ -129,7 +131,7 @@ const Wallet = () => {
 
         {/* Transaction History */}
         <div className="space-y-4">
-          <h2 className="text-xl font-semibold">Recent Activity</h2>
+          <h2 className="text-xl font-semibold">{t("wallet.transactions")}</h2>
           <div className="space-y-2">
             {transactionsLoading ? (
               <>
@@ -183,7 +185,7 @@ const Wallet = () => {
               ))
             ) : (
               <Card className="p-8 text-center">
-                <p className="text-muted-foreground">No transactions yet</p>
+                <p className="text-muted-foreground">{t("wallet.noTransactions")}</p>
               </Card>
             )}
           </div>
