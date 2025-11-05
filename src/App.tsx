@@ -7,6 +7,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AdminRoute } from "@/components/auth/AdminRoute";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { DynamicBackground } from "@/components/layout/DynamicBackground";
+import { PageTransition } from "@/components/layout/PageTransition";
 import Index from "./pages/Index";
 import ProductDetail from "./pages/ProductDetail";
 import Wallet from "./pages/Wallet";
@@ -36,7 +38,9 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
+          <DynamicBackground />
+          <PageTransition>
+            <Routes>
             <Route path="/auth" element={<Auth />} />
             <Route
               path="/"
@@ -207,6 +211,7 @@ const App = () => (
             />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          </PageTransition>
           <BottomNav />
         </AuthProvider>
       </BrowserRouter>

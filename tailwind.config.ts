@@ -65,25 +65,53 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "page-enter": {
+          "0%": { opacity: "0", transform: "translateY(20px) scale(0.95)" },
+          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+        },
+        "page-exit": {
+          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          "100%": { opacity: "0", transform: "translateY(-20px) scale(0.95)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
+          "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.6)" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "200% center" },
+          "100%": { backgroundPosition: "-200% center" },
+        },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "gradient-shift": {
+          "0%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+          "100%": { backgroundPosition: "0% 50%" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "page-enter": "page-enter 0.4s ease-out",
+        "page-exit": "page-exit 0.3s ease-in",
+        "float": "float 3s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "shimmer": "shimmer 3s linear infinite",
+        "bounce-slow": "bounce-slow 2s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 8s ease infinite",
       },
     },
   },
