@@ -235,7 +235,16 @@ const ProductDetail = () => {
             <div className="text-center text-sm text-muted-foreground">
               Total cost: <span className="font-bold text-foreground">{totalCost} tickets</span>
               {' • '}
-              Your balance: <span className="font-bold text-foreground">{profile?.wallet_balance || 0} tickets</span>
+              Your balance: <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate('/wallet');
+                }}
+                className="font-bold text-primary hover:underline cursor-pointer inline-flex items-center gap-1"
+              >
+                {profile?.wallet_balance || 0} tickets
+                <Ticket className="w-3 h-3" />
+              </button>
             </div>
 
             <Button

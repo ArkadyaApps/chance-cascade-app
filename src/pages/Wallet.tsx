@@ -4,7 +4,7 @@ import { useWalletTransactions } from "@/hooks/useWallet";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader2 } from "lucide-react";
+import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader2, Sparkles, Ticket } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -54,68 +54,111 @@ const Wallet = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6 pb-8">
-        <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground mb-6">{t("wallet.title")}</h1>
+    <div className="min-h-screen bg-gradient-to-b from-background via-primary/5 to-background">
+      {/* Hero Header with Balance */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-primary via-primary to-accent pt-8 pb-24">
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDE2djJoLTJ2LTJoMnptMCAwaDJ2MmgtMnYtMnoiLz48L2c+PC9nPjwvc3ZnPg==')] opacity-30"></div>
+        
+        <div className="relative max-w-lg mx-auto px-4">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <WalletIcon className="w-8 h-8 text-primary-foreground" />
+            <h1 className="text-3xl font-bold text-primary-foreground">{t("wallet.title")}</h1>
+          </div>
           
-          {/* Balance Card */}
-          <Card className="bg-card/95 backdrop-blur-sm border-none shadow-xl p-6">
-            <div className="flex items-center gap-3 mb-2">
-              <WalletIcon className="w-6 h-6 text-primary" />
-              <span className="text-sm text-muted-foreground">{t("wallet.balance")}</span>
+          {/* Premium Balance Card */}
+          <Card className="bg-card/95 backdrop-blur-xl border-2 border-white/20 shadow-2xl overflow-hidden">
+            <div className="bg-gradient-to-br from-secondary/20 to-accent/10 p-6">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
+                  {t("wallet.balance")}
+                </span>
+                <Badge variant="outline" className="bg-background/50">
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Active
+                </Badge>
+              </div>
+              
+              {profileLoading ? (
+                <Skeleton className="h-16 w-48 mb-4" />
+              ) : (
+                <div className="flex items-baseline gap-2 mb-6">
+                  <div className="text-5xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                    {profile?.wallet_balance || 0}
+                  </div>
+                  <div className="text-muted-foreground font-medium">tickets</div>
+                </div>
+              )}
+              
+              <Button 
+                className="w-full h-12 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity text-base font-semibold shadow-lg"
+                onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                <Plus className="w-5 h-5 mr-2" />
+                {t("wallet.addTickets")}
+              </Button>
             </div>
-            {profileLoading ? (
-              <Skeleton className="h-12 w-32 mb-4" />
-            ) : (
-              <div className="text-4xl font-bold mb-4">{profile?.wallet_balance || 0}</div>
-            )}
-            <Button 
-              className="w-full bg-gradient-to-r from-primary to-accent"
-              onClick={() => document.getElementById('packages')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              <Plus className="w-4 h-4 mr-2" />
-              {t("wallet.addTickets")}
-            </Button>
           </Card>
         </div>
       </div>
 
-      <div className="max-w-lg mx-auto p-4 space-y-6 -mt-4">
+      <div className="max-w-lg mx-auto px-4 -mt-16 pb-8 space-y-8">
         {/* Ticket Packages */}
         <div id="packages" className="space-y-4">
-          <h2 className="text-xl font-semibold">{t("wallet.selectPackage")}</h2>
-          <div className="grid grid-cols-2 gap-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold">{t("wallet.selectPackage")}</h2>
+            <Badge variant="secondary" className="text-xs">
+              Best Value
+            </Badge>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-4">
             {ticketPackages.map((pkg, index) => (
               <Card
                 key={index}
-                className={`relative p-4 cursor-pointer transition-all ${
+                className={`relative p-5 cursor-pointer transition-all duration-300 hover:scale-105 ${
                   selectedPackage === index
-                    ? "ring-2 ring-primary shadow-lg"
-                    : "hover:shadow-md"
-                }`}
+                    ? "ring-2 ring-primary shadow-xl bg-primary/5"
+                    : "hover:shadow-lg"
+                } ${pkg.popular ? "border-2 border-primary" : ""}`}
                 onClick={() => setSelectedPackage(index)}
               >
                 {pkg.popular && (
-                  <Badge className="absolute -top-2 -right-2 bg-accent">
-                    Popular
-                  </Badge>
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-full px-2">
+                    <Badge className="w-full justify-center bg-gradient-to-r from-accent to-accent/80 text-xs font-bold shadow-lg">
+                      <Sparkles className="w-3 h-3 mr-1" />
+                      Most Popular
+                    </Badge>
+                  </div>
                 )}
+                
                 {pkg.bonus && (
-                  <Badge className="absolute -top-2 -left-2 bg-green-500">
-                    +{pkg.bonus} Bonus
+                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg z-10">
+                    +{pkg.bonus} Free
                   </Badge>
                 )}
-                <div className="text-center space-y-2">
-                  <div className="text-3xl font-bold">{pkg.tickets}</div>
-                  <div className="text-xs text-muted-foreground">{t("wallet.tickets")}</div>
-                  <div className="text-lg font-semibold text-primary">
+                
+                <div className="text-center space-y-3 pt-2">
+                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 mb-2">
+                    <Ticket className="w-8 h-8 text-primary" />
+                  </div>
+                  
+                  <div>
+                    <div className="text-3xl font-bold">{pkg.tickets}</div>
+                    {pkg.bonus && (
+                      <div className="text-xs text-green-600 font-semibold">
+                        + {pkg.bonus} bonus
+                      </div>
+                    )}
+                    <div className="text-xs text-muted-foreground mt-1">{t("wallet.tickets")}</div>
+                  </div>
+                  
+                  <div className="text-2xl font-bold text-primary">
                     ${pkg.price}
                   </div>
+                  
                   <Button
                     size="sm"
-                    className="w-full"
+                    className="w-full h-10 bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity font-semibold"
                     disabled={isProcessing}
                     onClick={(e) => {
                       e.stopPropagation();
@@ -124,7 +167,7 @@ const Wallet = () => {
                   >
                     {isProcessing ? (
                       <>
-                        <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         {t("common.loading")}
                       </>
                     ) : (
@@ -140,16 +183,19 @@ const Wallet = () => {
         {/* Transaction History */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">{t("wallet.transactions")}</h2>
+            <h2 className="text-2xl font-bold">{t("wallet.transactions")}</h2>
             <Button
               variant="ghost"
               size="sm"
+              className="text-primary hover:text-primary"
               onClick={() => window.location.href = "/payment-history"}
             >
               {t("wallet.viewAll")}
+              <ArrowUpRight className="w-4 h-4 ml-1" />
             </Button>
           </div>
-          <div className="space-y-2">
+          
+          <div className="space-y-3">
             {transactionsLoading ? (
               <>
                 {[1, 2, 3].map((i) => (
@@ -159,30 +205,30 @@ const Wallet = () => {
                 ))}
               </>
             ) : transactions && transactions.length > 0 ? (
-              transactions.map((transaction) => (
-                <Card key={transaction.id} className="p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3">
+              transactions.slice(0, 5).map((transaction) => (
+                <Card key={transaction.id} className="p-4 hover:shadow-md transition-shadow">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
                       <div
-                        className={`p-2 rounded-full ${
+                        className={`p-3 rounded-xl ${
                           transaction.type === "purchase"
-                            ? "bg-green-500/10"
+                            ? "bg-gradient-to-br from-green-500/20 to-green-600/10"
                             : transaction.type === "win"
-                            ? "bg-accent/10"
-                            : "bg-primary/10"
+                            ? "bg-gradient-to-br from-accent/20 to-accent/10"
+                            : "bg-gradient-to-br from-primary/20 to-primary/10"
                         }`}
                       >
                         {transaction.type === "purchase" ? (
-                          <ArrowDownLeft className="w-4 h-4 text-green-500" />
+                          <ArrowDownLeft className="w-5 h-5 text-green-600" />
                         ) : transaction.type === "win" ? (
-                          <Trophy className="w-4 h-4 text-accent" />
+                          <Trophy className="w-5 h-5 text-accent" />
                         ) : (
-                          <ArrowUpRight className="w-4 h-4 text-primary" />
+                          <ArrowUpRight className="w-5 h-5 text-primary" />
                         )}
                       </div>
                       <div>
-                        <div className="font-medium">{transaction.description}</div>
-                        <div className="text-xs text-muted-foreground">
+                        <div className="font-semibold">{transaction.description}</div>
+                        <div className="text-xs text-muted-foreground mt-0.5">
                           {formatDistanceToNow(new Date(transaction.created_at), {
                             addSuffix: true,
                           })}
@@ -190,8 +236,8 @@ const Wallet = () => {
                       </div>
                     </div>
                     <div
-                      className={`font-semibold ${
-                        transaction.amount > 0 ? "text-green-500" : "text-foreground"
+                      className={`text-lg font-bold ${
+                        transaction.amount > 0 ? "text-green-600" : "text-muted-foreground"
                       }`}
                     >
                       {transaction.amount > 0 ? "+" : ""}
@@ -201,8 +247,12 @@ const Wallet = () => {
                 </Card>
               ))
             ) : (
-              <Card className="p-8 text-center">
-                <p className="text-muted-foreground">{t("wallet.noTransactions")}</p>
+              <Card className="p-12 text-center bg-gradient-to-br from-secondary/30 to-accent/10">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-secondary/30 mb-4">
+                  <WalletIcon className="w-8 h-8 text-muted-foreground" />
+                </div>
+                <p className="text-muted-foreground font-medium">{t("wallet.noTransactions")}</p>
+                <p className="text-sm text-muted-foreground mt-2">Your transaction history will appear here</p>
               </Card>
             )}
           </div>
