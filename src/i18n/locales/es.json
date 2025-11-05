@@ -1,0 +1,85 @@
+{
+  "auth": {
+    "title": "Bienvenido a Lucksy",
+    "description": "Tu oportunidad de ganar premios increíbles",
+    "login": "Iniciar Sesión",
+    "signup": "Registrarse",
+    "email": "Correo Electrónico",
+    "password": "Contraseña",
+    "fullName": "Nombre Completo",
+    "loginButton": "Iniciar Sesión",
+    "signupButton": "Registrarse",
+    "loggingIn": "Iniciando sesión...",
+    "signingUp": "Registrando...",
+    "loginSuccess": "¡Inicio de sesión exitoso!",
+    "signupSuccess": "¡Cuenta creada exitosamente!"
+  },
+  "nav": {
+    "home": "Inicio",
+    "wallet": "Cartera",
+    "entries": "Mis Participaciones",
+    "winners": "Ganadores",
+    "profile": "Perfil"
+  },
+  "home": {
+    "hero": "Gana Premios Increíbles",
+    "subtitle": "Participa en sorteos para ganar productos increíbles",
+    "featured": "Sorteos Destacados",
+    "allDraws": "Todos los Sorteos Activos",
+    "viewDetails": "Ver Detalles"
+  },
+  "product": {
+    "ticketPrice": "Precio del Boleto",
+    "ticketsRequired": "Boletos Requeridos",
+    "ticketsSold": "Boletos Vendidos",
+    "drawDate": "Fecha del Sorteo",
+    "enterDraw": "Participar en el Sorteo",
+    "selectTickets": "Seleccionar Número de Boletos",
+    "total": "Total",
+    "confirm": "Confirmar Participación",
+    "cancel": "Cancelar"
+  },
+  "wallet": {
+    "title": "Mi Cartera",
+    "balance": "Saldo de Boletos",
+    "addTickets": "Agregar Boletos",
+    "transactions": "Transacciones Recientes",
+    "type": "Tipo",
+    "amount": "Cantidad",
+    "date": "Fecha",
+    "purchase": "Compra",
+    "entry": "Participación",
+    "win": "Ganancia"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "stats": "Estadísticas",
+    "totalEntries": "Total de Participaciones",
+    "totalWins": "Total de Ganancias",
+    "winRate": "Tasa de Victoria",
+    "editProfile": "Editar Perfil",
+    "signOut": "Cerrar Sesión"
+  },
+  "admin": {
+    "dashboard": "Panel de Administración",
+    "products": "Gestionar Productos",
+    "draws": "Gestionar Sorteos",
+    "entries": "Ver Participaciones",
+    "users": "Usuarios",
+    "revenue": "Ingresos",
+    "addProduct": "Agregar Producto",
+    "triggerDraw": "Iniciar Sorteo"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "export": "Exportar"
+  }
+}

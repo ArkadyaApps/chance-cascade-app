@@ -1,0 +1,85 @@
+{
+  "auth": {
+    "title": "Welcome to Lucksy",
+    "description": "Your chance to win amazing prizes",
+    "login": "Login",
+    "signup": "Sign Up",
+    "email": "Email",
+    "password": "Password",
+    "fullName": "Full Name",
+    "loginButton": "Login",
+    "signupButton": "Sign Up",
+    "loggingIn": "Logging in...",
+    "signingUp": "Signing up...",
+    "loginSuccess": "Login successful!",
+    "signupSuccess": "Account created successfully!"
+  },
+  "nav": {
+    "home": "Home",
+    "wallet": "Wallet",
+    "entries": "My Entries",
+    "winners": "Winners",
+    "profile": "Profile"
+  },
+  "home": {
+    "hero": "Win Amazing Prizes",
+    "subtitle": "Enter draws for your chance to win incredible products",
+    "featured": "Featured Draws",
+    "allDraws": "All Active Draws",
+    "viewDetails": "View Details"
+  },
+  "product": {
+    "ticketPrice": "Ticket Price",
+    "ticketsRequired": "Tickets Required",
+    "ticketsSold": "Tickets Sold",
+    "drawDate": "Draw Date",
+    "enterDraw": "Enter Draw",
+    "selectTickets": "Select Number of Tickets",
+    "total": "Total",
+    "confirm": "Confirm Entry",
+    "cancel": "Cancel"
+  },
+  "wallet": {
+    "title": "My Wallet",
+    "balance": "Ticket Balance",
+    "addTickets": "Add Tickets",
+    "transactions": "Recent Transactions",
+    "type": "Type",
+    "amount": "Amount",
+    "date": "Date",
+    "purchase": "Purchase",
+    "entry": "Entry",
+    "win": "Win"
+  },
+  "profile": {
+    "title": "My Profile",
+    "stats": "Statistics",
+    "totalEntries": "Total Entries",
+    "totalWins": "Total Wins",
+    "winRate": "Win Rate",
+    "editProfile": "Edit Profile",
+    "signOut": "Sign Out"
+  },
+  "admin": {
+    "dashboard": "Admin Dashboard",
+    "products": "Manage Products",
+    "draws": "Manage Draws",
+    "entries": "View Entries",
+    "users": "Users",
+    "revenue": "Revenue",
+    "addProduct": "Add Product",
+    "triggerDraw": "Trigger Draw"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "close": "Close",
+    "search": "Search",
+    "filter": "Filter",
+    "export": "Export"
+  }
+}

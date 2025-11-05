@@ -11,6 +11,8 @@ import { z } from "zod";
 import { useAuth } from "@/contexts/AuthContext";
 import { Ticket, Lock, Mail, User, Loader2 } from "lucide-react";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }).max(255),
@@ -24,6 +26,7 @@ const signupSchema = z.object({
 });
 
 const Auth = () => {
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -54,11 +57,11 @@ const Auth = () => {
 
       if (error) {
         if (error.message.includes("Invalid login credentials")) {
-          toast({
-            title: "Login failed",
-            description: "Invalid email or password. Please try again.",
-            variant: "destructive",
-          });
+      toast({
+        title: t("common.error"),
+        description: "Invalid email or password. Please try again.",
+        variant: "destructive",
+      });
         } else {
           toast({
             title: "Login failed",
@@ -70,7 +73,7 @@ const Auth = () => {
       }
 
       toast({
-        title: "Welcome back!",
+        title: t("auth.loginSuccess"),
         description: "You've successfully logged in.",
       });
       
@@ -129,7 +132,7 @@ const Auth = () => {
       }
 
       toast({
-        title: "Account created!",
+        title: t("auth.signupSuccess"),
         description: "Welcome to Lucksy! You can now start entering draws.",
       });
 
@@ -149,27 +152,30 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/10 via-background to-accent/10 flex items-center justify-center p-4">
+      <div className="absolute top-4 right-4">
+        <LanguageSwitcher />
+      </div>
       <Card className="w-full max-w-md p-8">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-primary to-accent mb-4">
             <Ticket className="w-8 h-8 text-primary-foreground" />
           </div>
-          <h1 className="text-3xl font-bold mb-2">Welcome to Lucksy</h1>
+          <h1 className="text-3xl font-bold mb-2">{t("auth.title")}</h1>
           <p className="text-muted-foreground">
-            Your gateway to winning amazing prizes
+            {t("auth.description")}
           </p>
         </div>
 
         <Tabs defaultValue="login" className="w-full">
           <TabsList className="grid w-full grid-cols-2 mb-6">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
+            <TabsTrigger value="login">{t("auth.login")}</TabsTrigger>
+            <TabsTrigger value="signup">{t("auth.signup")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="login">
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="login-email">Email</Label>
+                <Label htmlFor="login-email">{t("auth.email")}</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
@@ -185,7 +191,7 @@ const Auth = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="login-password">Password</Label>
+                <Label htmlFor="login-password">{t("auth.password")}</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
@@ -208,10 +214,10 @@ const Auth = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Logging in...
+                    {t("auth.loggingIn")}
                   </>
                 ) : (
-                  "Login"
+                  t("auth.loginButton")
                 )}
               </Button>
             </form>
@@ -220,7 +226,7 @@ const Auth = () => {
           <TabsContent value="signup">
             <form onSubmit={handleSignup} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="signup-name">Full Name</Label>
+                <Label htmlFor="signup-name">{t("auth.fullName")}</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
@@ -236,7 +242,7 @@ const Auth = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="signup-email">Email</Label>
+                <Label htmlFor="signup-email">{t("auth.email")}</Label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
@@ -252,7 +258,7 @@ const Auth = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="signup-password">Password</Label>
+                <Label htmlFor="signup-password">{t("auth.password")}</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
                   <Input
@@ -278,10 +284,10 @@ const Auth = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creating account...
+                    {t("auth.signingUp")}
                   </>
                 ) : (
-                  "Create Account"
+                  t("auth.signupButton")
                 )}
               </Button>
             </form>

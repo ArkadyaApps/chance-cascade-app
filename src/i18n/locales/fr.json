@@ -1,0 +1,85 @@
+{
+  "auth": {
+    "title": "Bienvenue sur Lucksy",
+    "description": "Votre chance de gagner des prix incroyables",
+    "login": "Connexion",
+    "signup": "Inscription",
+    "email": "Email",
+    "password": "Mot de passe",
+    "fullName": "Nom complet",
+    "loginButton": "Se connecter",
+    "signupButton": "S'inscrire",
+    "loggingIn": "Connexion en cours...",
+    "signingUp": "Inscription en cours...",
+    "loginSuccess": "Connexion réussie!",
+    "signupSuccess": "Compte créé avec succès!"
+  },
+  "nav": {
+    "home": "Accueil",
+    "wallet": "Portefeuille",
+    "entries": "Mes Participations",
+    "winners": "Gagnants",
+    "profile": "Profil"
+  },
+  "home": {
+    "hero": "Gagnez des Prix Incroyables",
+    "subtitle": "Participez aux tirages pour gagner des produits exceptionnels",
+    "featured": "Tirages En Vedette",
+    "allDraws": "Tous les Tirages Actifs",
+    "viewDetails": "Voir les Détails"
+  },
+  "product": {
+    "ticketPrice": "Prix du Ticket",
+    "ticketsRequired": "Tickets Requis",
+    "ticketsSold": "Tickets Vendus",
+    "drawDate": "Date du Tirage",
+    "enterDraw": "Participer au Tirage",
+    "selectTickets": "Sélectionner le Nombre de Tickets",
+    "total": "Total",
+    "confirm": "Confirmer la Participation",
+    "cancel": "Annuler"
+  },
+  "wallet": {
+    "title": "Mon Portefeuille",
+    "balance": "Solde de Tickets",
+    "addTickets": "Ajouter des Tickets",
+    "transactions": "Transactions Récentes",
+    "type": "Type",
+    "amount": "Montant",
+    "date": "Date",
+    "purchase": "Achat",
+    "entry": "Participation",
+    "win": "Gain"
+  },
+  "profile": {
+    "title": "Mon Profil",
+    "stats": "Statistiques",
+    "totalEntries": "Total des Participations",
+    "totalWins": "Total des Gains",
+    "winRate": "Taux de Victoire",
+    "editProfile": "Modifier le Profil",
+    "signOut": "Se Déconnecter"
+  },
+  "admin": {
+    "dashboard": "Tableau de Bord Admin",
+    "products": "Gérer les Produits",
+    "draws": "Gérer les Tirages",
+    "entries": "Voir les Participations",
+    "users": "Utilisateurs",
+    "revenue": "Revenus",
+    "addProduct": "Ajouter un Produit",
+    "triggerDraw": "Lancer le Tirage"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "export": "Exporter"
+  }
+}

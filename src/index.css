@@ -114,4 +114,13 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+
+  /* RTL support for Arabic */
+  [dir="rtl"] {
+    direction: rtl;
+  }
+
+  [dir="rtl"] .rtl\:mirror {
+    transform: scaleX(-1);
+  }
 }

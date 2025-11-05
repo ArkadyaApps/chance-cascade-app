@@ -1,0 +1,85 @@
+{
+  "auth": {
+    "title": "مرحباً بك في لاكسي",
+    "description": "فرصتك للفوز بجوائز مذهلة",
+    "login": "تسجيل الدخول",
+    "signup": "إنشاء حساب",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "fullName": "الاسم الكامل",
+    "loginButton": "تسجيل الدخول",
+    "signupButton": "إنشاء حساب",
+    "loggingIn": "جاري تسجيل الدخول...",
+    "signingUp": "جاري إنشاء الحساب...",
+    "loginSuccess": "تم تسجيل الدخول بنجاح!",
+    "signupSuccess": "تم إنشاء الحساب بنجاح!"
+  },
+  "nav": {
+    "home": "الرئيسية",
+    "wallet": "المحفظة",
+    "entries": "مشاركاتي",
+    "winners": "الفائزون",
+    "profile": "الملف الشخصي"
+  },
+  "home": {
+    "hero": "اربح جوائز مذهلة",
+    "subtitle": "شارك في السحوبات للفوز بمنتجات رائعة",
+    "featured": "السحوبات المميزة",
+    "allDraws": "جميع السحوبات النشطة",
+    "viewDetails": "عرض التفاصيل"
+  },
+  "product": {
+    "ticketPrice": "سعر التذكرة",
+    "ticketsRequired": "التذاكر المطلوبة",
+    "ticketsSold": "التذاكر المباعة",
+    "drawDate": "تاريخ السحب",
+    "enterDraw": "الدخول في السحب",
+    "selectTickets": "اختر عدد التذاكر",
+    "total": "الإجمالي",
+    "confirm": "تأكيد المشاركة",
+    "cancel": "إلغاء"
+  },
+  "wallet": {
+    "title": "محفظتي",
+    "balance": "رصيد التذاكر",
+    "addTickets": "إضافة تذاكر",
+    "transactions": "المعاملات الأخيرة",
+    "type": "النوع",
+    "amount": "المبلغ",
+    "date": "التاريخ",
+    "purchase": "شراء",
+    "entry": "مشاركة",
+    "win": "فوز"
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "stats": "الإحصائيات",
+    "totalEntries": "إجمالي المشاركات",
+    "totalWins": "إجمالي الانتصارات",
+    "winRate": "معدل الفوز",
+    "editProfile": "تعديل الملف الشخصي",
+    "signOut": "تسجيل الخروج"
+  },
+  "admin": {
+    "dashboard": "لوحة التحكم",
+    "products": "إدارة المنتجات",
+    "draws": "إدارة السحوبات",
+    "entries": "عرض المشاركات",
+    "users": "المستخدمون",
+    "revenue": "الإيرادات",
+    "addProduct": "إضافة منتج",
+    "triggerDraw": "بدء السحب"
+  },
+  "common": {
+    "loading": "جاري التحميل...",
+    "error": "خطأ",
+    "success": "نجح",
+    "save": "حفظ",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "close": "إغلاق",
+    "search": "بحث",
+    "filter": "تصفية",
+    "export": "تصدير"
+  }
+}
