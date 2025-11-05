@@ -19,56 +19,52 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <div
       onClick={() => navigate(`/product/${product.id}`)}
-      className="bg-card rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-border"
+      className="bg-card rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-border"
     >
       {/* Product Image */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-square overflow-hidden">
         <img
           src={product.images[0]}
           alt={product.name}
           className="w-full h-full object-cover"
         />
         {product.featured && (
-          <Badge className="absolute top-3 left-3 bg-accent">Featured</Badge>
+          <Badge className="absolute top-2 left-2 text-xs bg-accent">Featured</Badge>
         )}
-        <Badge className="absolute top-3 right-3 bg-secondary">
+        <Badge className="absolute top-2 right-2 text-xs bg-secondary">
           {product.category}
         </Badge>
       </div>
 
       {/* Product Info */}
-      <div className="p-4 space-y-3">
+      <div className="p-3 space-y-2">
         <div>
-          <h3 className="font-semibold text-lg mb-1">{product.name}</h3>
-          <p className="text-sm text-muted-foreground line-clamp-2">
+          <h3 className="font-semibold text-sm mb-0.5 line-clamp-1">{product.name}</h3>
+          <p className="text-xs text-muted-foreground line-clamp-1">
             {product.description}
           </p>
         </div>
 
         {/* Progress Bar */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-muted-foreground">Draw Progress</span>
-            <span className="font-medium">
+        <div className="space-y-1">
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">Progress</span>
+            <span className="font-medium text-xs">
               {product.tickets_sold}/{product.tickets_required}
             </span>
           </div>
-          <Progress value={progress} className="h-2" />
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <span>{ticketsRemaining} tickets remaining</span>
-            <span>{Math.round(progress)}% sold</span>
-          </div>
+          <Progress value={progress} className="h-1.5" />
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-border">
-          <div className="flex items-center gap-1 text-sm">
-            <Ticket className="w-4 h-4 text-primary" />
-            <span className="font-semibold">{product.ticket_price} ticket{product.ticket_price > 1 ? 's' : ''}</span>
+        <div className="flex items-center justify-between pt-1.5 border-t border-border">
+          <div className="flex items-center gap-1 text-xs">
+            <Ticket className="w-3 h-3 text-primary" />
+            <span className="font-semibold">{product.ticket_price}</span>
           </div>
-          <div className="flex items-center gap-1 text-sm text-muted-foreground">
-            <Clock className="w-4 h-4" />
-            <span>{formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}</span>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground">
+            <Clock className="w-3 h-3" />
+            <span className="line-clamp-1">{formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}</span>
           </div>
         </div>
       </div>

@@ -41,7 +41,7 @@ const Index = () => {
       </div>
 
       {/* Products Grid */}
-      <div className="max-w-lg mx-auto p-4 space-y-4">
+      <div className="max-w-7xl mx-auto p-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">{t("home.allDraws")}</h2>
           <span className="text-sm text-muted-foreground">
@@ -50,24 +50,26 @@ const Index = () => {
         </div>
         
         {isLoading ? (
-          <>
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="space-y-3">
-                <Skeleton className="h-48 w-full rounded-2xl" />
-                <Skeleton className="h-4 w-3/4" />
-                <Skeleton className="h-4 w-1/2" />
+          <div className="grid grid-cols-3 gap-3">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="space-y-2">
+                <Skeleton className="h-32 w-full rounded-xl" />
+                <Skeleton className="h-3 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
               </div>
             ))}
-          </>
+          </div>
         ) : products && products.length > 0 ? (
-          products
-            .filter(product => 
-              product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-              product.category.toLowerCase().includes(searchQuery.toLowerCase())
-            )
-            .map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))
+          <div className="grid grid-cols-3 gap-3">
+            {products
+              .filter(product => 
+                product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                product.category.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+          </div>
         ) : (
           <div className="text-center py-12">
             <p className="text-muted-foreground">{t("home.noProducts")}</p>
