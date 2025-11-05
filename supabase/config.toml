@@ -2,3 +2,6 @@ project_id = "hvfelpmrlexkntkgotpt"
 
 [functions.stripe-webhook]
 verify_jwt = false
+
+[functions.daily-spin-reward]
+verify_jwt = true

@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.57.2";
+import { z } from "https://deno.land/x/zod@v3.22.4/mod.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -23,6 +24,21 @@ serve(async (req) => {
       }
     );
 
+    const partnerInquirySchema = z.object({
+      companyName: z.string().trim().min(2).max(100),
+      contactName: z.string().trim().min(2).max(100),
+      email: z.string().trim().email().max(255),
+      phone: z.string().trim().min(10).max(20),
+      website: z.string().url().max(255).optional().or(z.literal("")).nullable(),
+      productCategory: z.string().trim().min(2).max(100),
+      message: z.string().trim().min(20).max(1000),
+    });
+
+    const body = await req.json();
+    
+    // Validate and sanitize inputs
+    const validated = partnerInquirySchema.parse(body);
+    
     const {
       companyName,
       contactName,
@@ -31,14 +47,9 @@ serve(async (req) => {
       website,
       productCategory,
       message,
-    } = await req.json();
+    } = validated;
 
     console.log("Received partner inquiry from:", email);
-
-    // Validate required fields
-    if (!companyName || !contactName || !email || !phone || !productCategory || !message) {
-      throw new Error("Missing required fields");
-    }
 
     // Insert inquiry into database
     const { data, error } = await supabase

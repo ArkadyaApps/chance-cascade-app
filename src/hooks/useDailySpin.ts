@@ -96,36 +96,15 @@ export const useDailySpin = () => {
     mutationFn: async () => {
       if (!user?.id) throw new Error("Not authenticated");
 
-      // Get current balance
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("wallet_balance")
-        .eq("id", user.id)
-        .single();
+      // Call edge function to handle wallet update server-side
+      const { data, error } = await supabase.functions.invoke("daily-spin-reward", {
+        body: { wonTicket: true },
+      });
 
-      if (!profile) throw new Error("Profile not found");
+      if (error) throw error;
+      if (!data.success) throw new Error("Failed to add ticket");
 
-      // Add 1 ticket to wallet
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .update({
-          wallet_balance: profile.wallet_balance + 1,
-        })
-        .eq("id", user.id);
-
-      if (profileError) throw profileError;
-
-      // Create transaction record
-      const { error: transactionError } = await supabase
-        .from("wallet_transactions")
-        .insert({
-          user_id: user.id,
-          type: "purchase",
-          amount: 1,
-          description: "Daily wheel reward",
-        });
-
-      if (transactionError) throw transactionError;
+      return data.newBalance;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user?.id] });
