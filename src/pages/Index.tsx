@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { useScrollParallax } from "@/hooks/useParallax";
 import logo from "@/assets/logo.png";
+import { FloatingHelpBubble } from "@/components/layout/FloatingHelpBubble";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -206,6 +207,9 @@ const Index = () => {
           </div>
         )}
       </div>
+
+      {/* Floating Help Bubble */}
+      <FloatingHelpBubble />
     </div>
   );
 };
