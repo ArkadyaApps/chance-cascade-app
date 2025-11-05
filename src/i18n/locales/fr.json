@@ -190,6 +190,15 @@
     "no": "Non",
     "all": "Tous",
     "actions": "Actions",
-    "view": "Voir"
+    "view": "Voir",
+    "back": "Retour",
+    "category": "Catégorie",
+    "allCategories": "Toutes les Catégories",
+    "sortBy": "Trier Par",
+    "featured": "En Vedette",
+    "priceLowToHigh": "Prix: Croissant",
+    "priceHighToLow": "Prix: Décroissant",
+    "drawDateSoon": "Date du Tirage: Le Plus Proche",
+    "drawDateLater": "Date du Tirage: Le Plus Lointain"
   }
 }

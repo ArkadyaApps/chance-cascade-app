@@ -190,6 +190,15 @@
     "no": "No",
     "all": "Todos",
     "actions": "Acciones",
-    "view": "Ver"
+    "view": "Ver",
+    "back": "Volver",
+    "category": "Categoría",
+    "allCategories": "Todas las Categorías",
+    "sortBy": "Ordenar Por",
+    "featured": "Destacados",
+    "priceLowToHigh": "Precio: Menor a Mayor",
+    "priceHighToLow": "Precio: Mayor a Menor",
+    "drawDateSoon": "Fecha de Sorteo: Próximo",
+    "drawDateLater": "Fecha de Sorteo: Lejano"
   }
 }

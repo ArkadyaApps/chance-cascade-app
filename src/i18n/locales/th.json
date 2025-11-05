@@ -190,6 +190,15 @@
     "no": "ไม่",
     "all": "ทั้งหมด",
     "actions": "การดำเนินการ",
-    "view": "ดู"
+    "view": "ดู",
+    "back": "กลับ",
+    "category": "หมวดหมู่",
+    "allCategories": "ทุกหมวดหมู่",
+    "sortBy": "จัดเรียงตาม",
+    "featured": "แนะนำ",
+    "priceLowToHigh": "ราคา: ต่ำไปสูง",
+    "priceHighToLow": "ราคา: สูงไปต่ำ",
+    "drawDateSoon": "วันที่จับรางวัล: เร็วสุด",
+    "drawDateLater": "วันที่จับรางวัล: ไกลสุด"
   }
 }

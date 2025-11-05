@@ -190,6 +190,15 @@
     "no": "لا",
     "all": "الكل",
     "actions": "الإجراءات",
-    "view": "عرض"
+    "view": "عرض",
+    "back": "رجوع",
+    "category": "الفئة",
+    "allCategories": "كل الفئات",
+    "sortBy": "ترتيب حسب",
+    "featured": "مميز",
+    "priceLowToHigh": "السعر: من الأقل إلى الأعلى",
+    "priceHighToLow": "السعر: من الأعلى إلى الأقل",
+    "drawDateSoon": "تاريخ السحب: الأقرب",
+    "drawDateLater": "تاريخ السحب: الأبعد"
   }
 }

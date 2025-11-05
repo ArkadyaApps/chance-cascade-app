@@ -237,6 +237,14 @@
     "all": "All",
     "actions": "Actions",
     "view": "View",
-    "back": "Back"
+    "back": "Back",
+    "category": "Category",
+    "allCategories": "All Categories",
+    "sortBy": "Sort By",
+    "featured": "Featured",
+    "priceLowToHigh": "Price: Low to High",
+    "priceHighToLow": "Price: High to Low",
+    "drawDateSoon": "Draw Date: Soonest",
+    "drawDateLater": "Draw Date: Latest"
   }
 }
