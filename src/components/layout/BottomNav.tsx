@@ -5,6 +5,11 @@ import { cn } from "@/lib/utils";
 export const BottomNav = () => {
   const location = useLocation();
   
+  // Don't show nav on auth page
+  if (location.pathname === "/auth") {
+    return null;
+  }
+  
   const navItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Wallet, label: "Wallet", path: "/wallet" },

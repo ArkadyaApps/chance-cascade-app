@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useAuth } from "@/contexts/AuthContext";
 import { 
   User, 
   Wallet, 
@@ -15,12 +16,18 @@ import {
 import { mockWalletBalance, mockUserEntries } from "@/lib/mockData";
 
 const Profile = () => {
+  const { user, signOut } = useAuth();
+  
   const menuItems = [
     { icon: Settings, label: "Account Settings", action: () => {} },
     { icon: Bell, label: "Notifications", action: () => {} },
     { icon: Shield, label: "Security & Privacy", action: () => {} },
     { icon: HelpCircle, label: "Help & Support", action: () => {} },
   ];
+
+  const getInitials = (email: string) => {
+    return email.substring(0, 2).toUpperCase();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -34,12 +41,12 @@ const Profile = () => {
             <div className="flex items-center gap-4 mb-6">
               <Avatar className="w-16 h-16 border-2 border-primary">
                 <AvatarFallback className="bg-primary text-primary-foreground text-xl">
-                  JD
+                  {user ? getInitials(user.email || "") : "U"}
                 </AvatarFallback>
               </Avatar>
               <div>
-                <h2 className="text-xl font-bold">John Doe</h2>
-                <p className="text-sm text-muted-foreground">john.doe@example.com</p>
+                <h2 className="text-xl font-bold">{user?.user_metadata?.full_name || "User"}</h2>
+                <p className="text-sm text-muted-foreground">{user?.email}</p>
               </div>
             </div>
 
@@ -89,6 +96,7 @@ const Profile = () => {
         {/* Logout Button */}
         <Button
           variant="outline"
+          onClick={signOut}
           className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
           <LogOut className="w-5 h-5 mr-3" />
