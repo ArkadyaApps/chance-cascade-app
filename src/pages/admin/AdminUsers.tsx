@@ -19,16 +19,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { Search, Shield, Ban, Download, Filter } from "lucide-react";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Search, Shield, Download, Filter, UserCog } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,8 +53,8 @@ const AdminUsers = () => {
   const queryClient = useQueryClient();
   const [searchQuery, setSearchQuery] = useState("");
   const [roleFilter, setRoleFilter] = useState<string>("all");
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+  const [roleDialogOpen, setRoleDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState<Profile | null>(null);
 
   // Fetch profiles
   const { data: profiles, isLoading: profilesLoading } = useQuery({
@@ -137,6 +135,51 @@ const AdminUsers = () => {
     });
   };
 
+  // Update user role
+  const manageRoleMutation = useMutation({
+    mutationFn: async ({ userId, role, action }: { userId: string; role: string; action: "add" | "remove" }) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const response = await fetch(`${import.meta.env.VITE_SUPABASE_URL}/functions/v1/manage-user-role`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${session.access_token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ targetUserId: userId, role, action }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || "Failed to manage role");
+      }
+
+      return response.json();
+    },
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ["user-roles"] });
+      toast({
+        title: "Role updated",
+        description: `Role ${variables.role} ${variables.action === "add" ? "added" : "removed"} successfully`,
+      });
+      setRoleDialogOpen(false);
+      setSelectedUser(null);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to update role",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleRoleChange = (role: string, action: "add" | "remove") => {
+    if (!selectedUser) return;
+    manageRoleMutation.mutate({ userId: selectedUser.id, role, action });
+  };
+
   // Update wallet balance
   const updateBalanceMutation = useMutation({
     mutationFn: async ({ userId, amount }: { userId: string; amount: number }) => {
@@ -194,6 +237,7 @@ const AdminUsers = () => {
             <SelectContent className="bg-popover z-50">
               <SelectItem value="all">All Roles</SelectItem>
               <SelectItem value="admin">Admin</SelectItem>
+              <SelectItem value="moderator">Moderator</SelectItem>
               <SelectItem value="user">User</SelectItem>
             </SelectContent>
           </Select>
@@ -277,6 +321,17 @@ const AdminUsers = () => {
                           size="sm"
                           variant="outline"
                           onClick={() => {
+                            setSelectedUser(user);
+                            setRoleDialogOpen(true);
+                          }}
+                        >
+                          <UserCog className="w-4 h-4 mr-1" />
+                          Roles
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
                             const amount = prompt(`Enter new balance for ${user.email}:`, user.wallet_balance.toString());
                             if (amount && !isNaN(Number(amount))) {
                               updateBalanceMutation.mutate({ userId: user.id, amount: Number(amount) });
@@ -295,23 +350,111 @@ const AdminUsers = () => {
         )}
       </Card>
 
-      {/* Delete Dialog */}
-      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the user account.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction className="bg-destructive hover:bg-destructive/90">
-              Delete User
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {/* Role Management Dialog */}
+      <Dialog open={roleDialogOpen} onOpenChange={setRoleDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Manage User Roles</DialogTitle>
+            <DialogDescription>
+              {selectedUser && (
+                <>
+                  Assign or remove roles for <strong>{selectedUser.email}</strong>
+                </>
+              )}
+            </DialogDescription>
+          </DialogHeader>
+
+          {selectedUser && (
+            <div className="space-y-4 py-4">
+              <div className="space-y-2">
+                <h4 className="font-medium text-sm">Current Roles</h4>
+                <div className="flex gap-2 flex-wrap">
+                  {userRoles?.filter(r => r.user_id === selectedUser.id).length === 0 ? (
+                    <Badge variant="secondary">user (default)</Badge>
+                  ) : (
+                    userRoles
+                      ?.filter(r => r.user_id === selectedUser.id)
+                      .map(role => (
+                        <Badge key={role.role} variant="default" className="gap-2">
+                          {role.role === "admin" && <Shield className="w-3 h-3" />}
+                          {role.role}
+                        </Badge>
+                      ))
+                  )}
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h4 className="font-medium text-sm">Available Actions</h4>
+                
+                {/* Admin Role */}
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <div className="font-medium flex items-center gap-2">
+                      <Shield className="w-4 h-4 text-primary" />
+                      Admin
+                    </div>
+                    <p className="text-xs text-muted-foreground">Full system access</p>
+                  </div>
+                  {getUserRole(selectedUser.id) === "admin" ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleRoleChange("admin", "remove")}
+                      disabled={manageRoleMutation.isPending}
+                    >
+                      Remove
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      onClick={() => handleRoleChange("admin", "add")}
+                      disabled={manageRoleMutation.isPending}
+                    >
+                      Grant
+                    </Button>
+                  )}
+                </div>
+
+                {/* Moderator Role */}
+                <div className="flex items-center justify-between p-3 border rounded-lg">
+                  <div>
+                    <div className="font-medium flex items-center gap-2">
+                      <UserCog className="w-4 h-4 text-blue-500" />
+                      Moderator
+                    </div>
+                    <p className="text-xs text-muted-foreground">Moderate content and users</p>
+                  </div>
+                  {getUserRole(selectedUser.id) === "moderator" ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => handleRoleChange("moderator", "remove")}
+                      disabled={manageRoleMutation.isPending}
+                    >
+                      Remove
+                    </Button>
+                  ) : (
+                    <Button
+                      size="sm"
+                      onClick={() => handleRoleChange("moderator", "add")}
+                      disabled={manageRoleMutation.isPending}
+                    >
+                      Grant
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRoleDialogOpen(false)}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
