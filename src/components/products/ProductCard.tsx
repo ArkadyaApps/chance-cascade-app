@@ -1,9 +1,9 @@
 import { Database } from "@/integrations/supabase/types";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Clock, Ticket } from "lucide-react";
+import { Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
+import { CountdownTimer } from "./CountdownTimer";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
@@ -57,15 +57,14 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-1.5 border-t border-border">
-          <div className="flex items-center gap-1 text-xs">
-            <Ticket className="w-3 h-3 text-primary" />
-            <span className="font-semibold">{product.ticket_price}</span>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between pt-1.5 border-t border-border">
+            <div className="flex items-center gap-1 text-xs">
+              <Ticket className="w-3 h-3 text-primary" />
+              <span className="font-semibold">{product.ticket_price}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <Clock className="w-3 h-3" />
-            <span className="line-clamp-1">{formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}</span>
-          </div>
+          <CountdownTimer targetDate={product.draw_date} compact />
         </div>
       </div>
     </div>
