@@ -6,6 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { CountdownTimer } from "./CountdownTimer";
 import { useMouseParallax } from "@/hooks/useParallax";
 import { useRef } from "react";
+import { useTranslateProduct } from "@/hooks/useTranslateProduct";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
@@ -20,6 +22,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   
   const cardParallax = useMouseParallax({ ref: cardRef, intensity: 8 });
   const imageParallax = useMouseParallax({ ref: imageRef, intensity: 12 });
+  
+  const { translatedProduct, isTranslating } = useTranslateProduct(product);
   
   const progress = (product.tickets_sold / product.tickets_required) * 100;
   const ticketsRemaining = product.tickets_required - product.tickets_sold;
@@ -54,10 +58,21 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       {/* Product Info */}
       <div className="p-3 space-y-2">
         <div>
-          <h3 className="font-semibold text-sm mb-0.5 line-clamp-1">{product.name}</h3>
-          <p className="text-xs text-muted-foreground line-clamp-1">
-            {product.description}
-          </p>
+          {isTranslating ? (
+            <>
+              <Skeleton className="h-4 w-3/4 mb-1" />
+              <Skeleton className="h-3 w-full" />
+            </>
+          ) : (
+            <>
+              <h3 className="font-semibold text-sm mb-0.5 line-clamp-1">
+                {translatedProduct?.translatedName || product.name}
+              </h3>
+              <p className="text-xs text-muted-foreground line-clamp-1">
+                {translatedProduct?.translatedDescription || product.description}
+              </p>
+            </>
+          )}
         </div>
 
         {/* Progress Bar */}

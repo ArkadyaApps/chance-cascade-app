@@ -11,6 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CountdownTimer } from "@/components/products/CountdownTimer";
 import logo from "@/assets/logo.png";
+import { useTranslateProduct } from "@/hooks/useTranslateProduct";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -20,6 +21,7 @@ const ProductDetail = () => {
   const { data: profile } = useProfile();
   const createEntry = useCreateEntry();
   const [ticketCount, setTicketCount] = useState(1);
+  const { translatedProduct, isTranslating } = useTranslateProduct(product || null);
 
   if (isLoading) {
     return (
@@ -114,10 +116,27 @@ const ProductDetail = () => {
         <div className="p-4 space-y-6">
           <div>
             <div className="flex items-start justify-between mb-2">
-              <h2 className="text-2xl font-bold">{product.name}</h2>
-              <Badge variant="secondary">{product.category}</Badge>
+              {isTranslating ? (
+                <>
+                  <Skeleton className="h-8 w-2/3" />
+                  <Skeleton className="h-6 w-20" />
+                </>
+              ) : (
+                <>
+                  <h2 className="text-2xl font-bold">
+                    {translatedProduct?.translatedName || product.name}
+                  </h2>
+                  <Badge variant="secondary">{product.category}</Badge>
+                </>
+              )}
             </div>
-            <p className="text-muted-foreground">{product.description}</p>
+            {isTranslating ? (
+              <Skeleton className="h-4 w-full mt-2" />
+            ) : (
+              <p className="text-muted-foreground">
+                {translatedProduct?.translatedDescription || product.description}
+              </p>
+            )}
           </div>
 
           {/* Partner Information */}
@@ -141,39 +160,50 @@ const ProductDetail = () => {
                 )}
                 <div className="flex-1 min-w-0">
                   <div className="text-xs text-muted-foreground mb-1">Offered by</div>
-                  {product.partner_website ? (
-                    <a
-                      href={product.partner_website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-lg hover:text-primary transition-colors inline-flex items-center gap-1"
-                    >
-                      {product.partner_name}
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                      </svg>
-                    </a>
+                  {isTranslating ? (
+                    <>
+                      <Skeleton className="h-6 w-32 mb-1" />
+                      <Skeleton className="h-4 w-full" />
+                    </>
                   ) : (
-                    <div className="font-semibold text-lg">{product.partner_name}</div>
+                    <>
+                      {product.partner_website ? (
+                        <a
+                          href={product.partner_website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="font-semibold text-lg hover:text-primary transition-colors inline-flex items-center gap-1"
+                        >
+                          {translatedProduct?.translatedPartnerName || product.partner_name}
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                            />
+                          </svg>
+                        </a>
+                      ) : (
+                        <div className="font-semibold text-lg">
+                          {translatedProduct?.translatedPartnerName || product.partner_name}
+                        </div>
+                      )}
+                      {product.partner_description && (
+                        <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
+                          {translatedProduct?.translatedPartnerDescription || product.partner_description}
+                        </p>
+                      )}
+                      <Badge variant="outline" className="mt-2 text-xs">
+                        Official Partner
+                      </Badge>
+                    </>
                   )}
-                  {product.partner_description && (
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-2">
-                      {product.partner_description}
-                    </p>
-                  )}
-                  <Badge variant="outline" className="mt-2 text-xs">
-                    Official Partner
-                  </Badge>
                 </div>
               </div>
             </div>
