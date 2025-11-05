@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/useProducts";
-import { useUserEntries } from "@/hooks/useEntries";
+import { useAllEntries } from "@/hooks/useAllEntries";
 import { 
   Package, 
   Users, 
@@ -15,7 +15,7 @@ import {
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const { data: products } = useProducts();
-  const { data: entries } = useUserEntries();
+  const { data: allEntries } = useAllEntries();
 
   const stats = [
     {
@@ -34,7 +34,7 @@ const AdminDashboard = () => {
     },
     {
       title: "Total Entries",
-      value: entries?.length || 0,
+      value: allEntries?.length || 0,
       icon: Ticket,
       color: "text-purple-500",
       bgColor: "bg-purple-500/10",
