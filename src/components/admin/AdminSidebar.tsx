@@ -8,6 +8,7 @@ import {
   FileText,
   LogOut,
   ChevronLeft,
+  Info,
 } from "lucide-react";
 import {
   Sidebar,
@@ -31,6 +32,7 @@ const adminItems = [
   { title: "Users", url: "/admin/users", icon: Users },
   { title: "Entries", url: "/admin/entries", icon: FileText },
   { title: "Draws", url: "/admin/draws", icon: Trophy },
+  { title: "About Us", url: "/admin/about-us", icon: Info },
 ];
 
 export function AdminSidebar() {

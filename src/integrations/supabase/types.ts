@@ -14,6 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
+      about_us_content: {
+        Row: {
+          contact_description: string
+          contact_title: string
+          created_at: string
+          feature_1_description: string
+          feature_1_title: string
+          feature_2_description: string
+          feature_2_title: string
+          feature_3_description: string
+          feature_3_title: string
+          feature_4_description: string
+          feature_4_title: string
+          hero_description: string
+          hero_title: string
+          id: string
+          mission_description: string
+          mission_title: string
+          updated_at: string
+        }
+        Insert: {
+          contact_description: string
+          contact_title?: string
+          created_at?: string
+          feature_1_description?: string
+          feature_1_title?: string
+          feature_2_description?: string
+          feature_2_title?: string
+          feature_3_description?: string
+          feature_3_title?: string
+          feature_4_description?: string
+          feature_4_title?: string
+          hero_description?: string
+          hero_title?: string
+          id?: string
+          mission_description: string
+          mission_title?: string
+          updated_at?: string
+        }
+        Update: {
+          contact_description?: string
+          contact_title?: string
+          created_at?: string
+          feature_1_description?: string
+          feature_1_title?: string
+          feature_2_description?: string
+          feature_2_title?: string
+          feature_3_description?: string
+          feature_3_title?: string
+          feature_4_description?: string
+          feature_4_title?: string
+          hero_description?: string
+          hero_title?: string
+          id?: string
+          mission_description?: string
+          mission_title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       daily_spins: {
         Row: {
           created_at: string
