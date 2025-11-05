@@ -245,6 +245,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      create_entry_atomic: {
+        Args: { _product_id: string; _tickets_spent: number; _user_id: string }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
