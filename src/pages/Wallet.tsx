@@ -4,7 +4,8 @@ import { useWalletTransactions } from "@/hooks/useWallet";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader2, Sparkles, Ticket } from "lucide-react";
+import { Wallet as WalletIcon, Plus, ArrowUpRight, ArrowDownLeft, Trophy, Loader2, Sparkles, Ticket, AlertCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { formatDistanceToNow } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -21,12 +22,25 @@ const ticketPackages = [
 const Wallet = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [selectedPackage, setSelectedPackage] = useState<number | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const { data: profile, isLoading: profileLoading } = useProfile();
   const { data: transactions, isLoading: transactionsLoading } = useWalletTransactions();
 
+  const isProfileComplete = profile?.full_name && profile?.middle_name && profile?.country && profile?.address;
+
   const handlePurchase = async (pkg: typeof ticketPackages[0]) => {
+    // Check if profile is complete before allowing purchase
+    if (!profile?.full_name || !profile?.middle_name || !profile?.country || !profile?.address) {
+      toast({
+        title: "Complete Your Profile",
+        description: "Please fill in your Name, Middle Name, Country, and Address in Settings before purchasing tickets.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       setIsProcessing(true);
       
@@ -102,6 +116,31 @@ const Wallet = () => {
       </div>
 
       <div className="max-w-lg mx-auto px-4 -mt-16 pb-8 space-y-8">
+        {/* Profile Completion Alert */}
+        {!profileLoading && !isProfileComplete && (
+          <Card className="bg-amber-500/10 border-amber-500/50 p-4">
+            <div className="flex gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <h3 className="font-semibold text-amber-700 dark:text-amber-400 mb-1">
+                  Complete Your Profile
+                </h3>
+                <p className="text-sm text-amber-600 dark:text-amber-500 mb-3">
+                  Please fill in your Name, Middle Name, Country, and Address before purchasing tickets.
+                </p>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-amber-500 text-amber-700 hover:bg-amber-500/20"
+                  onClick={() => navigate("/settings")}
+                >
+                  Complete Profile
+                </Button>
+              </div>
+            </div>
+          </Card>
+        )}
+
         {/* Ticket Packages */}
         <div id="packages" className="space-y-4">
           <div className="flex items-center justify-between">

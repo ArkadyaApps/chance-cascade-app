@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,23 +32,41 @@ const Settings = () => {
   const { data: profile, isLoading } = useProfile();
   const updateProfile = useUpdateProfile();
   
-  const [fullName, setFullName] = useState(profile?.full_name || "");
+  const [fullName, setFullName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [country, setCountry] = useState("");
+  const [address, setAddress] = useState("");
   const [notificationsEnabled, setNotificationsEnabled] = useState(profile?.notifications_enabled ?? true);
   const [emailNotifications, setEmailNotifications] = useState(profile?.email_notifications ?? true);
   const [pushNotifications, setPushNotifications] = useState(profile?.push_notifications ?? true);
   const [isSaving, setIsSaving] = useState(false);
 
+  // Update state when profile loads
+  useEffect(() => {
+    if (profile) {
+      setFullName(profile.full_name || "");
+      setMiddleName(profile.middle_name || "");
+      setCountry(profile.country || "");
+      setAddress(profile.address || "");
+    }
+  }, [profile]);
+
   const handleUpdateProfile = async () => {
-    if (!fullName.trim()) {
+    if (!fullName.trim() || !middleName.trim() || !country.trim() || !address.trim()) {
       toast.error(t("common.error"), {
-        description: "Name cannot be empty",
+        description: "All fields are required",
       });
       return;
     }
 
     setIsSaving(true);
     try {
-      await updateProfile.mutateAsync({ full_name: fullName });
+      await updateProfile.mutateAsync({ 
+        full_name: fullName,
+        middle_name: middleName,
+        country: country,
+        address: address
+      });
       toast.success(t("settings.settingsSaved"));
     } catch (error) {
       toast.error(t("settings.settingsError"));
@@ -182,12 +200,50 @@ const Settings = () => {
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="full-name">{t("settings.fullName")}</Label>
+                  <Label htmlFor="full-name">
+                    {t("settings.fullName")} <span className="text-destructive">*</span>
+                  </Label>
                   <Input
                     id="full-name"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    placeholder="John Doe"
+                    placeholder="John"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="middle-name">
+                    Middle Name <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="middle-name"
+                    value={middleName}
+                    onChange={(e) => setMiddleName(e.target.value)}
+                    placeholder="Michael"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="country">
+                    Country <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    placeholder="United States"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="address">
+                    Address <span className="text-destructive">*</span>
+                  </Label>
+                  <Input
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="123 Main St, City, State, ZIP"
                   />
                 </div>
 
@@ -206,7 +262,7 @@ const Settings = () => {
 
                 <Button
                   onClick={handleUpdateProfile}
-                  disabled={isSaving || !fullName.trim()}
+                  disabled={isSaving || !fullName.trim() || !middleName.trim() || !country.trim() || !address.trim()}
                   className="w-full"
                 >
                   {isSaving ? (

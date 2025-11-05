@@ -201,12 +201,15 @@ export type Database = {
       }
       profiles: {
         Row: {
+          address: string | null
           avatar_url: string | null
+          country: string | null
           created_at: string
           email: string
           email_notifications: boolean | null
           full_name: string | null
           id: string
+          middle_name: string | null
           notifications_enabled: boolean | null
           preferred_language: string | null
           push_notifications: boolean | null
@@ -215,12 +218,15 @@ export type Database = {
           wallet_balance: number
         }
         Insert: {
+          address?: string | null
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           email: string
           email_notifications?: boolean | null
           full_name?: string | null
           id: string
+          middle_name?: string | null
           notifications_enabled?: boolean | null
           preferred_language?: string | null
           push_notifications?: boolean | null
@@ -229,12 +235,15 @@ export type Database = {
           wallet_balance?: number
         }
         Update: {
+          address?: string | null
           avatar_url?: string | null
+          country?: string | null
           created_at?: string
           email?: string
           email_notifications?: boolean | null
           full_name?: string | null
           id?: string
+          middle_name?: string | null
           notifications_enabled?: boolean | null
           preferred_language?: string | null
           push_notifications?: boolean | null

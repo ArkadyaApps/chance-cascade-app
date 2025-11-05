@@ -28,7 +28,13 @@ export const useUpdateProfile = () => {
   const { user } = useAuth();
 
   return useMutation({
-    mutationFn: async (updates: { full_name?: string; avatar_url?: string }) => {
+    mutationFn: async (updates: { 
+      full_name?: string; 
+      middle_name?: string;
+      country?: string;
+      address?: string;
+      avatar_url?: string;
+    }) => {
       if (!user?.id) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
