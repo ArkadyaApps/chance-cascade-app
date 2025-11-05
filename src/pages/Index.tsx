@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { ProductCard } from "@/components/products/ProductCard";
+import { FeaturedCarousel } from "@/components/products/FeaturedCarousel";
 import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -162,6 +163,11 @@ const Index = () => {
 
       {/* Products Grid */}
       <div className="max-w-7xl mx-auto p-4">
+        {/* Featured Carousel */}
+        {!isLoading && products && products.length > 0 && (
+          <FeaturedCarousel products={products} />
+        )}
+
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold">{t("home.allDraws")}</h2>
           <span className="text-sm text-muted-foreground">
