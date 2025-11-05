@@ -26,7 +26,9 @@
     "subtitle": "شارك في السحوبات للفوز بمنتجات رائعة",
     "featured": "السحوبات المميزة",
     "allDraws": "جميع السحوبات النشطة",
-    "viewDetails": "عرض التفاصيل"
+    "viewDetails": "عرض التفاصيل",
+    "noProducts": "لا توجد سحوبات نشطة في الوقت الحالي",
+    "checkBack": "تحقق مرة أخرى قريباً للحصول على فرص جديدة!"
   },
   "product": {
     "ticketPrice": "سعر التذكرة",
@@ -37,7 +39,15 @@
     "selectTickets": "اختر عدد التذاكر",
     "total": "الإجمالي",
     "confirm": "تأكيد المشاركة",
-    "cancel": "إلغاء"
+    "cancel": "إلغاء",
+    "description": "الوصف",
+    "category": "الفئة",
+    "progress": "التقدم",
+    "winner": "الفائز",
+    "verificationHash": "رمز التحقق",
+    "drawCompleted": "اكتمل السحب",
+    "entrySuccess": "تمت المشاركة بنجاح!",
+    "insufficientBalance": "رصيد التذاكر غير كافٍ"
   },
   "wallet": {
     "title": "محفظتي",
@@ -49,7 +59,34 @@
     "date": "التاريخ",
     "purchase": "شراء",
     "entry": "مشاركة",
-    "win": "فوز"
+    "win": "فوز",
+    "refund": "استرداد",
+    "noTransactions": "لا توجد معاملات حتى الآن",
+    "selectPackage": "اختر حزمة تذاكر",
+    "tickets": "تذاكر",
+    "buyNow": "اشتر الآن"
+  },
+  "entries": {
+    "title": "مشاركاتي",
+    "product": "المنتج",
+    "ticketsSpent": "التذاكر المستخدمة",
+    "status": "الحالة",
+    "entryDate": "تاريخ المشاركة",
+    "pending": "قيد الانتظار",
+    "won": "فائز",
+    "lost": "خاسر",
+    "processed": "معالج",
+    "noEntries": "لا توجد مشاركات حتى الآن",
+    "startEntering": "ابدأ في المشاركة في السحوبات لرؤية مشاركاتك هنا!"
+  },
+  "winners": {
+    "title": "الفائزون الأخيرون",
+    "congratulations": "تهانينا لفائزينا!",
+    "product": "المنتج",
+    "date": "التاريخ",
+    "verification": "رمز التحقق",
+    "noWinners": "لا يوجد فائزون حتى الآن",
+    "firstDraw": "كن أول فائز!"
   },
   "profile": {
     "title": "ملفي الشخصي",
@@ -58,7 +95,11 @@
     "totalWins": "إجمالي الانتصارات",
     "winRate": "معدل الفوز",
     "editProfile": "تعديل الملف الشخصي",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "accountInfo": "معلومات الحساب",
+    "memberSince": "عضو منذ",
+    "updateSuccess": "تم تحديث الملف الشخصي بنجاح",
+    "updateError": "فشل تحديث الملف الشخصي"
   },
   "admin": {
     "dashboard": "لوحة التحكم",
@@ -67,8 +108,37 @@
     "entries": "عرض المشاركات",
     "users": "المستخدمون",
     "revenue": "الإيرادات",
+    "totalEntries": "إجمالي المشاركات",
+    "totalProducts": "إجمالي المنتجات",
+    "activeDraws": "السحوبات النشطة",
     "addProduct": "إضافة منتج",
-    "triggerDraw": "بدء السحب"
+    "editProduct": "تعديل المنتج",
+    "deleteProduct": "حذف المنتج",
+    "productName": "اسم المنتج",
+    "productDescription": "الوصف",
+    "imageUrl": "رابط الصورة",
+    "featured": "مميز",
+    "creating": "جاري الإنشاء...",
+    "updating": "جاري التحديث...",
+    "createProduct": "إنشاء منتج",
+    "updateProduct": "تحديث المنتج",
+    "triggerDraw": "بدء السحب",
+    "selectProduct": "اختر منتج",
+    "confirmDraw": "هل أنت متأكد أنك تريد بدء السحب؟",
+    "drawSuccess": "تم إكمال السحب بنجاح!",
+    "recentWinners": "الفائزون الأخيرون",
+    "user": "المستخدم",
+    "allEntries": "جميع المشاركات",
+    "searchUser": "البحث بالبريد الإلكتروني للمستخدم...",
+    "filterStatus": "تصفية حسب الحالة",
+    "filterCategory": "تصفية حسب الفئة",
+    "exportCSV": "تصدير إلى CSV",
+    "electronics": "إلكترونيات",
+    "gaming": "ألعاب",
+    "fashion": "أزياء",
+    "home": "منزل",
+    "sports": "رياضة",
+    "other": "أخرى"
   },
   "common": {
     "loading": "جاري التحميل...",
@@ -80,6 +150,13 @@
     "close": "إغلاق",
     "search": "بحث",
     "filter": "تصفية",
-    "export": "تصدير"
+    "export": "تصدير",
+    "confirm": "تأكيد",
+    "cancel": "إلغاء",
+    "yes": "نعم",
+    "no": "لا",
+    "all": "الكل",
+    "actions": "الإجراءات",
+    "view": "عرض"
   }
 }

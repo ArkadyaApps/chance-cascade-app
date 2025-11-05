@@ -26,7 +26,9 @@
     "subtitle": "Participez aux tirages pour gagner des produits exceptionnels",
     "featured": "Tirages En Vedette",
     "allDraws": "Tous les Tirages Actifs",
-    "viewDetails": "Voir les Détails"
+    "viewDetails": "Voir les Détails",
+    "noProducts": "Aucun tirage actif pour le moment",
+    "checkBack": "Revenez bientôt pour de nouvelles opportunités!"
   },
   "product": {
     "ticketPrice": "Prix du Ticket",
@@ -37,7 +39,15 @@
     "selectTickets": "Sélectionner le Nombre de Tickets",
     "total": "Total",
     "confirm": "Confirmer la Participation",
-    "cancel": "Annuler"
+    "cancel": "Annuler",
+    "description": "Description",
+    "category": "Catégorie",
+    "progress": "Progrès",
+    "winner": "Gagnant",
+    "verificationHash": "Hash de Vérification",
+    "drawCompleted": "Tirage Terminé",
+    "entrySuccess": "Participation réussie!",
+    "insufficientBalance": "Solde de tickets insuffisant"
   },
   "wallet": {
     "title": "Mon Portefeuille",
@@ -49,7 +59,34 @@
     "date": "Date",
     "purchase": "Achat",
     "entry": "Participation",
-    "win": "Gain"
+    "win": "Gain",
+    "refund": "Remboursement",
+    "noTransactions": "Aucune transaction pour le moment",
+    "selectPackage": "Sélectionner un forfait de tickets",
+    "tickets": "tickets",
+    "buyNow": "Acheter Maintenant"
+  },
+  "entries": {
+    "title": "Mes Participations",
+    "product": "Produit",
+    "ticketsSpent": "Tickets Dépensés",
+    "status": "Statut",
+    "entryDate": "Date de Participation",
+    "pending": "En Attente",
+    "won": "Gagné",
+    "lost": "Perdu",
+    "processed": "Traité",
+    "noEntries": "Aucune participation pour le moment",
+    "startEntering": "Commencez à participer pour voir vos participations ici!"
+  },
+  "winners": {
+    "title": "Gagnants Récents",
+    "congratulations": "Félicitations à nos gagnants!",
+    "product": "Produit",
+    "date": "Date",
+    "verification": "Hash de Vérification",
+    "noWinners": "Aucun gagnant pour le moment",
+    "firstDraw": "Soyez le premier à gagner!"
   },
   "profile": {
     "title": "Mon Profil",
@@ -58,7 +95,11 @@
     "totalWins": "Total des Gains",
     "winRate": "Taux de Victoire",
     "editProfile": "Modifier le Profil",
-    "signOut": "Se Déconnecter"
+    "signOut": "Se Déconnecter",
+    "accountInfo": "Informations du Compte",
+    "memberSince": "Membre Depuis",
+    "updateSuccess": "Profil mis à jour avec succès",
+    "updateError": "Échec de la mise à jour du profil"
   },
   "admin": {
     "dashboard": "Tableau de Bord Admin",
@@ -67,8 +108,37 @@
     "entries": "Voir les Participations",
     "users": "Utilisateurs",
     "revenue": "Revenus",
+    "totalEntries": "Total des Participations",
+    "totalProducts": "Total des Produits",
+    "activeDraws": "Tirages Actifs",
     "addProduct": "Ajouter un Produit",
-    "triggerDraw": "Lancer le Tirage"
+    "editProduct": "Modifier le Produit",
+    "deleteProduct": "Supprimer le Produit",
+    "productName": "Nom du Produit",
+    "productDescription": "Description",
+    "imageUrl": "URL de l'Image",
+    "featured": "En Vedette",
+    "creating": "Création...",
+    "updating": "Mise à jour...",
+    "createProduct": "Créer un Produit",
+    "updateProduct": "Mettre à Jour le Produit",
+    "triggerDraw": "Lancer le Tirage",
+    "selectProduct": "Sélectionner un Produit",
+    "confirmDraw": "Êtes-vous sûr de vouloir lancer le tirage?",
+    "drawSuccess": "Tirage terminé avec succès!",
+    "recentWinners": "Gagnants Récents",
+    "user": "Utilisateur",
+    "allEntries": "Toutes les Participations",
+    "searchUser": "Rechercher par email d'utilisateur...",
+    "filterStatus": "Filtrer par statut",
+    "filterCategory": "Filtrer par catégorie",
+    "exportCSV": "Exporter en CSV",
+    "electronics": "Électronique",
+    "gaming": "Jeux Vidéo",
+    "fashion": "Mode",
+    "home": "Maison",
+    "sports": "Sports",
+    "other": "Autre"
   },
   "common": {
     "loading": "Chargement...",
@@ -80,6 +150,13 @@
     "close": "Fermer",
     "search": "Rechercher",
     "filter": "Filtrer",
-    "export": "Exporter"
+    "export": "Exporter",
+    "confirm": "Confirmer",
+    "cancel": "Annuler",
+    "yes": "Oui",
+    "no": "Non",
+    "all": "Tous",
+    "actions": "Actions",
+    "view": "Voir"
   }
 }

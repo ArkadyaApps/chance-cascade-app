@@ -18,8 +18,10 @@ import {
   Lock
 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
 
 const Profile = () => {
+  const { t } = useTranslation();
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
   const { data: profile, isLoading: profileLoading } = useProfile();
@@ -45,7 +47,7 @@ const Profile = () => {
       {/* Header */}
       <div className="bg-gradient-to-r from-primary to-accent p-6 pb-12">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground mb-6">Profile</h1>
+          <h1 className="text-2xl font-bold text-primary-foreground mb-6">{t("profile.title")}</h1>
           
           {/* User Card */}
           <Card className="bg-card/95 backdrop-blur-sm border-none shadow-xl p-6">
@@ -82,17 +84,17 @@ const Profile = () => {
                 <div className="text-center p-3 bg-secondary/30 rounded-lg">
                   <Wallet className="w-5 h-5 text-primary mx-auto mb-1" />
                   <div className="text-2xl font-bold">{profile?.wallet_balance || 0}</div>
-                  <div className="text-xs text-muted-foreground">Tickets</div>
+                  <div className="text-xs text-muted-foreground">{t("wallet.balance").split(" ")[0]}</div>
                 </div>
                 <div className="text-center p-3 bg-secondary/30 rounded-lg">
                   <Trophy className="w-5 h-5 text-primary mx-auto mb-1" />
                   <div className="text-2xl font-bold">{activeEntries}</div>
-                  <div className="text-xs text-muted-foreground">Active</div>
+                  <div className="text-xs text-muted-foreground">{t("entries.pending")}</div>
                 </div>
                 <div className="text-center p-3 bg-secondary/30 rounded-lg">
                   <Trophy className="w-5 h-5 text-accent mx-auto mb-1" />
                   <div className="text-2xl font-bold">{wins}</div>
-                  <div className="text-xs text-muted-foreground">Wins</div>
+                  <div className="text-xs text-muted-foreground">{t("profile.totalWins").split(" ")[0]}</div>
                 </div>
               </div>
             )}
@@ -113,9 +115,9 @@ const Profile = () => {
                   <Lock className="w-5 h-5 text-purple-500" />
                 </div>
                 <div className="text-left">
-                  <h3 className="font-semibold">Admin Dashboard</h3>
+                  <h3 className="font-semibold">{t("admin.dashboard")}</h3>
                   <p className="text-sm text-muted-foreground">
-                    Manage products, draws, and users
+                    {t("admin.products")}, {t("admin.draws").toLowerCase()}, {t("admin.users").toLowerCase()}
                   </p>
                 </div>
               </div>
@@ -151,7 +153,7 @@ const Profile = () => {
           className="w-full justify-start text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
           <LogOut className="w-5 h-5 mr-3" />
-          Log Out
+          {t("profile.signOut")}
         </Button>
 
         {/* Version Info */}

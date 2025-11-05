@@ -26,7 +26,9 @@
     "subtitle": "Enter draws for your chance to win incredible products",
     "featured": "Featured Draws",
     "allDraws": "All Active Draws",
-    "viewDetails": "View Details"
+    "viewDetails": "View Details",
+    "noProducts": "No active draws at the moment",
+    "checkBack": "Check back soon for new opportunities!"
   },
   "product": {
     "ticketPrice": "Ticket Price",
@@ -37,7 +39,15 @@
     "selectTickets": "Select Number of Tickets",
     "total": "Total",
     "confirm": "Confirm Entry",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "description": "Description",
+    "category": "Category",
+    "progress": "Progress",
+    "winner": "Winner",
+    "verificationHash": "Verification Hash",
+    "drawCompleted": "Draw Completed",
+    "entrySuccess": "Entry successful!",
+    "insufficientBalance": "Insufficient ticket balance"
   },
   "wallet": {
     "title": "My Wallet",
@@ -49,7 +59,34 @@
     "date": "Date",
     "purchase": "Purchase",
     "entry": "Entry",
-    "win": "Win"
+    "win": "Win",
+    "refund": "Refund",
+    "noTransactions": "No transactions yet",
+    "selectPackage": "Select a ticket package",
+    "tickets": "tickets",
+    "buyNow": "Buy Now"
+  },
+  "entries": {
+    "title": "My Entries",
+    "product": "Product",
+    "ticketsSpent": "Tickets Spent",
+    "status": "Status",
+    "entryDate": "Entry Date",
+    "pending": "Pending",
+    "won": "Won",
+    "lost": "Lost",
+    "processed": "Processed",
+    "noEntries": "No entries yet",
+    "startEntering": "Start entering draws to see your entries here!"
+  },
+  "winners": {
+    "title": "Recent Winners",
+    "congratulations": "Congratulations to our winners!",
+    "product": "Product",
+    "date": "Date",
+    "verification": "Verification Hash",
+    "noWinners": "No winners yet",
+    "firstDraw": "Be the first to win!"
   },
   "profile": {
     "title": "My Profile",
@@ -58,7 +95,11 @@
     "totalWins": "Total Wins",
     "winRate": "Win Rate",
     "editProfile": "Edit Profile",
-    "signOut": "Sign Out"
+    "signOut": "Sign Out",
+    "accountInfo": "Account Information",
+    "memberSince": "Member Since",
+    "updateSuccess": "Profile updated successfully",
+    "updateError": "Failed to update profile"
   },
   "admin": {
     "dashboard": "Admin Dashboard",
@@ -67,8 +108,37 @@
     "entries": "View Entries",
     "users": "Users",
     "revenue": "Revenue",
+    "totalEntries": "Total Entries",
+    "totalProducts": "Total Products",
+    "activeDraws": "Active Draws",
     "addProduct": "Add Product",
-    "triggerDraw": "Trigger Draw"
+    "editProduct": "Edit Product",
+    "deleteProduct": "Delete Product",
+    "productName": "Product Name",
+    "productDescription": "Description",
+    "imageUrl": "Image URL",
+    "featured": "Featured",
+    "creating": "Creating...",
+    "updating": "Updating...",
+    "createProduct": "Create Product",
+    "updateProduct": "Update Product",
+    "triggerDraw": "Trigger Draw",
+    "selectProduct": "Select Product",
+    "confirmDraw": "Are you sure you want to trigger the draw?",
+    "drawSuccess": "Draw completed successfully!",
+    "recentWinners": "Recent Winners",
+    "user": "User",
+    "allEntries": "All User Entries",
+    "searchUser": "Search by user email...",
+    "filterStatus": "Filter by status",
+    "filterCategory": "Filter by category",
+    "exportCSV": "Export to CSV",
+    "electronics": "Electronics",
+    "gaming": "Gaming",
+    "fashion": "Fashion",
+    "home": "Home",
+    "sports": "Sports",
+    "other": "Other"
   },
   "common": {
     "loading": "Loading...",
@@ -80,6 +150,13 @@
     "close": "Close",
     "search": "Search",
     "filter": "Filter",
-    "export": "Export"
+    "export": "Export",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "all": "All",
+    "actions": "Actions",
+    "view": "View"
   }
 }

@@ -1,8 +1,10 @@
 import { Home, Wallet, Ticket, Trophy, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 export const BottomNav = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   
   // Don't show nav on auth page
@@ -11,11 +13,11 @@ export const BottomNav = () => {
   }
   
   const navItems = [
-    { icon: Home, label: "Home", path: "/" },
-    { icon: Wallet, label: "Wallet", path: "/wallet" },
-    { icon: Ticket, label: "My Entries", path: "/entries" },
-    { icon: Trophy, label: "Winners", path: "/winners" },
-    { icon: User, label: "Profile", path: "/profile" },
+    { icon: Home, label: t("nav.home"), path: "/" },
+    { icon: Wallet, label: t("nav.wallet"), path: "/wallet" },
+    { icon: Ticket, label: t("nav.entries"), path: "/entries" },
+    { icon: Trophy, label: t("nav.winners"), path: "/winners" },
+    { icon: User, label: t("nav.profile"), path: "/profile" },
   ];
 
   return (

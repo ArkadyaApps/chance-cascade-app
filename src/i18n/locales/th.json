@@ -26,7 +26,9 @@
     "subtitle": "เข้าร่วมการจับรางวัลเพื่อลุ้นรับผลิตภัณฑ์ที่น่าทึ่ง",
     "featured": "การจับรางวัลแนะนำ",
     "allDraws": "การจับรางวัลที่ใช้งานอยู่ทั้งหมด",
-    "viewDetails": "ดูรายละเอียด"
+    "viewDetails": "ดูรายละเอียด",
+    "noProducts": "ไม่มีการจับรางวัลที่ใช้งานอยู่ในขณะนี้",
+    "checkBack": "กลับมาอีกครั้งเร็วๆ นี้เพื่อดูโอกาสใหม่ๆ!"
   },
   "product": {
     "ticketPrice": "ราคาตั๋ว",
@@ -37,7 +39,15 @@
     "selectTickets": "เลือกจำนวนตั๋ว",
     "total": "ยอดรวม",
     "confirm": "ยืนยันการเข้าร่วม",
-    "cancel": "ยกเลิก"
+    "cancel": "ยกเลิก",
+    "description": "คำอธิบาย",
+    "category": "หมวดหมู่",
+    "progress": "ความคืบหน้า",
+    "winner": "ผู้ชนะ",
+    "verificationHash": "รหัสยืนยัน",
+    "drawCompleted": "การจับรางวัลเสร็จสิ้น",
+    "entrySuccess": "เข้าร่วมสำเร็จ!",
+    "insufficientBalance": "ยอดคงเหลือตั๋วไม่เพียงพอ"
   },
   "wallet": {
     "title": "กระเป๋าเงินของฉัน",
@@ -49,7 +59,34 @@
     "date": "วันที่",
     "purchase": "ซื้อ",
     "entry": "เข้าร่วม",
-    "win": "ชนะ"
+    "win": "ชนะ",
+    "refund": "คืนเงิน",
+    "noTransactions": "ยังไม่มีธุรกรรม",
+    "selectPackage": "เลือกแพ็คเกจตั๋ว",
+    "tickets": "ตั๋ว",
+    "buyNow": "ซื้อทันที"
+  },
+  "entries": {
+    "title": "การเข้าร่วมของฉัน",
+    "product": "ผลิตภัณฑ์",
+    "ticketsSpent": "ตั๋วที่ใช้",
+    "status": "สถานะ",
+    "entryDate": "วันที่เข้าร่วม",
+    "pending": "รอดำเนินการ",
+    "won": "ชนะ",
+    "lost": "แพ้",
+    "processed": "ประมวลผลแล้ว",
+    "noEntries": "ยังไม่มีการเข้าร่วม",
+    "startEntering": "เริ่มเข้าร่วมการจับรางวัลเพื่อดูการเข้าร่วมของคุณที่นี่!"
+  },
+  "winners": {
+    "title": "ผู้ชนะล่าสุด",
+    "congratulations": "ขอแสดงความยินดีกับผู้ชนะของเรา!",
+    "product": "ผลิตภัณฑ์",
+    "date": "วันที่",
+    "verification": "รหัสยืนยัน",
+    "noWinners": "ยังไม่มีผู้ชนะ",
+    "firstDraw": "เป็นคนแรกที่ชนะ!"
   },
   "profile": {
     "title": "โปรไฟล์ของฉัน",
@@ -58,7 +95,11 @@
     "totalWins": "การชนะทั้งหมด",
     "winRate": "อัตราการชนะ",
     "editProfile": "แก้ไขโปรไฟล์",
-    "signOut": "ออกจากระบบ"
+    "signOut": "ออกจากระบบ",
+    "accountInfo": "ข้อมูลบัญชี",
+    "memberSince": "สมาชิกตั้งแต่",
+    "updateSuccess": "อัปเดตโปรไฟล์สำเร็จ",
+    "updateError": "ไม่สามารถอัปเดตโปรไฟล์"
   },
   "admin": {
     "dashboard": "แดชบอร์ดผู้ดูแลระบบ",
@@ -67,8 +108,37 @@
     "entries": "ดูการเข้าร่วม",
     "users": "ผู้ใช้",
     "revenue": "รายได้",
+    "totalEntries": "การเข้าร่วมทั้งหมด",
+    "totalProducts": "ผลิตภัณฑ์ทั้งหมด",
+    "activeDraws": "การจับรางวัลที่ใช้งานอยู่",
     "addProduct": "เพิ่มผลิตภัณฑ์",
-    "triggerDraw": "เริ่มการจับรางวัล"
+    "editProduct": "แก้ไขผลิตภัณฑ์",
+    "deleteProduct": "ลบผลิตภัณฑ์",
+    "productName": "ชื่อผลิตภัณฑ์",
+    "productDescription": "คำอธิบาย",
+    "imageUrl": "URL รูปภาพ",
+    "featured": "แนะนำ",
+    "creating": "กำลังสร้าง...",
+    "updating": "กำลังอัปเดต...",
+    "createProduct": "สร้างผลิตภัณฑ์",
+    "updateProduct": "อัปเดตผลิตภัณฑ์",
+    "triggerDraw": "เริ่มการจับรางวัล",
+    "selectProduct": "เลือกผลิตภัณฑ์",
+    "confirmDraw": "คุณแน่ใจหรือไม่ว่าต้องการเริ่มการจับรางวัล?",
+    "drawSuccess": "การจับรางวัลเสร็จสมบูรณ์!",
+    "recentWinners": "ผู้ชนะล่าสุด",
+    "user": "ผู้ใช้",
+    "allEntries": "การเข้าร่วมทั้งหมด",
+    "searchUser": "ค้นหาโดยอีเมลผู้ใช้...",
+    "filterStatus": "กรองตามสถานะ",
+    "filterCategory": "กรองตามหมวดหมู่",
+    "exportCSV": "ส่งออกเป็น CSV",
+    "electronics": "อิเล็กทรอนิกส์",
+    "gaming": "เกม",
+    "fashion": "แฟชั่น",
+    "home": "บ้าน",
+    "sports": "กีฬา",
+    "other": "อื่นๆ"
   },
   "common": {
     "loading": "กำลังโหลด...",
@@ -80,6 +150,13 @@
     "close": "ปิด",
     "search": "ค้นหา",
     "filter": "กรอง",
-    "export": "ส่งออก"
+    "export": "ส่งออก",
+    "confirm": "ยืนยัน",
+    "cancel": "ยกเลิก",
+    "yes": "ใช่",
+    "no": "ไม่",
+    "all": "ทั้งหมด",
+    "actions": "การดำเนินการ",
+    "view": "ดู"
   }
 }

@@ -3,10 +3,13 @@ import { ProductCard } from "@/components/products/ProductCard";
 import { useProducts } from "@/hooks/useProducts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, SlidersHorizontal } from "lucide-react";
+import { Search, SlidersHorizontal, Globe } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTranslation } from "react-i18next";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const Index = () => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
   const { data: products, isLoading } = useProducts();
 
@@ -15,13 +18,16 @@ const Index = () => {
       {/* Header */}
       <div className="sticky top-0 z-40 bg-gradient-to-r from-primary to-accent p-4 shadow-lg">
         <div className="max-w-lg mx-auto">
-          <h1 className="text-2xl font-bold text-primary-foreground mb-4">Lucksy</h1>
+          <div className="flex items-center justify-between mb-4">
+            <h1 className="text-2xl font-bold text-primary-foreground">Lucksy</h1>
+            <LanguageSwitcher />
+          </div>
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 type="text"
-                placeholder="Search products..."
+                placeholder={t("common.search") + "..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 bg-background/95 border-none"
@@ -37,9 +43,9 @@ const Index = () => {
       {/* Products Grid */}
       <div className="max-w-lg mx-auto p-4 space-y-4">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold">Active Draws</h2>
+          <h2 className="text-lg font-semibold">{t("home.allDraws")}</h2>
           <span className="text-sm text-muted-foreground">
-            {products?.length || 0} products
+            {products?.length || 0} {t("admin.products").toLowerCase()}
           </span>
         </div>
         
@@ -64,7 +70,8 @@ const Index = () => {
             ))
         ) : (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">No active draws available</p>
+            <p className="text-muted-foreground">{t("home.noProducts")}</p>
+            <p className="text-sm text-muted-foreground mt-2">{t("home.checkBack")}</p>
           </div>
         )}
       </div>
