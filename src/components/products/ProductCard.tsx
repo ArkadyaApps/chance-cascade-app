@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Ticket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { CountdownTimer } from "./CountdownTimer";
+import { useMouseParallax } from "@/hooks/useParallax";
+import { useRef } from "react";
 
 type Product = Database["public"]["Tables"]["products"]["Row"];
 
@@ -13,21 +15,34 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const navigate = useNavigate();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const imageRef = useRef<HTMLDivElement>(null);
+  
+  const cardParallax = useMouseParallax({ ref: cardRef, intensity: 8 });
+  const imageParallax = useMouseParallax({ ref: imageRef, intensity: 12 });
+  
   const progress = (product.tickets_sold / product.tickets_required) * 100;
   const ticketsRemaining = product.tickets_required - product.tickets_sold;
 
   return (
     <div
+      ref={cardRef}
       onClick={() => navigate(`/product/${product.id}`)}
       className="bg-card rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer border border-border"
+      style={cardParallax}
     >
       {/* Product Image */}
-      <div className="relative aspect-square overflow-hidden">
-        <img
-          src={product.images[0]}
-          alt={product.name}
-          className="w-full h-full object-cover"
-        />
+      <div ref={imageRef} className="relative aspect-square overflow-hidden">
+        <div
+          style={imageParallax}
+          className="w-full h-full"
+        >
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-full h-full object-cover scale-110 transition-transform duration-300 hover:scale-125"
+          />
+        </div>
         {product.featured && (
           <Badge className="absolute top-2 left-2 text-xs bg-accent">Featured</Badge>
         )}

@@ -12,6 +12,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { useScrollParallax } from "@/hooks/useParallax";
 
 const Index = () => {
   const { t } = useTranslation();
@@ -20,6 +21,8 @@ const Index = () => {
   const [sortBy, setSortBy] = useState<string>("featured");
   const [filterOpen, setFilterOpen] = useState(false);
   const { data: products, isLoading } = useProducts();
+  
+  const headerParallax = useScrollParallax({ speed: -0.3 });
 
   // Get unique categories from products
   const categories = useMemo(() => {
@@ -70,9 +73,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Header */}
-      <div className="sticky top-0 z-40 bg-gradient-to-r from-primary to-accent p-4 shadow-lg">
-        <div className="max-w-lg mx-auto">
+      {/* Header with Parallax */}
+      <div className="sticky top-0 z-40 bg-gradient-to-r from-primary to-accent p-4 shadow-lg overflow-hidden">
+        <div 
+          className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_50%_120%,rgba(255,255,255,0.3),transparent)]"
+          style={headerParallax}
+        />
+        <div className="max-w-lg mx-auto relative z-10">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-2xl font-bold text-primary-foreground">Lucksy</h1>
             <LanguageSwitcher />
