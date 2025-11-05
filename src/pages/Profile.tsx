@@ -155,8 +155,19 @@ const Profile = () => {
           {t("profile.signOut")}
         </Button>
 
+        {/* About Us Link */}
+        <div className="text-center pt-2">
+          <Button
+            variant="link"
+            className="text-muted-foreground hover:text-primary"
+            onClick={() => navigate("/about")}
+          >
+            About Us
+          </Button>
+        </div>
+
         {/* Version Info */}
-        <div className="text-center text-xs text-muted-foreground pt-4">
+        <div className="text-center text-xs text-muted-foreground pt-2">
           Lucksy v1.0.0 • All rights reserved
         </div>
       </div>

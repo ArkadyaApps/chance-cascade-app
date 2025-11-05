@@ -28,6 +28,7 @@ import AdminDraws from "./pages/admin/AdminDraws";
 import ProductForm from "./pages/admin/ProductForm";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import NotFound from "./pages/NotFound";
+import AboutUs from "./pages/AboutUs";
 
 const queryClient = new QueryClient();
 
@@ -135,6 +136,14 @@ const App = () => (
               element={
                 <div className="min-h-screen bg-background pb-20">
                   <Contact />
+                </div>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <div className="min-h-screen bg-background pb-20">
+                  <AboutUs />
                 </div>
               }
             />

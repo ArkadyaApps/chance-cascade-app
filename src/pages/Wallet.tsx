@@ -295,6 +295,17 @@ const Wallet = () => {
             )}
           </div>
         </div>
+
+        {/* About Us Link */}
+        <div className="text-center pt-4 pb-4">
+          <Button
+            variant="link"
+            className="text-muted-foreground hover:text-primary"
+            onClick={() => navigate("/about")}
+          >
+            About Us
+          </Button>
+        </div>
       </div>
     </div>
   );
