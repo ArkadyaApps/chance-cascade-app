@@ -12,6 +12,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Wallet from "./pages/Wallet";
 import MyEntries from "./pages/MyEntries";
 import Profile from "./pages/Profile";
+import Settings from "./pages/Settings";
 import Winners from "./pages/Winners";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -90,6 +91,14 @@ const App = () => (
                     <Profile />
                   </ProtectedRoute>
                 </div>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <ProtectedRoute>
+                  <Settings />
+                </ProtectedRoute>
               }
             />
             {/* Admin Routes */}

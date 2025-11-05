@@ -126,9 +126,12 @@ export type Database = {
           avatar_url: string | null
           created_at: string
           email: string
+          email_notifications: boolean | null
           full_name: string | null
           id: string
+          notifications_enabled: boolean | null
           preferred_language: string | null
+          push_notifications: boolean | null
           total_wins: number
           updated_at: string
           wallet_balance: number
@@ -137,9 +140,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           email: string
+          email_notifications?: boolean | null
           full_name?: string | null
           id: string
+          notifications_enabled?: boolean | null
           preferred_language?: string | null
+          push_notifications?: boolean | null
           total_wins?: number
           updated_at?: string
           wallet_balance?: number
@@ -148,9 +154,12 @@ export type Database = {
           avatar_url?: string | null
           created_at?: string
           email?: string
+          email_notifications?: boolean | null
           full_name?: string | null
           id?: string
+          notifications_enabled?: boolean | null
           preferred_language?: string | null
+          push_notifications?: boolean | null
           total_wins?: number
           updated_at?: string
           wallet_balance?: number

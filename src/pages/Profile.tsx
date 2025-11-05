@@ -29,7 +29,7 @@ const Profile = () => {
   const { isAdmin } = useIsAdmin();
   
   const menuItems = [
-    { icon: Settings, label: "Account Settings", action: () => {} },
+    { icon: Settings, label: t("profile.settings"), action: () => navigate("/settings") },
     { icon: Bell, label: "Notifications", action: () => {} },
     { icon: Shield, label: "Security & Privacy", action: () => {} },
     { icon: HelpCircle, label: "Help & Support", action: () => {} },
