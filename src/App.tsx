@@ -20,9 +20,11 @@ import DailyWheel from "./pages/DailyWheel";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
+import AdminUsers from "./pages/admin/AdminUsers";
 import AdminEntries from "./pages/admin/AdminEntries";
 import AdminDraws from "./pages/admin/AdminDraws";
 import ProductForm from "./pages/admin/ProductForm";
+import { AdminLayout } from "./components/admin/AdminLayout";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -137,7 +139,9 @@ const App = () => (
               path="/admin"
               element={
                 <AdminRoute>
-                  <AdminDashboard />
+                  <AdminLayout>
+                    <AdminDashboard />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />
@@ -145,7 +149,19 @@ const App = () => (
               path="/admin/products"
               element={
                 <AdminRoute>
-                  <AdminProducts />
+                  <AdminLayout>
+                    <AdminProducts />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/users"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminUsers />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />
@@ -153,7 +169,9 @@ const App = () => (
               path="/admin/entries"
               element={
                 <AdminRoute>
-                  <AdminEntries />
+                  <AdminLayout>
+                    <AdminEntries />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />
@@ -161,7 +179,9 @@ const App = () => (
               path="/admin/draws"
               element={
                 <AdminRoute>
-                  <AdminDraws />
+                  <AdminLayout>
+                    <AdminDraws />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />
@@ -169,7 +189,9 @@ const App = () => (
               path="/admin/products/new"
               element={
                 <AdminRoute>
-                  <ProductForm />
+                  <AdminLayout>
+                    <ProductForm />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />
@@ -177,7 +199,9 @@ const App = () => (
               path="/admin/products/edit/:id"
               element={
                 <AdminRoute>
-                  <ProductForm />
+                  <AdminLayout>
+                    <ProductForm />
+                  </AdminLayout>
                 </AdminRoute>
               }
             />

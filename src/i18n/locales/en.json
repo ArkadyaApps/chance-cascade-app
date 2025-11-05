@@ -245,6 +245,7 @@
     "priceLowToHigh": "Price: Low to High",
     "priceHighToLow": "Price: High to Low",
     "drawDateSoon": "Draw Date: Soonest",
-    "drawDateLater": "Draw Date: Latest"
+    "drawDateLater": "Draw Date: Latest",
+    "navigation": "Navigation"
   }
 }

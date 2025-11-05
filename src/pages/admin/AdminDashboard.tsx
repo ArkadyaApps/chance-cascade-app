@@ -1,15 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { useProducts } from "@/hooks/useProducts";
 import { useAllEntries } from "@/hooks/useAllEntries";
 import { 
   Package, 
-  Users, 
   Trophy, 
   Ticket,
-  ArrowLeft,
-  TrendingUp
+  TrendingUp,
+  Users,
+  FileText
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
@@ -58,9 +57,15 @@ const AdminDashboard = () => {
       action: () => navigate("/admin/products"),
     },
     {
+      title: "User Management",
+      description: "Manage user accounts and roles",
+      icon: Users,
+      action: () => navigate("/admin/users"),
+    },
+    {
       title: t("admin.entries"),
       description: "See all user entries",
-      icon: Users,
+      icon: FileText,
       action: () => navigate("/admin/entries"),
     },
     {
@@ -72,75 +77,61 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="p-6 max-w-7xl mx-auto space-y-8">
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary to-accent p-6">
-        <div className="max-w-6xl mx-auto">
-          <div className="flex items-center gap-4 mb-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => navigate("/")}
-              className="text-primary-foreground"
-            >
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-            <h1 className="text-3xl font-bold text-primary-foreground">{t("admin.dashboard")}</h1>
-          </div>
-          <p className="text-primary-foreground/80 ml-14">
-            Manage your Lucksy raffle platform
-          </p>
-        </div>
+      <div>
+        <h1 className="text-3xl font-bold mb-2">{t("admin.dashboard")}</h1>
+        <p className="text-muted-foreground">
+          Manage your Lucksy raffle platform
+        </p>
       </div>
 
-      <div className="max-w-6xl mx-auto p-6 space-y-8">
-        {/* Stats Grid */}
+      {/* Stats Grid */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <Card key={stat.title} className="p-6">
+              <div className="flex items-center justify-between mb-2">
+                <div className={`p-3 rounded-full ${stat.bgColor}`}>
+                  <Icon className={`w-6 h-6 ${stat.color}`} />
+                </div>
+              </div>
+              <h3 className="text-sm font-medium text-muted-foreground mb-1">
+                {stat.title}
+              </h3>
+              <p className="text-3xl font-bold">{stat.value}</p>
+            </Card>
+          );
+        })}
+      </div>
+
+      {/* Quick Actions */}
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat) => {
-            const Icon = stat.icon;
+          {quickActions.map((action) => {
+            const Icon = action.icon;
             return (
-              <Card key={stat.title} className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <div className={`p-3 rounded-full ${stat.bgColor}`}>
-                    <Icon className={`w-6 h-6 ${stat.color}`} />
+              <Card
+                key={action.title}
+                className="p-6 cursor-pointer hover:shadow-lg transition-shadow hover:border-primary/50"
+                onClick={action.action}
+              >
+                <div className="flex flex-col items-center text-center gap-3">
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Icon className="w-8 h-8 text-primary" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold mb-1">{action.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {action.description}
+                    </p>
                   </div>
                 </div>
-                <h3 className="text-sm font-medium text-muted-foreground mb-1">
-                  {stat.title}
-                </h3>
-                <p className="text-3xl font-bold">{stat.value}</p>
               </Card>
             );
           })}
-        </div>
-
-        {/* Quick Actions */}
-        <div>
-          <h2 className="text-2xl font-bold mb-4">Quick Actions</h2>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {quickActions.map((action) => {
-              const Icon = action.icon;
-              return (
-                <Card
-                  key={action.title}
-                  className="p-6 cursor-pointer hover:shadow-lg transition-shadow"
-                  onClick={action.action}
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-full bg-primary/10">
-                      <Icon className="w-6 h-6 text-primary" />
-                    </div>
-                    <div>
-                      <h3 className="font-semibold mb-1">{action.title}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {action.description}
-                      </p>
-                    </div>
-                  </div>
-                </Card>
-              );
-            })}
-          </div>
         </div>
       </div>
     </div>
