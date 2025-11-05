@@ -6,10 +6,10 @@ import { useCreateEntry } from "@/hooks/useEntries";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, Ticket, Minus, Plus, Shield, Loader2 } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
+import { ArrowLeft, Ticket, Minus, Plus, Shield, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
+import { CountdownTimer } from "@/components/products/CountdownTimer";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -178,7 +178,7 @@ const ProductDetail = () => {
           )}
 
           {/* Draw Progress */}
-          <div className="bg-secondary/30 rounded-xl p-4 space-y-3">
+          <div className="bg-secondary/30 rounded-xl p-4 space-y-4">
             <div className="flex items-center justify-between">
               <span className="font-semibold">Draw Progress</span>
               <span className="text-sm text-muted-foreground">
@@ -187,13 +187,14 @@ const ProductDetail = () => {
             </div>
             <Progress value={progress} className="h-3" />
             <div className="flex items-center justify-between text-sm">
-              <div className="flex items-center gap-1 text-muted-foreground">
-                <Clock className="w-4 h-4" />
-                <span>
-                  Draws {formatDistanceToNow(new Date(product.draw_date), { addSuffix: true })}
-                </span>
-              </div>
-              <span className="font-medium">{ticketsRemaining} left</span>
+              <span className="font-medium">{ticketsRemaining} tickets remaining</span>
+              <span className="text-muted-foreground">{Math.round(progress)}% sold</span>
+            </div>
+            
+            {/* Countdown Timer */}
+            <div className="pt-2">
+              <p className="text-sm font-medium text-center mb-3 text-muted-foreground">Time Remaining</p>
+              <CountdownTimer targetDate={product.draw_date} />
             </div>
           </div>
 
