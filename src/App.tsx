@@ -17,6 +17,7 @@ import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminEntries from "./pages/admin/AdminEntries";
+import AdminDraws from "./pages/admin/AdminDraws";
 import ProductForm from "./pages/admin/ProductForm";
 import NotFound from "./pages/NotFound";
 
@@ -113,6 +114,14 @@ const App = () => (
               element={
                 <AdminRoute>
                   <AdminEntries />
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/draws"
+              element={
+                <AdminRoute>
+                  <AdminDraws />
                 </AdminRoute>
               }
             />
