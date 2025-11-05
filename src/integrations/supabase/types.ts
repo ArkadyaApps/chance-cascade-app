@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      daily_spins: {
+        Row: {
+          created_at: string
+          id: string
+          last_spin_at: string
+          user_id: string
+          won_ticket: boolean
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_spin_at?: string
+          user_id: string
+          won_ticket?: boolean
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_spin_at?: string
+          user_id?: string
+          won_ticket?: boolean
+        }
+        Relationships: []
+      }
       entries: {
         Row: {
           created_at: string

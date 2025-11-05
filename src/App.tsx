@@ -16,6 +16,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Winners from "./pages/Winners";
 import Contact from "./pages/Contact";
+import DailyWheel from "./pages/DailyWheel";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
@@ -61,6 +62,16 @@ const App = () => (
                 <div className="min-h-screen bg-background pb-20">
                   <ProtectedRoute>
                     <Wallet />
+                  </ProtectedRoute>
+                </div>
+              }
+            />
+            <Route
+              path="/wheel"
+              element={
+                <div className="min-h-screen bg-background">
+                  <ProtectedRoute>
+                    <DailyWheel />
                   </ProtectedRoute>
                 </div>
               }
