@@ -15,6 +15,7 @@ import MyEntries from "./pages/MyEntries";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Winners from "./pages/Winners";
+import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
@@ -110,6 +111,14 @@ const App = () => (
                 <ProtectedRoute>
                   <Settings />
                 </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <div className="min-h-screen bg-background pb-20">
+                  <Contact />
+                </div>
               }
             />
             {/* Admin Routes */}

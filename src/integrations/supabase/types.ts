@@ -59,6 +59,48 @@ export type Database = {
           },
         ]
       }
+      partner_inquiries: {
+        Row: {
+          company_name: string
+          contact_name: string
+          created_at: string
+          email: string
+          id: string
+          message: string
+          phone: string
+          product_category: string
+          status: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          company_name: string
+          contact_name: string
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          phone: string
+          product_category: string
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          company_name?: string
+          contact_name?: string
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          phone?: string
+          product_category?: string
+          status?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: Database["public"]["Enums"]["product_category"]
