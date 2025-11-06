@@ -15,6 +15,7 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import logo from "@/assets/logo.png";
+import { useIsAdmin } from "@/hooks/useUserRole";
 
 const loginSchema = z.object({
   email: z.string().trim().email({ message: "Invalid email address" }).max(255),
@@ -33,13 +34,18 @@ const Auth = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { isAdmin, isLoading: roleLoading } = useIsAdmin();
 
   // Redirect if already logged in
   useEffect(() => {
-    if (user) {
-      navigate("/");
+    if (user && !roleLoading) {
+      if (isAdmin) {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
     }
-  }, [user, navigate]);
+  }, [user, isAdmin, roleLoading, navigate]);
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
