@@ -20,6 +20,7 @@ import Winners from "./pages/Winners";
 import Contact from "./pages/Contact";
 import DailyWheel from "./pages/DailyWheel";
 import Auth from "./pages/Auth";
+import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminUsers from "./pages/admin/AdminUsers";
@@ -44,6 +45,7 @@ const App = () => (
           <PageTransition>
             <Routes>
             <Route path="/auth" element={<Auth />} />
+            <Route path="/admin-login" element={<AdminLogin />} />
             <Route
               path="/"
               element={
@@ -151,6 +153,16 @@ const App = () => (
             {/* Admin Routes */}
             <Route
               path="/admin"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminDashboard />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/dashboard"
               element={
                 <AdminRoute>
                   <AdminLayout>
