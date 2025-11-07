@@ -19,6 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { countries } from "@/lib/countries";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 
 const productSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters").max(100),
@@ -30,6 +33,7 @@ const productSchema = z.object({
   drawDate: z.string().min(1, "Draw date is required"),
   featured: z.boolean(),
   partnerId: z.string().optional(),
+  availableCountries: z.array(z.string()).optional(),
 });
 
 const ProductForm = () => {
@@ -39,6 +43,9 @@ const ProductForm = () => {
   const { data: product, isLoading: productLoading } = useProduct(id || "");
   const { data: partners } = usePartners();
   const [isLoading, setIsLoading] = useState(false);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>(
+    product?.available_countries || []
+  );
 
   const isEditMode = !!id;
 
@@ -57,6 +64,7 @@ const ProductForm = () => {
       drawDate: formData.get("drawDate") as string,
       featured: formData.get("featured") === "on",
       partnerId: formData.get("partnerId") as string || undefined,
+      availableCountries: selectedCountries,
     };
 
     try {
@@ -72,6 +80,7 @@ const ProductForm = () => {
         draw_date: new Date(validated.drawDate).toISOString(),
         featured: validated.featured,
         partner_id: validated.partnerId || null,
+        available_countries: validated.availableCountries || [],
       };
 
       if (isEditMode) {
@@ -287,6 +296,61 @@ const ProductForm = () => {
               </Select>
               <p className="text-xs text-muted-foreground">
                 Select a partner organization for this product
+              </p>
+            </div>
+
+            {/* Country Selection */}
+            <div className="space-y-2">
+              <Label htmlFor="countries">Available Countries</Label>
+              <Select
+                onValueChange={(value) => {
+                  if (value && !selectedCountries.includes(value)) {
+                    setSelectedCountries([...selectedCountries, value]);
+                  }
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select countries where product ships" />
+                </SelectTrigger>
+                <SelectContent className="bg-popover z-50 max-h-[300px]">
+                  {countries.map((country) => (
+                    <SelectItem 
+                      key={country.code} 
+                      value={country.code}
+                      disabled={selectedCountries.includes(country.code)}
+                    >
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              
+              {selectedCountries.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {selectedCountries.map((code) => {
+                    const country = countries.find((c) => c.code === code);
+                    return (
+                      <Badge key={code} variant="secondary" className="gap-1">
+                        {country?.name}
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setSelectedCountries(
+                              selectedCountries.filter((c) => c !== code)
+                            )
+                          }
+                          className="ml-1 hover:bg-destructive/20 rounded-full"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </Badge>
+                    );
+                  })}
+                </div>
+              )}
+              
+              <p className="text-xs text-muted-foreground">
+                Leave empty to make available worldwide
               </p>
             </div>
 

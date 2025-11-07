@@ -217,6 +217,7 @@ export type Database = {
       }
       products: {
         Row: {
+          available_countries: string[] | null
           category: Database["public"]["Enums"]["product_category"]
           created_at: string
           description: string
@@ -239,6 +240,7 @@ export type Database = {
           winner_id: string | null
         }
         Insert: {
+          available_countries?: string[] | null
           category: Database["public"]["Enums"]["product_category"]
           created_at?: string
           description: string
@@ -261,6 +263,7 @@ export type Database = {
           winner_id?: string | null
         }
         Update: {
+          available_countries?: string[] | null
           category?: Database["public"]["Enums"]["product_category"]
           created_at?: string
           description?: string

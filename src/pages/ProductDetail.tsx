@@ -3,15 +3,18 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useProduct } from "@/hooks/useProducts";
 import { useProfile } from "@/hooks/useProfile";
 import { useCreateEntry } from "@/hooks/useEntries";
+import { useGeolocation } from "@/hooks/useGeolocation";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Ticket, Minus, Plus, Shield, Loader2 } from "lucide-react";
+import { ArrowLeft, Ticket, Minus, Plus, Shield, Loader2, Globe, AlertCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CountdownTimer } from "@/components/products/CountdownTimer";
 import logo from "@/assets/logo.png";
 import { useTranslateProduct } from "@/hooks/useTranslateProduct";
+import { countries } from "@/lib/countries";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -19,9 +22,21 @@ const ProductDetail = () => {
   const { toast } = useToast();
   const { data: product, isLoading } = useProduct(id!);
   const { data: profile } = useProfile();
+  const { data: geolocation } = useGeolocation();
   const createEntry = useCreateEntry();
   const [ticketCount, setTicketCount] = useState(1);
   const { translatedProduct, isTranslating } = useTranslateProduct(product || null);
+
+  const isAvailableInUserCountry = !product?.available_countries || 
+    product.available_countries.length === 0 || 
+    (geolocation?.countryCode && product.available_countries.includes(geolocation.countryCode));
+
+  const getCountryNames = (codes: string[]) => {
+    return codes
+      .map(code => countries.find(c => c.code === code)?.name)
+      .filter(Boolean)
+      .join(", ");
+  };
 
   if (isLoading) {
     return (
@@ -209,6 +224,34 @@ const ProductDetail = () => {
             </div>
           )}
 
+          {/* Shipping Availability */}
+          {product.available_countries && product.available_countries.length > 0 && (
+            <div className="bg-gradient-to-r from-blue-500/10 to-blue-600/10 rounded-xl p-4 border border-blue-500/20">
+              <div className="flex items-start gap-3">
+                <Globe className="w-5 h-5 text-blue-500 mt-0.5 shrink-0" />
+                <div className="flex-1">
+                  <div className="font-semibold text-sm mb-1">Ships to Selected Countries</div>
+                  <p className="text-sm text-muted-foreground">
+                    {getCountryNames(product.available_countries)}
+                  </p>
+                  {geolocation?.countryCode && !isAvailableInUserCountry && (
+                    <Alert variant="destructive" className="mt-3">
+                      <AlertCircle className="h-4 w-4" />
+                      <AlertDescription className="text-xs">
+                        This product is not available for shipping to {geolocation.country}
+                      </AlertDescription>
+                    </Alert>
+                  )}
+                  {geolocation?.countryCode && isAvailableInUserCountry && (
+                    <Badge variant="outline" className="mt-2 border-green-500/50 text-green-600 bg-green-500/10">
+                      ✓ Available in {geolocation.country}
+                    </Badge>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Draw Progress */}
           <div className="bg-secondary/30 rounded-xl p-4 space-y-4">
             <div className="flex items-center justify-between">
@@ -282,7 +325,7 @@ const ProductDetail = () => {
 
             <Button
               onClick={handleEnterDraw}
-              disabled={!canAfford || createEntry.isPending}
+              disabled={!canAfford || createEntry.isPending || !isAvailableInUserCountry}
               className="w-full h-12 text-lg font-semibold bg-gradient-to-r from-primary to-accent hover:opacity-90 transition-opacity"
             >
               {createEntry.isPending ? (
@@ -290,6 +333,8 @@ const ProductDetail = () => {
                   <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                   Entering...
                 </>
+              ) : !isAvailableInUserCountry ? (
+                "Not Available in Your Country"
               ) : canAfford ? (
                 `Enter Draw (${totalCost} tickets)`
               ) : (

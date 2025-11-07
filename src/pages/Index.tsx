@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { ProductCard } from "@/components/products/ProductCard";
 import { FeaturedCarousel } from "@/components/products/FeaturedCarousel";
 import { useProducts } from "@/hooks/useProducts";
+import { useGeolocation } from "@/hooks/useGeolocation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, SlidersHorizontal, X } from "lucide-react";
@@ -22,7 +23,10 @@ const Index = () => {
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("featured");
   const [filterOpen, setFilterOpen] = useState(false);
-  const { data: products, isLoading } = useProducts();
+  const { data: geolocation } = useGeolocation();
+  const { data: products, isLoading } = useProducts({ 
+    countryCode: geolocation?.countryCode 
+  });
   
   const headerParallax = useScrollParallax({ speed: -0.3 });
 
