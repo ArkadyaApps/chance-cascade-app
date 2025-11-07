@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useProduct } from "@/hooks/useProducts";
+import { usePartners } from "@/hooks/usePartners";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -23,15 +24,12 @@ const productSchema = z.object({
   name: z.string().min(3, "Name must be at least 3 characters").max(100),
   description: z.string().min(10, "Description must be at least 10 characters").max(500),
   imageUrl: z.string().url("Must be a valid URL"),
-  ticketPrice: z.number().min(1, "Must be at least 1"),
+  minTickets: z.number().min(1, "Must be at least 1"),
   ticketsRequired: z.number().min(10, "Must be at least 10"),
   category: z.enum(["electronics", "gaming", "fashion", "home", "sports", "other"]),
   drawDate: z.string().min(1, "Draw date is required"),
   featured: z.boolean(),
-  partnerName: z.string().optional(),
-  partnerLogoUrl: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  partnerWebsite: z.string().url("Must be a valid URL").optional().or(z.literal("")),
-  partnerDescription: z.string().max(200, "Description must be less than 200 characters").optional(),
+  partnerId: z.string().optional(),
 });
 
 const ProductForm = () => {
@@ -39,6 +37,7 @@ const ProductForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const { data: product, isLoading: productLoading } = useProduct(id || "");
+  const { data: partners } = usePartners();
   const [isLoading, setIsLoading] = useState(false);
 
   const isEditMode = !!id;
@@ -52,15 +51,12 @@ const ProductForm = () => {
       name: formData.get("name") as string,
       description: formData.get("description") as string,
       imageUrl: formData.get("imageUrl") as string,
-      ticketPrice: parseInt(formData.get("ticketPrice") as string),
+      minTickets: parseInt(formData.get("minTickets") as string),
       ticketsRequired: parseInt(formData.get("ticketsRequired") as string),
       category: formData.get("category") as string,
       drawDate: formData.get("drawDate") as string,
       featured: formData.get("featured") === "on",
-      partnerName: formData.get("partnerName") as string,
-      partnerLogoUrl: formData.get("partnerLogoUrl") as string,
-      partnerWebsite: formData.get("partnerWebsite") as string,
-      partnerDescription: formData.get("partnerDescription") as string,
+      partnerId: formData.get("partnerId") as string || undefined,
     };
 
     try {
@@ -70,15 +66,12 @@ const ProductForm = () => {
         name: validated.name,
         description: validated.description,
         images: [validated.imageUrl],
-        ticket_price: validated.ticketPrice,
+        ticket_price: 1, // Fixed at 1
         tickets_required: validated.ticketsRequired,
         category: validated.category,
         draw_date: new Date(validated.drawDate).toISOString(),
         featured: validated.featured,
-        partner_name: validated.partnerName || null,
-        partner_logo_url: validated.partnerLogoUrl || null,
-        partner_website: validated.partnerWebsite || null,
-        partner_description: validated.partnerDescription || null,
+        partner_id: validated.partnerId || null,
       };
 
       if (isEditMode) {
@@ -197,20 +190,23 @@ const ProductForm = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="ticketPrice">Ticket Price</Label>
+                <Label htmlFor="minTickets">Minimum Tickets to Participate</Label>
                 <Input
-                  id="ticketPrice"
-                  name="ticketPrice"
+                  id="minTickets"
+                  name="minTickets"
                   type="number"
                   min="1"
                   placeholder="1"
-                  defaultValue={product?.ticket_price}
+                  defaultValue={1}
                   required
                 />
+                <p className="text-xs text-muted-foreground">
+                  Minimum number of tickets users must purchase
+                </p>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="ticketsRequired">Tickets Required</Label>
+                <Label htmlFor="ticketsRequired">Total Tickets for Draw</Label>
                 <Input
                   id="ticketsRequired"
                   name="ticketsRequired"
@@ -220,6 +216,9 @@ const ProductForm = () => {
                   defaultValue={product?.tickets_required}
                   required
                 />
+                <p className="text-xs text-muted-foreground">
+                  Ticket price is fixed at 1 credit
+                </p>
               </div>
             </div>
 
@@ -270,61 +269,25 @@ const ProductForm = () => {
               </Label>
             </div>
 
-            {/* Partner Information Section */}
-            <div className="space-y-4 pt-6 border-t">
-              <div>
-                <h3 className="text-lg font-semibold mb-2">Partner Information</h3>
-                <p className="text-sm text-muted-foreground">
-                  Optional details about the partner/affiliate offering this product
-                </p>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="partnerName">Partner Name</Label>
-                <Input
-                  id="partnerName"
-                  name="partnerName"
-                  placeholder="e.g., Apple, Nike, Sony"
-                  defaultValue={product?.partner_name || ""}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="partnerLogoUrl">Partner Logo URL</Label>
-                <Input
-                  id="partnerLogoUrl"
-                  name="partnerLogoUrl"
-                  type="url"
-                  placeholder="https://example.com/logo.png"
-                  defaultValue={product?.partner_logo_url || ""}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="partnerWebsite">Partner Website</Label>
-                <Input
-                  id="partnerWebsite"
-                  name="partnerWebsite"
-                  type="url"
-                  placeholder="https://partner.com"
-                  defaultValue={product?.partner_website || ""}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="partnerDescription">Partner Description</Label>
-                <Textarea
-                  id="partnerDescription"
-                  name="partnerDescription"
-                  placeholder="Brief description of the partner brand..."
-                  rows={3}
-                  maxLength={200}
-                  defaultValue={product?.partner_description || ""}
-                />
-                <p className="text-xs text-muted-foreground">
-                  Maximum 200 characters
-                </p>
-              </div>
+            {/* Partner Selection */}
+            <div className="space-y-2">
+              <Label htmlFor="partnerId">Partner (Optional)</Label>
+              <Select name="partnerId" defaultValue={product?.partner_id || ""}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a partner" />
+                </SelectTrigger>
+                <SelectContent className="bg-popover z-50">
+                  <SelectItem value="">No Partner</SelectItem>
+                  {partners?.map((partner) => (
+                    <SelectItem key={partner.id} value={partner.id}>
+                      {partner.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                Select a partner organization for this product
+              </p>
             </div>
 
             <div className="flex gap-4">

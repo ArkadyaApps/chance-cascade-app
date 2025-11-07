@@ -27,6 +27,7 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import AdminEntries from "./pages/admin/AdminEntries";
 import AdminDraws from "./pages/admin/AdminDraws";
 import AdminAboutUs from "./pages/admin/AdminAboutUs";
+import AdminPartners from "./pages/admin/AdminPartners";
 import ProductForm from "./pages/admin/ProductForm";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import NotFound from "./pages/NotFound";
@@ -227,6 +228,16 @@ const App = () => (
                 <AdminRoute>
                   <AdminLayout>
                     <ProductForm />
+                  </AdminLayout>
+                </AdminRoute>
+              }
+            />
+            <Route
+              path="/admin/partners"
+              element={
+                <AdminRoute>
+                  <AdminLayout>
+                    <AdminPartners />
                   </AdminLayout>
                 </AdminRoute>
               }

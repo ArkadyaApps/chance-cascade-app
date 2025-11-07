@@ -185,6 +185,36 @@ export type Database = {
         }
         Relationships: []
       }
+      partners: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          logo_url: string | null
+          name: string
+          updated_at: string
+          website: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name: string
+          updated_at?: string
+          website?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          logo_url?: string | null
+          name?: string
+          updated_at?: string
+          website?: string | null
+        }
+        Relationships: []
+      }
       products: {
         Row: {
           category: Database["public"]["Enums"]["product_category"]
@@ -196,6 +226,7 @@ export type Database = {
           images: string[]
           name: string
           partner_description: string | null
+          partner_id: string | null
           partner_logo_url: string | null
           partner_name: string | null
           partner_website: string | null
@@ -217,6 +248,7 @@ export type Database = {
           images?: string[]
           name: string
           partner_description?: string | null
+          partner_id?: string | null
           partner_logo_url?: string | null
           partner_name?: string | null
           partner_website?: string | null
@@ -238,6 +270,7 @@ export type Database = {
           images?: string[]
           name?: string
           partner_description?: string | null
+          partner_id?: string | null
           partner_logo_url?: string | null
           partner_name?: string | null
           partner_website?: string | null
@@ -250,6 +283,13 @@ export type Database = {
           winner_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "products_partner_id_fkey"
+            columns: ["partner_id"]
+            isOneToOne: false
+            referencedRelation: "partners"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "products_winner_id_fkey"
             columns: ["winner_id"]

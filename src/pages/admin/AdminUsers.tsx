@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -26,7 +27,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Search, Shield, Download, Filter, UserCog } from "lucide-react";
+import { Search, Shield, Download, Filter, UserCog, Plus, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -55,6 +56,8 @@ const AdminUsers = () => {
   const [roleFilter, setRoleFilter] = useState<string>("all");
   const [roleDialogOpen, setRoleDialogOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<Profile | null>(null);
+  const [userFormOpen, setUserFormOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<Profile | null>(null);
 
   // Fetch profiles
   const { data: profiles, isLoading: profilesLoading } = useQuery({
@@ -206,14 +209,97 @@ const AdminUsers = () => {
     },
   });
 
+  // Create user
+  const createUserMutation = useMutation({
+    mutationFn: async (data: { email: string; password: string; full_name: string }) => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) throw new Error("Not authenticated");
+
+      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+        email: data.email,
+        password: data.password,
+        email_confirm: true,
+        user_metadata: { full_name: data.full_name },
+      });
+
+      if (authError) throw authError;
+      return authData;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-profiles"] });
+      toast({ title: "User created successfully" });
+      setUserFormOpen(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to create user",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  // Update user profile
+  const updateUserMutation = useMutation({
+    mutationFn: async (data: { userId: string; full_name: string; country?: string }) => {
+      const { error } = await supabase
+        .from("profiles")
+        .update({ full_name: data.full_name, country: data.country })
+        .eq("id", data.userId);
+
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-profiles"] });
+      toast({ title: "User updated successfully" });
+      setUserFormOpen(false);
+      setEditingUser(null);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Failed to update user",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleUserSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    
+    if (editingUser) {
+      updateUserMutation.mutate({
+        userId: editingUser.id,
+        full_name: formData.get("full_name") as string,
+        country: formData.get("country") as string,
+      });
+    } else {
+      createUserMutation.mutate({
+        email: formData.get("email") as string,
+        password: formData.get("password") as string,
+        full_name: formData.get("full_name") as string,
+      });
+    }
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6">
       {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold mb-2">User Management</h1>
-        <p className="text-muted-foreground">
-          View and manage all registered users
-        </p>
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-3xl font-bold mb-2">User Management</h1>
+          <p className="text-muted-foreground">
+            View and manage all registered users
+          </p>
+        </div>
+        <Button onClick={() => {
+          setEditingUser(null);
+          setUserFormOpen(true);
+        }}>
+          <Plus className="w-4 h-4 mr-2" />
+          Add User
+        </Button>
       </div>
 
       {/* Filters */}
@@ -317,6 +403,16 @@ const AdminUsers = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex gap-2">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => {
+                            setEditingUser(user);
+                            setUserFormOpen(true);
+                          }}
+                        >
+                          Edit
+                        </Button>
                         <Button
                           size="sm"
                           variant="outline"
@@ -453,6 +549,83 @@ const AdminUsers = () => {
               Close
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* User Create/Edit Dialog */}
+      <Dialog open={userFormOpen} onOpenChange={setUserFormOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{editingUser ? "Edit User" : "Create New User"}</DialogTitle>
+            <DialogDescription>
+              {editingUser ? "Update user information" : "Add a new user to the system"}
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleUserSubmit} className="space-y-4">
+            {!editingUser && (
+              <>
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email *</Label>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="password">Password *</Label>
+                  <Input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    minLength={6}
+                  />
+                </div>
+              </>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="full_name">Full Name *</Label>
+              <Input
+                id="full_name"
+                name="full_name"
+                defaultValue={editingUser?.full_name || ""}
+                required
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="country">Country</Label>
+              <Input
+                id="country"
+                name="country"
+                defaultValue={editingUser?.country || ""}
+              />
+            </div>
+
+            <DialogFooter>
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  setUserFormOpen(false);
+                  setEditingUser(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                type="submit"
+                disabled={createUserMutation.isPending || updateUserMutation.isPending}
+              >
+                {(createUserMutation.isPending || updateUserMutation.isPending) && (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                )}
+                {editingUser ? "Update" : "Create"}
+              </Button>
+            </DialogFooter>
+          </form>
         </DialogContent>
       </Dialog>
     </div>

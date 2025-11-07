@@ -9,6 +9,8 @@ import {
   LogOut,
   ChevronLeft,
   Info,
+  Handshake,
+  Ticket,
 } from "lucide-react";
 import {
   Sidebar,
@@ -27,11 +29,12 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "react-i18next";
 
 const adminItems = [
-  { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+  { title: "Dashboard", url: "/admin/dashboard", icon: LayoutDashboard },
   { title: "Products", url: "/admin/products", icon: Package },
-  { title: "Users", url: "/admin/users", icon: Users },
-  { title: "Entries", url: "/admin/entries", icon: FileText },
+  { title: "Partners", url: "/admin/partners", icon: Handshake },
   { title: "Draws", url: "/admin/draws", icon: Trophy },
+  { title: "Entries", url: "/admin/entries", icon: Ticket },
+  { title: "Users", url: "/admin/users", icon: Users },
   { title: "About Us", url: "/admin/about-us", icon: Info },
 ];
 
