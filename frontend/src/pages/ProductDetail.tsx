@@ -253,23 +253,49 @@ const ProductDetail = () => {
           )}
 
           {/* Draw Progress */}
-          <div className="bg-secondary/30 rounded-xl p-4 space-y-4">
+          <div className="bg-gradient-to-br from-secondary/40 to-accent/20 rounded-xl p-5 space-y-4 border border-border">
             <div className="flex items-center justify-between">
-              <span className="font-semibold">Draw Progress</span>
-              <span className="text-sm text-muted-foreground">
-                {product.tickets_sold}/{product.tickets_required} tickets
-              </span>
+              <span className="font-bold text-lg">Ticket Sales Progress</span>
+              <Badge variant="secondary" className="text-sm font-bold">
+                {Math.round(progress)}%
+              </Badge>
             </div>
-            <Progress value={progress} className="h-3" />
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-medium">{ticketsRemaining} tickets remaining</span>
-              <span className="text-muted-foreground">{Math.round(progress)}% sold</span>
+            
+            <div className="bg-background/50 rounded-lg p-3 space-y-2">
+              <Progress value={progress} className="h-3 bg-muted" />
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex flex-col">
+                  <span className="text-muted-foreground text-xs">Sold</span>
+                  <span className="font-bold text-green-600">
+                    {product.tickets_sold.toLocaleString()}
+                  </span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="text-muted-foreground text-xs">Required</span>
+                  <span className="font-bold">
+                    {product.tickets_required.toLocaleString()}
+                  </span>
+                </div>
+                <div className="flex flex-col items-end">
+                  <span className="text-muted-foreground text-xs">Remaining</span>
+                  <span className={`font-bold ${ticketsRemaining > 0 ? 'text-orange-500' : 'text-green-500'}`}>
+                    {ticketsRemaining > 0 
+                      ? ticketsRemaining.toLocaleString() 
+                      : 'Full!'}
+                  </span>
+                </div>
+              </div>
             </div>
             
             {/* Countdown Timer */}
-            <div className="pt-2">
-              <p className="text-sm font-medium text-center mb-3 text-muted-foreground">Time Remaining</p>
+            <div className="pt-2 border-t border-border/50">
+              <p className="text-sm font-medium text-center mb-3 text-muted-foreground">Draw Date</p>
               <CountdownTimer targetDate={product.draw_date} />
+              <p className="text-xs text-center text-muted-foreground mt-2">
+                {ticketsRemaining > 0 
+                  ? "Draw date may extend if tickets aren't sold" 
+                  : "Ready for draw when scheduled!"}
+              </p>
             </div>
           </div>
 

@@ -76,14 +76,27 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
 
         {/* Progress Bar */}
-        <div className="space-y-1">
+        <div className="space-y-1.5 bg-muted/30 p-2 rounded-lg">
           <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">Progress</span>
-            <span className="font-medium text-xs">
-              {product.tickets_sold}/{product.tickets_required}
+            <span className="text-muted-foreground font-medium">Ticket Sales</span>
+            <span className="font-bold text-primary">
+              {Math.round(progress)}%
             </span>
           </div>
-          <Progress value={progress} className="h-1.5" />
+          <Progress 
+            value={progress} 
+            className="h-2 bg-muted" 
+          />
+          <div className="flex items-center justify-between text-xs">
+            <span className="text-muted-foreground">
+              {product.tickets_sold.toLocaleString()} sold
+            </span>
+            <span className={`font-medium ${ticketsRemaining > 0 ? 'text-orange-500' : 'text-green-500'}`}>
+              {ticketsRemaining > 0 
+                ? `${ticketsRemaining.toLocaleString()} remaining` 
+                : 'Fully booked!'}
+            </span>
+          </div>
         </div>
 
         {/* Footer */}
