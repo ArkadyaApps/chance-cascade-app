@@ -72,12 +72,12 @@ serve(async (req) => {
       const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
       const priceId = lineItems.data[0]?.price?.id;
 
-      // Map price IDs to ticket amounts (including bonuses)
+      // Map price IDs to ticket amounts
       const ticketAmounts: Record<string, { tickets: number; description: string }> = {
-        "price_1SQ8uJK2pvACY45ZdIGiKyFY": { tickets: 10, description: "10 tickets" },
-        "price_1SQ8uZK2pvACY45ZZvwwEmU6": { tickets: 55, description: "50 tickets + 5 bonus" },
-        "price_1SQ8uaK2pvACY45Z7HglVrtx": { tickets: 115, description: "100 tickets + 15 bonus" },
-        "price_1SQ8uaK2pvACY45ZuqfCPxn7": { tickets: 600, description: "500 tickets + 100 bonus" },
+        "price_1SRf5yK2pvACY45Z8luE9obN": { tickets: 10, description: "10 tickets" },
+        "price_1SRf5zK2pvACY45Zr8uSEFM4": { tickets: 50, description: "50 tickets" },
+        "price_1SRf60K2pvACY45Zgg0gMw6Y": { tickets: 100, description: "100 tickets" },
+        "price_1SRf60K2pvACY45ZKJUo0Nzx": { tickets: 500, description: "500 tickets" },
       };
 
       const ticketInfo = ticketAmounts[priceId || ""];

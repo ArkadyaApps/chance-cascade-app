@@ -14,10 +14,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/layout/AppHeader";
 
 const ticketPackages = [
-  { tickets: 10, price: 9.99, priceId: "price_1SQ8uJK2pvACY45ZdIGiKyFY", popular: false },
-  { tickets: 50, price: 44.99, priceId: "price_1SQ8uZK2pvACY45ZZvwwEmU6", popular: true, bonus: 5 },
-  { tickets: 100, price: 84.99, priceId: "price_1SQ8uaK2pvACY45Z7HglVrtx", popular: false, bonus: 15 },
-  { tickets: 500, price: 399.99, priceId: "price_1SQ8uaK2pvACY45ZuqfCPxn7", popular: false, bonus: 100 },
+  { tickets: 10, price: 9.99, priceId: "price_1SRf5yK2pvACY45Z8luE9obN", popular: false },
+  { tickets: 50, price: 44.99, priceId: "price_1SRf5zK2pvACY45Zr8uSEFM4", popular: true },
+  { tickets: 100, price: 84.99, priceId: "price_1SRf60K2pvACY45Zgg0gMw6Y", popular: false },
+  { tickets: 500, price: 399.99, priceId: "price_1SRf60K2pvACY45ZKJUo0Nzx", popular: false },
 ];
 
 const Wallet = () => {
@@ -48,7 +48,7 @@ const Wallet = () => {
       const { data, error } = await supabase.functions.invoke("create-checkout-session", {
         body: {
           priceId: pkg.priceId,
-          packageName: `${pkg.tickets}${pkg.bonus ? ` + ${pkg.bonus} bonus` : ''} tickets`,
+          packageName: `${pkg.tickets} tickets`,
         },
       });
 
@@ -169,12 +169,6 @@ const Wallet = () => {
                   </div>
                 )}
                 
-                {pkg.bonus && (
-                  <Badge className="absolute -top-2 -right-2 bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg z-10">
-                    +{pkg.bonus} Free
-                  </Badge>
-                )}
-                
                 <div className="text-center space-y-3 pt-2">
                   <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 mb-2">
                     <Ticket className="w-8 h-8 text-primary" />
@@ -182,11 +176,6 @@ const Wallet = () => {
                   
                   <div>
                     <div className="text-3xl font-bold">{pkg.tickets}</div>
-                    {pkg.bonus && (
-                      <div className="text-xs text-green-600 font-semibold">
-                        + {pkg.bonus} bonus
-                      </div>
-                    )}
                     <div className="text-xs text-muted-foreground mt-1">{t("wallet.tickets")}</div>
                   </div>
                   
