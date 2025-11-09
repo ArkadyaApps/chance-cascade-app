@@ -3,11 +3,11 @@ import type { Config } from "tailwindcss";
 export default {
   darkMode: ["class"],
   content: [
-    "./frontend/pages/**/*.{ts,tsx}",
-    "./frontend/components/**/*.{ts,tsx}",
-    "./frontend/app/**/*.{ts,tsx}",
-    "./frontend/src/**/*.{ts,tsx}",
-    "./frontend/index.html"
+    "./pages/**/*.{ts,tsx}",
+    "./components/**/*.{ts,tsx}",
+    "./app/**/*.{ts,tsx}",
+    "./src/**/*.{ts,tsx}",
+    "./index.html"
   ],
   prefix: "",
   theme: {
@@ -79,45 +79,39 @@ export default {
           to: { height: "0" },
         },
         "page-enter": {
-          "0%": { opacity: "0", transform: "translateY(20px) scale(0.95)" },
-          "100%": { opacity: "1", transform: "translateY(0) scale(1)" },
+          from: { opacity: "0", transform: "translateY(10px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
         },
-        "page-exit": {
-          "0%": { opacity: "1", transform: "translateY(0) scale(1)" },
-          "100%": { opacity: "0", transform: "translateY(-20px) scale(0.95)" },
-        },
-        "float": {
+        float: {
           "0%, 100%": { transform: "translateY(0px)" },
-          "50%": { transform: "translateY(-20px)" },
+          "50%": { transform: "translateY(-10px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 20px hsl(var(--primary) / 0.3)" },
-          "50%": { boxShadow: "0 0 40px hsl(var(--primary) / 0.6)" },
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
         },
-        "shimmer": {
-          "0%": { backgroundPosition: "200% center" },
-          "100%": { backgroundPosition: "-200% center" },
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
         },
         "bounce-slow": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
+          "50%": { transform: "translateY(-5px)" },
         },
         "gradient-shift": {
-          "0%": { backgroundPosition: "0% 50%" },
+          "0%, 100%": { backgroundPosition: "0% 50%" },
           "50%": { backgroundPosition: "100% 50%" },
-          "100%": { backgroundPosition: "0% 50%" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "page-enter": "page-enter 0.4s ease-out",
-        "page-exit": "page-exit 0.3s ease-in",
-        "float": "float 3s ease-in-out infinite",
+        "page-enter": "page-enter 0.3s ease-out",
+        float: "float 3s ease-in-out infinite",
         "pulse-glow": "pulse-glow 2s ease-in-out infinite",
-        "shimmer": "shimmer 3s linear infinite",
+        shimmer: "shimmer 2s linear infinite",
         "bounce-slow": "bounce-slow 2s ease-in-out infinite",
-        "gradient-shift": "gradient-shift 8s ease infinite",
+        "gradient-shift": "gradient-shift 3s ease infinite",
       },
     },
   },
