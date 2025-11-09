@@ -22,7 +22,7 @@ serve(async (req) => {
     // Find products that are ready for draw (draw_date has passed and no winner yet)
     const { data: productsToRun, error: fetchError } = await supabaseClient
       .from("products")
-      .select("id, name, draw_date")
+      .select("id, name, draw_date, tickets_required, tickets_sold")
       .is("winner_id", null)
       .not("draw_date", "is", null)
       .lte("draw_date", new Date().toISOString());
@@ -48,6 +48,44 @@ serve(async (req) => {
     for (const product of productsToRun) {
       try {
         console.log(`Processing draw for product: ${product.name} (${product.id})`);
+        console.log(`Tickets sold: ${product.tickets_sold}/${product.tickets_required}`);
+
+        // Check if required tickets are sold
+        if (product.tickets_sold < product.tickets_required) {
+          console.log(`Required tickets not reached. Extending draw date by 7 days.`);
+          
+          // Extend draw date by 7 days
+          const currentDrawDate = new Date(product.draw_date);
+          const newDrawDate = new Date(currentDrawDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+          
+          const { error: extendError } = await supabaseClient
+            .from("products")
+            .update({ draw_date: newDrawDate.toISOString() })
+            .eq("id", product.id);
+
+          if (extendError) {
+            console.error(`Error extending draw date for ${product.id}:`, extendError);
+            results.push({ 
+              product_id: product.id, 
+              status: "error", 
+              error: extendError.message 
+            });
+          } else {
+            results.push({
+              product_id: product.id,
+              product_name: product.name,
+              status: "postponed",
+              reason: "Required tickets not reached",
+              tickets_sold: product.tickets_sold,
+              tickets_required: product.tickets_required,
+              new_draw_date: newDrawDate.toISOString(),
+            });
+          }
+          
+          continue;
+        }
+
+        console.log(`Required tickets reached. Proceeding with draw.`);
 
         // Get all entries for this product
         const { data: entries, error: entriesError } = await supabaseClient

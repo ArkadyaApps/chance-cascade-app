@@ -73,6 +73,43 @@ Deno.serve(async (req) => {
       throw new Error('Product is not active');
     }
 
+    console.log(`Tickets sold: ${product.tickets_sold}/${product.tickets_required}`);
+
+    // Check if required tickets are sold
+    if (product.tickets_sold < product.tickets_required) {
+      console.log('Required tickets not reached. Extending draw date by 7 days.');
+      
+      // Extend draw date by 7 days
+      const currentDrawDate = new Date(product.draw_date);
+      const newDrawDate = new Date(currentDrawDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+      
+      const { error: extendError } = await supabaseClient
+        .from('products')
+        .update({ draw_date: newDrawDate.toISOString() })
+        .eq('id', productId);
+
+      if (extendError) {
+        throw new Error('Failed to extend draw date');
+      }
+
+      return new Response(
+        JSON.stringify({
+          success: false,
+          postponed: true,
+          reason: 'Required tickets not reached',
+          tickets_sold: product.tickets_sold,
+          tickets_required: product.tickets_required,
+          new_draw_date: newDrawDate.toISOString(),
+        }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 200,
+        }
+      );
+    }
+
+    console.log('Required tickets reached. Proceeding with draw.');
+
     // Get all entries for this product
     const { data: entries, error: entriesError } = await supabaseClient
       .from('entries')
