@@ -2,8 +2,8 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    "./src/**/*.{ts,tsx}",
-    "./index.html"
+    "./frontend/src/**/*.{ts,tsx}",
+    "./frontend/index.html"
   ],
   prefix: "",
   theme: {
