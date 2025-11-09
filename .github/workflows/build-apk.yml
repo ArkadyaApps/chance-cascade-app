@@ -37,7 +37,7 @@ jobs:
       
     - name: Build frontend
       working-directory: ./frontend
-      run: yarn build
+      run: npm run build
       
     - name: Sync Capacitor
       working-directory: ./frontend
