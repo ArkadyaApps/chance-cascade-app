@@ -14,10 +14,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { AppHeader } from "@/components/layout/AppHeader";
 
 const ticketPackages = [
-  { tickets: 10, price: 9.99, priceId: "price_1SRf5yK2pvACY45Z8luE9obN", popular: false },
-  { tickets: 50, price: 44.99, priceId: "price_1SRf5zK2pvACY45Zr8uSEFM4", popular: true },
-  { tickets: 100, price: 84.99, priceId: "price_1SRf60K2pvACY45Zgg0gMw6Y", popular: false },
-  { tickets: 500, price: 399.99, priceId: "price_1SRf60K2pvACY45ZKJUo0Nzx", popular: false },
+  { tickets: 10, price: 10.00, priceId: "price_1SRf86K2pvACY45ZJDBl1P7E", popular: false },
+  { tickets: 50, price: 50.00, priceId: "price_1SRf87K2pvACY45Z8hSxXxt9", popular: true },
+  { tickets: 100, price: 100.00, priceId: "price_1SRf87K2pvACY45ZNbFbyUwb", popular: false },
+  { tickets: 500, price: 500.00, priceId: "price_1SRf88K2pvACY45ZESiHloJt", popular: false },
 ];
 
 const Wallet = () => {

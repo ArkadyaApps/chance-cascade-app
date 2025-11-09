@@ -74,10 +74,10 @@ serve(async (req) => {
 
       // Map price IDs to ticket amounts
       const ticketAmounts: Record<string, { tickets: number; description: string }> = {
-        "price_1SRf5yK2pvACY45Z8luE9obN": { tickets: 10, description: "10 tickets" },
-        "price_1SRf5zK2pvACY45Zr8uSEFM4": { tickets: 50, description: "50 tickets" },
-        "price_1SRf60K2pvACY45Zgg0gMw6Y": { tickets: 100, description: "100 tickets" },
-        "price_1SRf60K2pvACY45ZKJUo0Nzx": { tickets: 500, description: "500 tickets" },
+        "price_1SRf86K2pvACY45ZJDBl1P7E": { tickets: 10, description: "10 tickets" },
+        "price_1SRf87K2pvACY45Z8hSxXxt9": { tickets: 50, description: "50 tickets" },
+        "price_1SRf87K2pvACY45ZNbFbyUwb": { tickets: 100, description: "100 tickets" },
+        "price_1SRf88K2pvACY45ZESiHloJt": { tickets: 500, description: "500 tickets" },
       };
 
       const ticketInfo = ticketAmounts[priceId || ""];
