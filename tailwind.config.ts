@@ -7,7 +7,7 @@ export default {
     "./frontend/components/**/*.{ts,tsx}",
     "./frontend/app/**/*.{ts,tsx}",
     "./frontend/src/**/*.{ts,tsx}",
-    "./frontend/index.html"
+    "./index.html"
   ],
   prefix: "",
   theme: {
