@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Lucksy</string>
+    <string name="title_activity_main">Lucksy</string>
+    <string name="package_name">app.lucksy.lovable</string>
+    <string name="custom_url_scheme">app.lucksy.lovable</string>
+</resources>
