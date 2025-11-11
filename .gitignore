@@ -97,3 +97,19 @@ lucksy-android-export/
 *.zip
 yarn.lock
 frontend/yarn.lock
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*
+-e 
+# Environment files
+*.env
+*.env.*
