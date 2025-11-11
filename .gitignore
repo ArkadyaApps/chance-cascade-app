@@ -89,3 +89,11 @@ android-sdk/ -e
 # Environment files
 *.env
 *.env.*
+
+# Android gradle wrapper binary
+frontend/android/gradle/wrapper/gradle-wrapper.jar
+lucksy-android-export/
+*.tar.gz
+*.zip
+yarn.lock
+frontend/yarn.lock
