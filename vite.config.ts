@@ -10,6 +10,7 @@ export default defineConfig(({ mode }) => {
   
   return {
   root: './frontend',
+  envDir: '../',
   publicDir: 'public',
   build: {
     outDir: '../build',
