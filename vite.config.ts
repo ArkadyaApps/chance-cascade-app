@@ -5,12 +5,11 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // Load env file from project root
-  const env = loadEnv(mode, process.cwd(), '');
+  // Load env file from the directory where vite.config.ts is located
+  const env = loadEnv(mode, __dirname, '');
   
   return {
   root: './frontend',
-  envDir: '../',
   publicDir: 'public',
   build: {
     outDir: '../build',
