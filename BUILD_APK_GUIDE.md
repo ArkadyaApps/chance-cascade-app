@@ -212,8 +212,9 @@ cd frontend/android
 │   │   │       └── outputs/
 │   │   │           └── apk/  ← APK will be here
 │   │   └── gradlew           ✅ Gradle wrapper
-│   ├── build/                ✅ Web assets (built)
-│   ├── capacitor.config.ts   ✅ Configured
+│   ├── build/                ✅ Web assets (built here)
+│   ├── capacitor.config.ts   ✅ Configured (webDir: 'build')
+│   ├── vite.config.ts        ✅ Configured (outDir: 'build')
 │   └── src/                  ✅ React app source
 └── backend/                  ✅ FastAPI backend (deployed)
 ```
